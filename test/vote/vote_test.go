@@ -4,6 +4,7 @@ import (
 	"context"
 	"math/rand"
 	"strconv"
+	"testing"
 
 	"github.com/CorrectRoadH/Likit/config"
 	v1 "github.com/CorrectRoadH/Likit/internal/adapter/out/v1"
@@ -14,7 +15,12 @@ import (
 	"github.com/sourcegraph/conc"
 )
 
-var _ = Describe("Vote", func() {
+func TestVOte(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "Vote Suite")
+}
+
+var _ = Describe("Vote Suite", func() {
 	var vote_server in.VoteUseCase
 
 	BeforeEach(func() {
@@ -27,20 +33,22 @@ var _ = Describe("Vote", func() {
 
 	Describe("Vote a random value", func() {
 		Context("Vote 100 count with 100 users", func() {
+			It("the count should be 100", func() {
+				ctx := context.Background()
 
-			ctx := context.Background()
+				businessId := "test_vote_businessId_" + strconv.Itoa(rand.Intn(100000))
+				messageId := "messageId_" + strconv.Itoa(rand.Intn(100000))
 
-			var wg conc.WaitGroup
-			for i := 0; i < 10; i++ {
-				wg.Go(func() {
-					randomUser := "user" + strconv.Itoa(rand.Intn(100))
-					vote_server.Vote(ctx, "businessId_1", "messageId_1", randomUser)
-				})
-			}
-			wg.Wait()
+				var wg conc.WaitGroup
+				for i := 0; i < 100; i++ {
+					wg.Go(func() {
+						randomUser := "user" + strconv.Itoa(rand.Intn(100))
+						vote_server.Vote(ctx, businessId, messageId, randomUser)
+					})
+				}
+				wg.Wait()
 
-			It("should be a novel", func() {
-				count, err := vote_server.Count(ctx, "businessId_1", "messageId_1")
+				count, err := vote_server.Count(ctx, businessId, messageId)
 				Expect(err).To(BeNil())
 				Expect(count).To(Equal(100))
 			})
