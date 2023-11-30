@@ -41,11 +41,11 @@ var _ = Describe("Vote Suite", func() {
 
 				var wg conc.WaitGroup
 				for i := 0; i < 100; i++ {
-					wg.Go(func() {
+					wg.Go(func(businessId string, messageId string, randomUser string) {
 						randomUser := "user" + strconv.Itoa(rand.Intn(100))
 						err := vote_server.Vote(ctx, businessId, messageId, randomUser)
 						Expect(err).To(BeNil())
-					})
+					}(businessId, messageId, randomUser))
 				}
 				wg.Wait()
 

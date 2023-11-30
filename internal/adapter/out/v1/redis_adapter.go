@@ -22,12 +22,31 @@ func (r *RedisAdapter) Count(ctx context.Context, businessId string, messageId s
 }
 
 func (r *RedisAdapter) Vote(ctx context.Context, businessId string, messageId string, userId string) error {
-	err := r.rdb.Incr(ctx, fmt.Sprintf("%s:%s:count", businessId, messageId))
-	if err.Err() != nil {
-		return err.Err()
+	keyForCount := fmt.Sprintf("%s:%s:count", businessId, messageId)
+	keyForVotedUser := fmt.Sprintf("%s:%s:voted_user", businessId, messageId)
+
+	// 开始一个 Redis 事务
+	pipe := r.rdb.TxPipeline()
+
+	// 加入操作到事务
+	incr := pipe.Incr(ctx, keyForCount)
+	sAdd := pipe.SAdd(ctx, keyForVotedUser, userId)
+
+	// 执行事务
+	_, err := pipe.Exec(ctx)
+	if err != nil {
+		return err
 	}
-	err = r.rdb.SAdd(ctx, fmt.Sprintf("%s:%s:voted_user", businessId, messageId), userId)
-	return err.Err()
+
+	// 检查每个操作的结果
+	if _, err := incr.Result(); err != nil {
+		return err
+	}
+	if _, err := sAdd.Result(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (r *RedisAdapter) UnVote(ctx context.Context, businessId string, messageId string, userId string) error {
