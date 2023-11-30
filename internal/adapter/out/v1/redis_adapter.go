@@ -59,7 +59,7 @@ func (r *RedisAdapter) UnVote(ctx context.Context, businessId string, messageId 
 }
 
 func (r *RedisAdapter) VotedUsers(ctx context.Context, businessId string, messageId string) ([]string, error) {
-	members, err := r.rdb.SMembers(ctx, fmt.Sprintf("voted:user:%s:%s", businessId, messageId)).Result()
+	members, err := r.rdb.SMembers(ctx, fmt.Sprintf("%s:%s:voted_user", businessId, messageId)).Result()
 	return members, err
 }
 

@@ -57,32 +57,39 @@ var _ = Describe("Vote Suite", func() {
 		})
 
 		Context("Vote with different users", func() {
-			// TODO complete the label of the test
-			It("should be", func() {
-				voted_users := []string{
+			var voted_users []string
+			var no_voted_users []string
+			var ctx context.Context
+			var businessId string
+			var messageId string
+
+			BeforeEach(func() {
+				voted_users = []string{
 					"user1",
 					"user2",
 					"user3",
 					"user4",
 				}
 
-				no_voted_users := []string{
+				no_voted_users = []string{
 					"user5",
 					"user6",
 					"user7",
 					"user8",
 				}
+				ctx = context.Background()
 
-				businessId := "test_vote_case2_" + strconv.Itoa(rand.Intn(100000))
-				messageId := "messageId_" + strconv.Itoa(rand.Intn(100000))
-
-				ctx := context.Background()
+				businessId = "test_vote_case2_" + strconv.Itoa(rand.Intn(100000))
+				messageId = "messageId_" + strconv.Itoa(rand.Intn(100000))
 
 				iter.ForEach[string](voted_users, func(user *string) {
 					err := vote_server.Vote(ctx, businessId, messageId, *user)
 					Expect(err).To(BeNil())
 				})
 
+			})
+
+			It("should be voted that voted user", func() {
 				for _, user := range voted_users {
 					voted, err := vote_server.IsVoted(ctx, businessId, messageId, user)
 					Expect(err).To(BeNil())
@@ -95,6 +102,21 @@ var _ = Describe("Vote Suite", func() {
 					Expect(voted).To(Equal(false))
 				}
 			})
+
+			It("should only contain the voted user", func() {
+				for _, user := range voted_users {
+					users, err := vote_server.VotedUsers(ctx, businessId, messageId)
+					Expect(err).To(BeNil())
+					Expect(users).To(ContainElement(user))
+				}
+
+				for _, user := range no_voted_users {
+					users, err := vote_server.VotedUsers(ctx, businessId, messageId)
+					Expect(err).To(BeNil())
+					Expect(users).To(Not(ContainElement(user)))
+				}
+			})
+
 		})
 	})
 
