@@ -1,7 +1,9 @@
 package in
 
-type VoteUseCase interface {
-	Vote(businessId string, messageId string, userId string) error
+import "context"
 
-	Count(businessId, messageId, userId string) (int, error)
+type VoteUseCase interface {
+	Vote(ctx context.Context, businessId string, messageId string, userId string) error
+
+	Count(ctx context.Context, businessId, messageId, userId string) (int, error)
 }
