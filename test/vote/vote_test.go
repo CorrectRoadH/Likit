@@ -15,7 +15,7 @@ import (
 	"github.com/sourcegraph/conc"
 )
 
-func TestVOte(t *testing.T) {
+func TestVote(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Vote Suite")
 }
@@ -36,14 +36,15 @@ var _ = Describe("Vote Suite", func() {
 			It("the count should be 100", func() {
 				ctx := context.Background()
 
-				businessId := "test_vote_businessId_" + strconv.Itoa(rand.Intn(100000))
+				businessId := "test_vote_case1_" + strconv.Itoa(rand.Intn(100000))
 				messageId := "messageId_" + strconv.Itoa(rand.Intn(100000))
 
 				var wg conc.WaitGroup
 				for i := 0; i < 100; i++ {
 					wg.Go(func() {
 						randomUser := "user" + strconv.Itoa(rand.Intn(100))
-						vote_server.Vote(ctx, businessId, messageId, randomUser)
+						err := vote_server.Vote(ctx, businessId, messageId, randomUser)
+						Expect(err).To(BeNil())
 					})
 				}
 				wg.Wait()
@@ -71,7 +72,7 @@ var _ = Describe("Vote Suite", func() {
 					"user8",
 				}
 
-				businessId := "test_vote_businessId_" + strconv.Itoa(rand.Intn(100000))
+				businessId := "test_vote_case2_" + strconv.Itoa(rand.Intn(100000))
 				messageId := "messageId_" + strconv.Itoa(rand.Intn(100000))
 
 				ctx := context.Background()
@@ -79,7 +80,8 @@ var _ = Describe("Vote Suite", func() {
 				var wg conc.WaitGroup
 				for _, user := range voted_users {
 					wg.Go(func() {
-						vote_server.Vote(ctx, businessId, messageId, user)
+						err := vote_server.Vote(ctx, businessId, messageId, user)
+						Expect(err).To(BeNil())
 					})
 				}
 				wg.Wait()

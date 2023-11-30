@@ -11,5 +11,5 @@ type VoteUseCase interface {
 
 	IsVoted(ctx context.Context, businessId string, messageId string, userId string) (bool, error)
 
-	UserListOfVoted(ctx context.Context, businessId string, messageId string) ([]string, error)
+	VotedUsers(ctx context.Context, businessId string, messageId string) ([]string, error)
 }

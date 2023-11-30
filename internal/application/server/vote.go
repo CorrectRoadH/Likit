@@ -11,9 +11,7 @@ type VoteServer struct {
 	voteStore out.SaveVoteUseCase
 }
 
-func NewVoteServer(
-	voteStore out.SaveVoteUseCase,
-) in.VoteUseCase {
+func NewVoteServer(voteStore out.SaveVoteUseCase) in.VoteUseCase {
 	return &VoteServer{
 		voteStore: voteStore,
 	}
@@ -29,13 +27,13 @@ func (v *VoteServer) Count(ctx context.Context, businessId string, messageId str
 }
 
 func (v *VoteServer) IsVoted(ctx context.Context, businessId string, messageId string, userId string) (bool, error) {
-	panic("TODO: Implement")
+	return v.voteStore.IsVoted(ctx, businessId, messageId, userId)
 }
 
 func (v *VoteServer) UnVote(ctx context.Context, businessId string, messageId string, userId string) error {
 	panic("TODO: Implement")
 }
 
-func (v *VoteServer) UserListOfVoted(ctx context.Context, businessId string, messageId string) ([]string, error) {
-	panic("TODO: Implement")
+func (v *VoteServer) VotedUsers(ctx context.Context, businessId string, messageId string) ([]string, error) {
+	return v.voteStore.VotedUsers(ctx, businessId, messageId)
 }
