@@ -26,17 +26,23 @@ func NewVoteServer(voteUseCase in.VoteUseCase) *VoteServer {
 	return s
 }
 
+type VoteEvent struct {
+	BusinessId string `json:"businessId"`
+	MessageId  string `json:"messageId"`
+	UserId     string `json:"userId"`
+}
+
 func (v *VoteServer) Vote(c echo.Context) error {
-	// TODO get value from body
+	var event VoteEvent
+	if err := c.Bind(&event); err != nil {
+		return err
+	}
 
-	businessId := c.Param("businessId")
-	messageId := c.Param("messageId")
-	userId := c.QueryParam("userId")
-
-	return v.voteUseCase.Vote(c.Request().Context(), businessId, messageId, userId)
+	return v.voteUseCase.Vote(c.Request().Context(), event.BusinessId, event.MessageId, event.UserId)
 }
 
 func (v *VoteServer) UnVote(c echo.Context) error {
+	// TODO implement
 	return nil
 }
 
@@ -55,6 +61,7 @@ func (v *VoteServer) Count(c echo.Context) error {
 }
 
 func (v *VoteServer) ListUser(c echo.Context) error {
+	// TODO implement
 	return nil
 }
 

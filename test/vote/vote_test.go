@@ -16,12 +16,12 @@ import (
 	"github.com/sourcegraph/conc/iter"
 )
 
-func TestVote(t *testing.T) {
+func TestSimpleVote(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Vote Suite")
 }
 
-var _ = Describe("Vote Suite", func() {
+var _ = Describe("Simple Vote Suite", func() {
 	var vote_server in.VoteUseCase
 
 	BeforeEach(func() {
