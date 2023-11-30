@@ -7,6 +7,10 @@ const i18n = {
     'menu.exception': 'Exception',
     'menu.form': 'Form',
     'menu.profile': 'Profile',
+
+    'menu.business': 'Business',
+    'menu.business.workplace': 'Business workplace',
+
     'menu.visualization': 'Data Visualization',
     'menu.user': 'User Center',
     'menu.exception.403': '403',

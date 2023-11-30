@@ -1,7 +1,7 @@
 {
-  "name": "arco-design-pro",
+  "name": "likit-dashboard",
   "version": "1.0.0",
-  "description": "Arco Design Pro",
+  "description": "",
   "scripts": {
     "start": "vite",
     "dev": "vite",
@@ -23,6 +23,7 @@
     "arco-design-pro": "^2.8.0",
     "axios": "^0.24.0",
     "bizcharts": "^4.1.11",
+    "caniuse-lite": "^1.0.30001565",
     "classnames": "^2.3.1",
     "copy-to-clipboard": "^3.3.1",
     "lodash": "^4.17.21",

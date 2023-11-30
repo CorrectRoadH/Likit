@@ -90,48 +90,26 @@ function Overview() {
         <Col flex={1}>
           <StatisticItem
             icon={<IconCalendar />}
-            title={t['workplace.totalOnlyData']}
+            title={"QPS"}
             count={data.allContents}
             loading={loading}
             unit={t['workplace.pecs']}
           />
         </Col>
+
         <Divider type="vertical" className={styles.divider} />
+
         <Col flex={1}>
           <StatisticItem
             icon={<IconContent />}
-            title={t['workplace.contentInMarket']}
+            title={"business 数量"}
             count={data.liveContents}
             loading={loading}
             unit={t['workplace.pecs']}
           />
         </Col>
         <Divider type="vertical" className={styles.divider} />
-        <Col flex={1}>
-          <StatisticItem
-            icon={<IconComments />}
-            title={t['workplace.comments']}
-            count={data.increaseComments}
-            loading={loading}
-            unit={t['workplace.pecs']}
-          />
-        </Col>
-        <Divider type="vertical" className={styles.divider} />
-        <Col flex={1}>
-          <StatisticItem
-            icon={<IconIncrease />}
-            title={t['workplace.growth']}
-            count={
-              <span>
-                {data.growthRate}{' '}
-                <IconCaretUp
-                  style={{ fontSize: 18, color: 'rgb(var(--green-6))' }}
-                />
-              </span>
-            }
-            loading={loading}
-          />
-        </Col>
+        
       </Row>
       <Divider />
       <div>

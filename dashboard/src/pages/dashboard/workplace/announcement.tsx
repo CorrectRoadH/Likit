@@ -13,6 +13,7 @@ function Announcement() {
 
   const fetchData = () => {
     setLoading(true);
+    // TODO: 换成 likit 的公告
     axios
       .get('/api/workplace/announcement')
       .then((res) => {
