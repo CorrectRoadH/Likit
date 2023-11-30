@@ -5,5 +5,5 @@ import "context"
 type SaveVoteUseCase interface {
 	Vote(ctx context.Context, businessId string, messageId string, userId string) error
 
-	Count(ctx context.Context, businessId, messageId, userId string) (int, error)
+	Count(ctx context.Context, businessId string, messageId string) (int, error)
 }
