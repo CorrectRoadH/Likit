@@ -1,0 +1,20 @@
+package cmd
+
+import (
+	"github.com/CorrectRoadH/Likit/internal/adapter/in/restful"
+	"github.com/CorrectRoadH/Likit/internal/application/server"
+	"go.uber.org/fx"
+)
+
+func Main() {
+	fx.New(
+		fx.Provide(
+			restful.NewVoteServer,
+			server.NewVoteServer,
+		),
+		fx.Invoke(func(s *restful.VoteServer) {
+			s.Start()
+		}),
+	).Run()
+
+}
