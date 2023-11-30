@@ -27,3 +27,15 @@ func (v *VoteServer) Count(ctx context.Context, businessId string, messageId str
 
 	return v.voteStore.Count(ctx, businessId, messageId)
 }
+
+func (v *VoteServer) IsVoted(ctx context.Context, businessId string, messageId string, userId string) (bool, error) {
+	panic("TODO: Implement")
+}
+
+func (v *VoteServer) UnVote(ctx context.Context, businessId string, messageId string, userId string) error {
+	panic("TODO: Implement")
+}
+
+func (v *VoteServer) UserListOfVoted(ctx context.Context, businessId string, messageId string) ([]string, error) {
+	panic("TODO: Implement")
+}
