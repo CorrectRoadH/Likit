@@ -13,6 +13,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"github.com/sourcegraph/conc"
+	"github.com/sourcegraph/conc/iter"
 )
 
 func TestVote(t *testing.T) {
@@ -42,7 +43,7 @@ var _ = Describe("Vote Suite", func() {
 				var wg conc.WaitGroup
 				for i := 0; i < 100; i++ {
 					wg.Go(func() {
-						randomUser := "user" + strconv.Itoa(rand.Intn(100))
+						randomUser := "user" + strconv.Itoa(rand.Intn(100000))
 						err := vote_server.Vote(ctx, businessId, messageId, randomUser)
 						Expect(err).To(BeNil())
 					})
@@ -77,14 +78,10 @@ var _ = Describe("Vote Suite", func() {
 
 				ctx := context.Background()
 
-				var wg conc.WaitGroup
-				for _, user := range voted_users {
-					wg.Go(func() {
-						err := vote_server.Vote(ctx, businessId, messageId, user)
-						Expect(err).To(BeNil())
-					})
-				}
-				wg.Wait()
+				iter.ForEach[string](voted_users, func(user *string) {
+					err := vote_server.Vote(ctx, businessId, messageId, *user)
+					Expect(err).To(BeNil())
+				})
 
 				for _, user := range voted_users {
 					voted, err := vote_server.IsVoted(ctx, businessId, messageId, user)
