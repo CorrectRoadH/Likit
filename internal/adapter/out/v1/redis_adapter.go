@@ -13,6 +13,18 @@ type RedisAdapter struct {
 	rdb *redis.Client
 }
 
+func NewRedisAdapter(config domain.RedisConfig) out.SaveVoteUseCase {
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     config.Addr,
+		Password: config.Passwd,
+		DB:       0, // use default DB
+	})
+
+	return &RedisAdapter{
+		rdb: rdb,
+	}
+}
+
 func (r *RedisAdapter) Count(ctx context.Context, businessId string, messageId string) (int, error) {
 	val, err := r.rdb.Get(ctx, fmt.Sprintf("%s:%s:count", businessId, messageId)).Int()
 	if err != nil {
@@ -66,16 +78,4 @@ func (r *RedisAdapter) VotedUsers(ctx context.Context, businessId string, messag
 func (r *RedisAdapter) IsVoted(ctx context.Context, businessId string, messageId string, userId string) (bool, error) {
 	val, err := r.rdb.SIsMember(ctx, fmt.Sprintf("%s:%s:voted_user", businessId, messageId), userId).Result()
 	return val, err
-}
-
-func NewRedisAdapter(config domain.RedisConfig) out.SaveVoteUseCase {
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     config.Addr,
-		Password: config.Passwd,
-		DB:       0, // use default DB
-	})
-
-	return &RedisAdapter{
-		rdb: rdb,
-	}
 }

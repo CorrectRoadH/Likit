@@ -25,3 +25,10 @@ func TestEnvRedisConfig() domain.RedisConfig {
 		Passwd: passwd,
 	}
 }
+
+func ProductEnvConfigDatabaseConfig() domain.ConfigDatabaseConfig {
+	// addr := os.Getenv("REDIS_URI") // "localhost:6379"
+	// passwd := os.Getenv("PASSWORD")
+
+	return domain.ConfigDatabaseConfig("postgres://postgres:postgres@localhost:5432/likit?sslmode=disable")
+}
