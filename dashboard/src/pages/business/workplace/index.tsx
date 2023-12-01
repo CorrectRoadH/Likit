@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './style/index.module.less';
 import { Grid, Space } from '@arco-design/web-react';
 import Overview from './overview';
+import './mock';
 
 const { Row, Col } = Grid;
 
