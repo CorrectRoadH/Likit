@@ -14,7 +14,11 @@ type RESTfulServer struct {
 	adminServer *AdminServer
 }
 
-func NewRESTfulServer(voteServer *VoteServer, adminServer *AdminServer) *RESTfulServer {
+func NewRESTfulServer(
+	voteServer *VoteServer,
+	adminServer *AdminServer,
+	dashboardServer *DashboardServer,
+) *RESTfulServer {
 	e := echo.New()
 
 	s := &RESTfulServer{
@@ -22,6 +26,8 @@ func NewRESTfulServer(voteServer *VoteServer, adminServer *AdminServer) *RESTful
 		voteServer:  voteServer,
 		adminServer: adminServer,
 	}
+
+	dashboardServer.register(e)
 
 	voteServer.register(e.Group("/api/v1"))
 	adminServer.register(e.Group("/admin/v1"))
