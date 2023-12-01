@@ -1,9 +1,7 @@
 package restful
 
 import (
-	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/CorrectRoadH/Likit/internal/port/in"
 	"github.com/labstack/echo/v4"
@@ -11,19 +9,12 @@ import (
 
 type VoteServer struct {
 	voteUseCase in.VoteUseCase
-	e           *echo.Echo
 }
 
 func NewVoteServer(voteUseCase in.VoteUseCase) *VoteServer {
-	e := echo.New()
-
 	s := &VoteServer{
 		voteUseCase: voteUseCase,
-		e:           e,
 	}
-
-	s.register(e.Group("/api/v1"))
-
 	return s
 }
 
@@ -109,14 +100,5 @@ func (v *VoteServer) register(g *echo.Group) error {
 	g.POST("/vote", v.Vote)
 	g.POST("/unvote", v.UnVote)
 
-	return nil
-}
-
-func (v *VoteServer) Start() error {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-	v.e.Start(fmt.Sprintf(":%s", port))
 	return nil
 }

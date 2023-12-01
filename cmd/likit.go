@@ -11,13 +11,15 @@ import (
 func Main() {
 	fx.New(
 		fx.Provide(
+			restful.NewRESTfulServer,
 			restful.NewVoteServer,
+			restful.NewAdminServer,
 			server.NewVoteServer,
 			v1.NewRedisAdapter,
 
 			config.ProductEnvRedisConfig,
 		),
-		fx.Invoke(func(s *restful.VoteServer) {
+		fx.Invoke(func(s *restful.RESTfulServer) {
 			s.Start()
 		}),
 	).Run()
