@@ -26,7 +26,7 @@ func NewRedisAdapter(config domain.RedisConfig) out.SaveVoteUseCase {
 }
 
 func (r *RedisAdapter) Count(ctx context.Context, businessId string, messageId string) (int, error) {
-	val, err := r.rdb.Get(ctx, fmt.Sprintf("%s:%s:count", businessId, messageId)).Int()
+	val, err := r.rdb.Get(ctx, fmt.Sprintf("likit:%s:%s:count", businessId, messageId)).Int()
 	if err != nil {
 		return 0, err
 	}
@@ -34,8 +34,8 @@ func (r *RedisAdapter) Count(ctx context.Context, businessId string, messageId s
 }
 
 func (r *RedisAdapter) Vote(ctx context.Context, businessId string, messageId string, userId string) error {
-	keyForCount := fmt.Sprintf("%s:%s:count", businessId, messageId)
-	keyForVotedUser := fmt.Sprintf("%s:%s:voted_user", businessId, messageId)
+	keyForCount := fmt.Sprintf("likit:%s:%s:count", businessId, messageId)
+	keyForVotedUser := fmt.Sprintf("likit:%s:%s:voted_user", businessId, messageId)
 
 	sAdd := r.rdb.SAdd(ctx, keyForVotedUser, userId)
 
@@ -54,8 +54,8 @@ func (r *RedisAdapter) Vote(ctx context.Context, businessId string, messageId st
 }
 
 func (r *RedisAdapter) UnVote(ctx context.Context, businessId string, messageId string, userId string) error {
-	keyForCount := fmt.Sprintf("%s:%s:count", businessId, messageId)
-	keyForVotedUser := fmt.Sprintf("%s:%s:voted_user", businessId, messageId)
+	keyForCount := fmt.Sprintf("likit:%s:%s:count", businessId, messageId)
+	keyForVotedUser := fmt.Sprintf("likit:%s:%s:voted_user", businessId, messageId)
 
 	sRem := r.rdb.SRem(ctx, keyForVotedUser, userId)
 
@@ -74,11 +74,11 @@ func (r *RedisAdapter) UnVote(ctx context.Context, businessId string, messageId 
 }
 
 func (r *RedisAdapter) VotedUsers(ctx context.Context, businessId string, messageId string) ([]string, error) {
-	members, err := r.rdb.SMembers(ctx, fmt.Sprintf("%s:%s:voted_user", businessId, messageId)).Result()
+	members, err := r.rdb.SMembers(ctx, fmt.Sprintf("likit:%s:%s:voted_user", businessId, messageId)).Result()
 	return members, err
 }
 
 func (r *RedisAdapter) IsVoted(ctx context.Context, businessId string, messageId string, userId string) (bool, error) {
-	val, err := r.rdb.SIsMember(ctx, fmt.Sprintf("%s:%s:voted_user", businessId, messageId), userId).Result()
+	val, err := r.rdb.SIsMember(ctx, fmt.Sprintf("likit:%s:%s:voted_user", businessId, messageId), userId).Result()
 	return val, err
 }
