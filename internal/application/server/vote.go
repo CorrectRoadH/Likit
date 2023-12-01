@@ -31,7 +31,7 @@ func (v *VoteServer) IsVoted(ctx context.Context, businessId string, messageId s
 }
 
 func (v *VoteServer) UnVote(ctx context.Context, businessId string, messageId string, userId string) error {
-	panic("TODO: Implement")
+	return v.voteStore.UnVote(ctx, businessId, messageId, userId)
 }
 
 func (v *VoteServer) VotedUsers(ctx context.Context, businessId string, messageId string) ([]string, error) {

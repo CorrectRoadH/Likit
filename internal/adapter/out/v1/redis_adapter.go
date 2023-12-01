@@ -37,37 +37,40 @@ func (r *RedisAdapter) Vote(ctx context.Context, businessId string, messageId st
 	keyForCount := fmt.Sprintf("%s:%s:count", businessId, messageId)
 	keyForVotedUser := fmt.Sprintf("%s:%s:voted_user", businessId, messageId)
 
-	// 开始一个 Redis 事务
-	pipe := r.rdb.TxPipeline()
+	sAdd := r.rdb.SAdd(ctx, keyForVotedUser, userId)
 
-	// 加入操作到事务
-	incr := pipe.Incr(ctx, keyForCount)
-	sAdd := pipe.SAdd(ctx, keyForVotedUser, userId)
-
-	// 执行事务
-	_, err := pipe.Exec(ctx)
-	if err != nil {
-		return err
-	}
-
-	// 检查每个操作的结果
-	if _, err := incr.Result(); err != nil {
-		return err
-	}
 	if _, err := sAdd.Result(); err != nil {
 		return err
+	}
+
+	if value, _ := sAdd.Result(); value == 1 {
+		incr := r.rdb.Incr(ctx, keyForCount)
+		if _, err := incr.Result(); err != nil {
+			return err
+		}
 	}
 
 	return nil
 }
 
 func (r *RedisAdapter) UnVote(ctx context.Context, businessId string, messageId string, userId string) error {
-	err := r.rdb.Decr(ctx, fmt.Sprintf("%s:%s:count", businessId, messageId))
-	if err.Err() != nil {
-		return err.Err()
+	keyForCount := fmt.Sprintf("%s:%s:count", businessId, messageId)
+	keyForVotedUser := fmt.Sprintf("%s:%s:voted_user", businessId, messageId)
+
+	sRem := r.rdb.SRem(ctx, keyForVotedUser, userId)
+
+	if _, err := sRem.Result(); err != nil {
+		return err
 	}
-	err = r.rdb.SRem(ctx, fmt.Sprintf("%s:%s:voted_user", businessId, messageId), userId)
-	return err.Err()
+
+	if value, _ := sRem.Result(); value == 1 {
+		decr := r.rdb.Decr(ctx, keyForCount)
+		if _, err := decr.Result(); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (r *RedisAdapter) VotedUsers(ctx context.Context, businessId string, messageId string) ([]string, error) {
