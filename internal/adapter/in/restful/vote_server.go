@@ -40,21 +40,35 @@ type VoteEvent struct {
 func (v *VoteServer) Vote(c echo.Context) error {
 	var event VoteEvent
 	if err := c.Bind(&event); err != nil {
-		return err
+		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	result := v.voteUseCase.Vote(c.Request().Context(), event.BusinessId, event.MessageId, event.UserId)
-	return c.JSON(http.StatusOK, result)
+	err := v.voteUseCase.Vote(c.Request().Context(), event.BusinessId, event.MessageId, event.UserId)
+	if err != nil {
+		// TODO to differentiate error type, return 400 or 500 error
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+
+	// need to define a struct for response
+	return c.JSON(http.StatusOK, "success")
 }
 
 func (v *VoteServer) UnVote(c echo.Context) error {
 	var event VoteEvent
 	if err := c.Bind(&event); err != nil {
-		// return 400 or 500 error
-		return err
+		return c.JSON(http.StatusBadRequest, err)
 	}
-	result := v.voteUseCase.UnVote(c.Request().Context(), event.BusinessId, event.MessageId, event.UserId)
-	return c.JSON(http.StatusOK, result)
+
+	err := v.voteUseCase.UnVote(c.Request().Context(), event.BusinessId, event.MessageId, event.UserId)
+
+	if err != nil {
+		// TODO to differentiate error type, return 400 or 500 error
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+
+	// need to define a struct for response
+	return c.JSON(http.StatusOK, "success")
+
 }
 
 func (v *VoteServer) Count(c echo.Context) error {
@@ -63,8 +77,8 @@ func (v *VoteServer) Count(c echo.Context) error {
 
 	count, err := v.voteUseCase.Count(c.Request().Context(), businessId, messageId)
 	if err != nil {
-		// return 400 or 500 error
-		return err
+		// TODO to differentiate error type, return 400 or 500 error
+		return c.JSON(http.StatusInternalServerError, err)
 	}
 
 	// need to define a struct for response
@@ -77,8 +91,8 @@ func (v *VoteServer) ListUser(c echo.Context) error {
 
 	voteUsers, err := v.voteUseCase.VotedUsers(c.Request().Context(), businessId, messageId)
 	if err != nil {
-		// return 400 or 500 error
-		return err
+		// TODO to differentiate error type, return 400 or 500 error
+		return c.JSON(http.StatusInternalServerError, err)
 	}
 
 	result := VoteUsersEvent{
