@@ -5,10 +5,8 @@ import locale from './locale';
 import styles from './style/docs.module.less';
 
 const links = {
-  react: 'https://arco.design/react/docs/start',
-  vue: 'https://arco.design/vue/docs/start',
-  designLab: 'https://arco.design/themes',
-  materialMarket: 'https://arco.design/material/',
+  github: 'https://github.com/CorrectRoadH/Likit',
+  get_started: 'https://github.com/CorrectRoadH/Likit',
 };
 function QuickOperation() {
   const t = useLocale(locale);
@@ -17,7 +15,7 @@ function QuickOperation() {
     <Card>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography.Title heading={6}>{t['workplace.docs']}</Typography.Title>
-        <Link>{t['workplace.seeMore']}</Link>
+        <Link href='https://github.com/CorrectRoadH/Likit'>{t['workplace.seeMore']}</Link>
       </div>
       <div className={styles.docs}>
         {Object.entries(links).map(([key, value]) => (

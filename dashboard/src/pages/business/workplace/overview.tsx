@@ -5,31 +5,32 @@ import {
   Typography,
   Divider,
   Button,
-  Input,
-  Select,
   Skeleton,
+  Drawer,
 } from '@arco-design/web-react';
 import locale from './locale';
 import useLocale from '@/utils/useLocale';
 import axios from 'axios';
 import styles from './style/overview.module.less';
+import BusinessEditor from './business-editor';
+import BusinessItem from './business-item';
+import { BusinessType } from './type';
+
 const { Row, Col } = Grid;
-
-const Option = Select.Option;
-
-type DataType = {
-  title?: string;
-  business_id?: string;
-  type?: string;
-};
 
 
 function Overview() {
-  const [data, setData] = useState<DataType[]>([]);
+  const [data, setData] = useState<BusinessType[]>([]);
   const [loading, setLoading] = useState(true);
 
   const t = useLocale(locale);
 
+  const [visible, setVisible] = useState(false);
+
+
+  const handleNewBusiness = () => {
+    console.log("hello")
+  }
   const fetchData = () => {
     setLoading(true);
     axios
@@ -53,66 +54,53 @@ function Overview() {
       </Typography.Title>
       <Divider />
 
-
-      <Row gutter={20}>
-        <Col span={12}>
-          <Input type='primary' placeholder="Business Title" />
-        </Col>
-        
-        <Col span={12}>
-          <Input placeholder="Business ID" />
-        </Col>
-      </Row>
-
-      <Divider />
-
-      <Row gutter={20}>
-        <Col flex={1}>
-          <Select placeholder="Business Type" defaultValue="1" >
-              <Option value="1">Simple Vote System</Option>
-              <Option value="2" disabled>Middle Vote System</Option>
-          </Select>
-        </Col>
-
-        <Divider type="vertical" className={styles.divider}  />
-
-        <Col flex={1}>
-          <div>Qps:1000</div>
-          <div>支持的功能:1000</div>
-        </Col>
-      </Row>
-
-      <Divider />
+      <div className={styles.ctw}>
+        <Typography.Paragraph
+          className={styles['chart-title']}
+          style={{ marginBottom: 0 }}
+        >
+          Business Workspace
+        </Typography.Paragraph>
+      </div>
 
       <Row>
-        <Button type="primary" style={{ marginLeft: 8 }}>新建 Business</Button>
+        <Button type="primary" style={{ marginLeft: 8 }}
+          onClick={() => setVisible(true)}
+        >Create Business</Button>
       </Row>
+
+      <Drawer
+        width={600}
+        title={
+          <>
+            New Business
+          </>
+        }
+        visible={visible}
+        okText={"Create"}
+        cancelText={locale['settings.close']}
+        onOk={handleNewBusiness}
+        onCancel={() => setVisible(false)}
+      >
+        <BusinessEditor edit={false} />
+      </Drawer>
 
       <Divider />
       
-      全部的 Business
+      
+      <div className={styles.ctw}>
+        <Typography.Paragraph
+          className={styles['chart-title']}
+          style={{ marginBottom: 0 }}
+        >
+          Business Overview
+        </Typography.Paragraph>
+      </div>
 
       <Row gutter={20}>
         {
           data.map((item)=>
-            <Col span={4} key={item.business_id} >
-              <div className={styles.item}>
-                <div></div>
-                <div>
-                  <Skeleton 
-                    loading={loading} text={{ rows: 2, width: 60 }} animation
-                  >
-                    <div className={styles.title}>{item.title}</div>
-                    <div className=''>{item.type}</div>
-                  </Skeleton>
-
-                  <Button type="text" size="small">
-                    Configure
-                  </Button> 
-
-                </div>
-              </div>
-            </Col>
+            <BusinessItem key={item.business_id} business={item} />
           )
         }
       </Row>
