@@ -6,9 +6,9 @@ COPY . .
 
 WORKDIR /frontend-build/dashboard
 
-RUN corepack enable && pnpm i --frozen-lockfile && pnpm type-gen
+RUN corepack enable && yarn
 
-RUN pnpm build
+RUN yarn build
 
 # Build backend exec file.
 FROM golang:1.21-alpine AS backend
