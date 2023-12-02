@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/CorrectRoadH/Likit/codegen"
-	"github.com/CorrectRoadH/Likit/internal/adapter/in/restful/route"
 	"github.com/labstack/echo/v4"
 )
 
@@ -38,7 +37,7 @@ func NewRESTfulServer(
 	voteServer.register(e.Group("/api/v1"))
 	// adminServer.register(e.Group("/admin/v1"))
 
-	codegen.RegisterHandlersWithBaseURL(e, apiService, route.V2APIPath)
+	codegen.RegisterHandlersWithBaseURL(e, apiService, "/admin/v1")
 
 	return s
 }
