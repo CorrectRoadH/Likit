@@ -24,7 +24,7 @@ func NewAdminServer(businessUseCase out.BusinessUseCase) in.AdminUseCase {
 			Id:    "COMMENT_LIKE",
 			Type:  "SIMPLE_VOTE",
 			Config: domain.Config{
-				DataSourceConfig: []string{`redisconfig:{"addr":"localhost:9898","passwd":""}`},
+				DataSourceConfig: []string{`redisconfig:{"addr":"localhost:6379","passwd":""}`},
 			},
 		})
 	}
