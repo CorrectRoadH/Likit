@@ -29,7 +29,18 @@ paths:
           $ref: "#/components/responses/ResponseNotFound"
         "500":
           $ref: "#/components/responses/ResponseInternalServerError"
-
+          
+  /user/userInfo:
+    get:
+      summary: UserInfo
+      operationId: userInfo
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseUserInfo"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
 
 components:
   # securitySchemes:
@@ -72,6 +83,20 @@ components:
           example:
             message: "Internal Server Error"
 
+    ResponseUserInfo:
+      description: UserInfo
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserInfo"
+          example:
+            name: "admin"
+            avatar: "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
+            email: ""
+            accountId: "admin"
+            registrationTime: "2020-01-01 00:00:00"
+            permissions: "admin"
+
   schemas:
     BaseResponse:
       properties:
@@ -93,5 +118,26 @@ components:
           type: string
           example: "admin"
         password:
+          type: string
+          example: "admin"
+
+    UserInfo:
+      properties:
+        name:
+          type: string
+          example: "admin"
+        avatar:
+          type: string
+          example: "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
+        email:
+          type: string
+          example: ""
+        accountId:
+          type: string
+          example: "admin"
+        registrationTime:
+          type: string
+          example: "2020-01-01 00:00:00"
+        permissions:
           type: string
           example: "admin"

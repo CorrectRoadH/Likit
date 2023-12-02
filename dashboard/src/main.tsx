@@ -40,7 +40,7 @@ function Index() {
       type: 'update-userInfo',
       payload: { userLoading: true },
     });
-    axios.get('/api/user/userInfo').then((res) => {
+    axios.get('/admin/v1/user/userInfo').then((res) => {
       store.dispatch({
         type: 'update-userInfo',
         payload: { userInfo: res.data, userLoading: false },

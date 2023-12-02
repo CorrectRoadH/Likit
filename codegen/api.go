@@ -29,6 +29,16 @@ type LoginRequest struct {
 	UserName string `json:"userName"`
 }
 
+// UserInfo defines model for UserInfo.
+type UserInfo struct {
+	AccountId        *string `json:"accountId,omitempty"`
+	Avatar           *string `json:"avatar,omitempty"`
+	Email            *string `json:"email,omitempty"`
+	Name             *string `json:"name,omitempty"`
+	Permissions      *string `json:"permissions,omitempty"`
+	RegistrationTime *string `json:"registrationTime,omitempty"`
+}
+
 // ResponseInternalServerError defines model for ResponseInternalServerError.
 type ResponseInternalServerError = BaseResponse
 
@@ -38,6 +48,9 @@ type ResponseNotFound = BaseResponse
 // ResponseOK defines model for ResponseOK.
 type ResponseOK = BaseResponse
 
+// ResponseUserInfo defines model for ResponseUserInfo.
+type ResponseUserInfo = UserInfo
+
 // LoginJSONRequestBody defines body for Login for application/json ContentType.
 type LoginJSONRequestBody = LoginRequest
 
@@ -46,6 +59,9 @@ type ServerInterface interface {
 	// Login to Dashboard
 	// (POST /user/login)
 	Login(ctx echo.Context) error
+	// UserInfo
+	// (GET /user/userInfo)
+	UserInfo(ctx echo.Context) error
 }
 
 // ServerInterfaceWrapper converts echo contexts to parameters.
@@ -59,6 +75,15 @@ func (w *ServerInterfaceWrapper) Login(ctx echo.Context) error {
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.Login(ctx)
+	return err
+}
+
+// UserInfo converts echo context to params.
+func (w *ServerInterfaceWrapper) UserInfo(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.UserInfo(ctx)
 	return err
 }
 
@@ -91,22 +116,26 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 	}
 
 	router.POST(baseURL+"/user/login", wrapper.Login)
+	router.GET(baseURL+"/user/userInfo", wrapper.UserInfo)
 
 }
 
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/6xUwW4TMRD9FWvguOoGWi57awVIUau2KseqBzeeJIZd253xFlbRSnAAceOCkLhx4poL",
-	"El9UCH+BbDdJVwkooJzWsx6/9+bN2BMY2MpZg8YzFBMgZGcNYwzOboO+8UhGls+QrpGeEFkK2wNrPBof",
-	"ltK5Ug+k19bkz9ma8A9fycqVGJYVMssRQgFzKJGwRAJrM+DBGCsZku8TDqGAe/lSWZ52OT+QjHNV0LZt",
-	"Bgp5QNoF5r/Bzw8dW//U1kb9r/5j60UC2JrmDuQ88eRwA4Xb4T85hHZRTOx750QxAUfWIXmdpqLiUfh0",
-	"QW4dEoS+JoNKXDaCUw9YKxR6KPwYCYVmIU0D2dJemH37evPh+4/3n2av395M3/388ubXx8+z6RQy8I0L",
-	"GexJm1G03Etfc6c9gLHJK8mhqCM70uYMr2pkv1qJk8wvLakunFSVNuu4a0Y6lhVulN5mQCjViSkbKDzV",
-	"GOKrWhMqKM6XWNlSxUWUrM3Qrvq7f9oXQ0viSL/QPrBpH9ljLPZP+5DBNRKn7OsHQa91aKTTUMDuTm9n",
-	"N1L5caw8D/x5GdyJRthkTzAnjlhfBey4nXQj+wOrmq0NZacxa4YycUcT7zxID3u9PwEv8vI7V6jNYK+3",
-	"t/mRxevQZvDoX7jWvZDxUtVVJamZFyS8FY8ljy+tJJXKTpeEoTifQE0lFJDHicpDDy/a3wEAAP//yhRx",
-	"+qAFAAA=",
+	"H4sIAAAAAAAC/8xVzW7bRhB+lcW0R1qkf3rhzUZbQLAhG+7PxfBhTY6otcnd9c5SliwQaA8teuulKJBb",
+	"Trn6EiBP5MR5i2CXokRGSiAnOgQQIC45+83P983MDBJVaCVRWoJ4BgZJK0noD+fzQ19aNJLnv6AZo/nJ",
+	"GGXc50RJi9K6R651LhJuhZLhNSnp3uGEFzpH91ggEc8QYmigWI3FarAqAEpGWHBn/L3BIcTwXbiMLKy/",
+	"UnjECZuooKqqAFKkxAjtPH8Ovrk0UPZnVcr0S+MfKMtqgK3F3IFsDE+PN4hwO/5Pj9uOfyM0fTlUzysQ",
+	"TxJVSttPIQaeFkJCAHzMLTcQw8haTXEYZnc9ngvNp+rqGhNLvUQV4b2i0BSklbE8D48Evx9yOSl4MThX",
+	"k8nvkxve0zKDALDgIocYIADJC2w50mgKQSSUpNZbg5kga3zIvwp/YS/ai3ai3Z1ol0VR7H+b07gozJoS",
+	"tr41cL6BOqWPZ6CN0misqNuroMz9daHmUmMGbWkkpuxqyqgWM4kUmRgyO0KDTBDjcuoK09AAT69fPf77",
+	"5u0//z/98dfjw9/vXv75/r8XTw8PEICdamdB1giZ+aQttyV1aAT03bJi7JI6UZmQ53hbItnVTDQnulMm",
+	"7cI1TKz4LgnNwHO4gXnlqOTpqcynEFtTojvflsJgCvHFEitYRnFZBdDWcTfYllY3irbRcdt4O5JecTXX",
+	"eNvTOjO5ae0+6o2Nbqz2TfvauhZaIxjHmphXv6vvw7M+GyrDTsSNsO6qsB7Yn9nhWR8CGKOh2nq860JS",
+	"GiXXAmLY70W9fU+1HfmEQsd/mDt1eqZVLU/Ht8/ATyQvXqh1g2SPVDrd2nTtNMaa0VD79nVtbda9KPoU",
+	"8MIubO2CKoCD6GDzK4s1VwXww3N8rVv1fqiVRcHNtEmIWcV+5DS6Utyk3qAmomx1XYZrqFi05dcUZDlu",
+	"v52ydNdDPbEJ4osZlMatrdA3XOgEfVl9CAAA//8fGOdNdgkAAA==",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file
