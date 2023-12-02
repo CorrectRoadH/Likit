@@ -17,6 +17,7 @@ func Main() {
 			restful.NewDashboardServer,
 
 			server.NewVoteServer,
+			server.NewAdminServer,
 
 			admin.NewBusinessAdapter,
 
