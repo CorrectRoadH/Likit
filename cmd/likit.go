@@ -17,7 +17,7 @@ func Main() {
 			restful.NewAdminServer,
 			restful.NewDashboardServer,
 
-			route.NewAPIService,
+			route.NewUserService,
 
 			server.NewVoteServer,
 			server.NewAdminServer,

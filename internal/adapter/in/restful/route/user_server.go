@@ -8,13 +8,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type api struct{}
+type userServer struct{}
 
-func NewAPIService() codegen.ServerInterface {
-	return &api{}
+func NewUserService() codegen.ServerInterface {
+	return &userServer{}
 }
 
-func (a *api) Login(ctx echo.Context) error {
+func (a *userServer) Login(ctx echo.Context) error {
 	var loginRequest codegen.LoginRequest
 
 	if err := ctx.Bind(&loginRequest); err != nil {
@@ -27,7 +27,7 @@ func (a *api) Login(ctx echo.Context) error {
 	})
 }
 
-func (a *api) UserInfo(ctx echo.Context) error {
+func (a *userServer) UserInfo(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, &codegen.ResponseUserInfo{
 		Name:             utils.Ptr("test"),
 		Avatar:           utils.Ptr("https://avatars.githubusercontent.com/u/11234?v=4"),
