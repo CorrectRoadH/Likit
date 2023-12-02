@@ -21,6 +21,8 @@ func NewRESTfulServer(
 ) *RESTfulServer {
 	e := echo.New()
 
+	// TODO add a middleware to return 500 err for vote no exist business id
+
 	s := &RESTfulServer{
 		e:           e,
 		voteServer:  voteServer,

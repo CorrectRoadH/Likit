@@ -5,17 +5,19 @@ import (
 	"fmt"
 
 	"github.com/CorrectRoadH/Likit/internal/port/in"
+	"github.com/CorrectRoadH/Likit/internal/port/out"
 )
 
 type VoteServer struct {
 	businessIdMapVoteSystem map[string]in.VoteUseCase
+	businessStore           out.BusinessUseCase
 }
 
-func NewVoteServer(adminUseCase in.AdminUseCase) (in.VoteUseCase, error) {
+func NewVoteServer(businessUseCase out.BusinessUseCase) (in.VoteUseCase, error) {
 	businessIdMapVoteSystem := make(map[string]in.VoteUseCase)
 
 	// loading business data
-	businesses, err := adminUseCase.Businesses(context.Background())
+	businesses, err := businessUseCase.Businesses(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -29,7 +31,10 @@ func NewVoteServer(adminUseCase in.AdminUseCase) (in.VoteUseCase, error) {
 		businessIdMapVoteSystem[business.Id] = simpleVoteSystem
 	}
 
-	return &VoteServer{}, nil
+	return &VoteServer{
+		businessIdMapVoteSystem: businessIdMapVoteSystem,
+		businessStore:           businessUseCase,
+	}, nil
 }
 
 func (v *VoteServer) Vote(ctx context.Context, businessId string, messageId string, userId string) error {

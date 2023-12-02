@@ -26,6 +26,7 @@ func TestEnvRedisConfig() domain.RedisConfig {
 	}
 }
 
+// the config is for business data. not vote data
 func ProductEnvConfigDatabaseConfig() domain.ConfigDatabaseConfig {
 	// addr := os.Getenv("REDIS_URI") // "localhost:6379"
 	// passwd := os.Getenv("PASSWORD")
