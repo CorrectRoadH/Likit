@@ -126,6 +126,15 @@ function Navbar({ show }: { show: boolean }) {
           <IconDashboard className={styles['dropdown-icon']} />
           {t['menu.dashboard.workplace']}
         </Menu.Item>
+
+
+        {/* TODO chinese locale the  */}
+        <Menu.Item key="workplace">
+          <IconDashboard className={styles['dropdown-icon']} />
+          {t['menu.business.workplace']}
+        </Menu.Item>
+
+
         <Menu.Item key="card list">
           <IconInteraction className={styles['dropdown-icon']} />
           {t['menu.list.cardList']}
@@ -150,12 +159,6 @@ function Navbar({ show }: { show: boolean }) {
       </div>
       <ul className={styles.right}>
         <li>
-          <Input.Search
-            className={styles.round}
-            placeholder={t['navbar.search.placeholder']}
-          />
-        </li>
-        <li>
           <Select
             triggerElement={<IconButton icon={<IconLanguage />} />}
             options={[
@@ -175,11 +178,6 @@ function Navbar({ show }: { show: boolean }) {
               Message.info(`${nextLang['message.lang.tips']}${value}`);
             }}
           />
-        </li>
-        <li>
-          <MessageBox>
-            <IconButton icon={<IconNotification />} />
-          </MessageBox>
         </li>
         <li>
           <Tooltip

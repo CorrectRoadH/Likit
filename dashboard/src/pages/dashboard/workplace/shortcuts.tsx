@@ -22,47 +22,9 @@ function Shortcuts() {
 
   const shortcuts = [
     {
-      title: t['workplace.contentMgmt'],
+      title: "Create Business",
       key: 'Content Management',
       icon: <IconFile />,
-    },
-    {
-      title: t['workplace.contentStatistic'],
-      key: 'Content Statistic',
-      icon: <IconStorage />,
-    },
-    {
-      title: t['workplace.advancedMgmt'],
-      key: 'Advanced Management',
-      icon: <IconSettings />,
-    },
-    {
-      title: t['workplace.onlinePromotion'],
-      key: 'Online Promotion',
-      icon: <IconMobile />,
-    },
-    {
-      title: t['workplace.marketing'],
-      key: 'Marketing',
-      icon: <IconFire />,
-    },
-  ];
-
-  const recentShortcuts = [
-    {
-      title: t['workplace.contentStatistic'],
-      key: 'Content Statistic',
-      icon: <IconStorage />,
-    },
-    {
-      title: t['workplace.contentMgmt'],
-      key: 'Content Management',
-      icon: <IconFile />,
-    },
-    {
-      title: t['workplace.advancedMgmt'],
-      key: 'Advanced Management',
-      icon: <IconSettings />,
     },
   ];
 
@@ -82,24 +44,9 @@ function Shortcuts() {
         <Typography.Title heading={6}>
           {t['workplace.shortcuts']}
         </Typography.Title>
-        <Link>{t['workplace.seeMore']}</Link>
       </div>
       <div className={styles.shortcuts}>
         {shortcuts.map((shortcut) => (
-          <div
-            className={styles.item}
-            key={shortcut.key}
-            onClick={() => onClickShortcut(shortcut.key)}
-          >
-            <div className={styles.icon}>{shortcut.icon}</div>
-            <div className={styles.title}>{shortcut.title}</div>
-          </div>
-        ))}
-      </div>
-      <Divider />
-      <div className={styles.recent}>{t['workplace.recent']}</div>
-      <div className={styles.shortcuts}>
-        {recentShortcuts.map((shortcut) => (
           <div
             className={styles.item}
             key={shortcut.key}
