@@ -11,13 +11,11 @@ import (
 type RESTfulServer struct {
 	e *echo.Echo
 
-	voteServer  *VoteServer
-	adminServer *AdminServer
+	voteServer *VoteServer
 }
 
 func NewRESTfulServer(
 	voteServer *VoteServer,
-	adminServer *AdminServer,
 	dashboardServer *DashboardServer,
 
 	apiService codegen.ServerInterface,
@@ -27,15 +25,13 @@ func NewRESTfulServer(
 	// TODO add a middleware to return 500 err for vote no exist business id
 
 	s := &RESTfulServer{
-		e:           e,
-		voteServer:  voteServer,
-		adminServer: adminServer,
+		e:          e,
+		voteServer: voteServer,
 	}
 
 	dashboardServer.register(e)
 
 	voteServer.register(e.Group("/api/v1"))
-	// adminServer.register(e.Group("/admin/v1"))
 
 	codegen.RegisterHandlersWithBaseURL(e, apiService, "/admin/v1")
 

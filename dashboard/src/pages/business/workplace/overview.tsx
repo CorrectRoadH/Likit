@@ -34,7 +34,7 @@ function Overview() {
   const fetchData = () => {
     setLoading(true);
     axios
-      .get('/api/v1/businesses')
+      .get('/admin/v1/businesses')
       .then((res) => {
         setData(res.data);
       })

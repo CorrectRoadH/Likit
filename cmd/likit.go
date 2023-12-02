@@ -14,10 +14,9 @@ func Main() {
 		fx.Provide(
 			restful.NewRESTfulServer,
 			restful.NewVoteServer,
-			restful.NewAdminServer,
 			restful.NewDashboardServer,
 
-			route.NewUserService,
+			route.NewAdminApiService,
 
 			server.NewVoteServer,
 			server.NewAdminServer,

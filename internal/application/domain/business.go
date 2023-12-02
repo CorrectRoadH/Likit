@@ -7,13 +7,13 @@ import (
 )
 
 type Business struct {
-	Title    string
-	Id       string
-	Type     string
+	Title    string `json:"title"`
+	Id       string `json:"business_id"`
+	Type     string `json:"type"`
 	CreateAt string
 	UpdateAt string
 
-	Config Config
+	Config Config `json:"config"`
 }
 
 type Config struct {

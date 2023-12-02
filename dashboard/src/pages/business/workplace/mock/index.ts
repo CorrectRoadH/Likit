@@ -1,10 +1,9 @@
 import Mock from 'mockjs';
-import qs from 'query-string';
 import setupMock from '@/utils/setupMock';
 
 setupMock({
   setup: () => {
-    Mock.mock(new RegExp('/api/v1/businesses'), () => {
+    Mock.mock(new RegExp('/admin/v1/businesses'), () => {
       return [
         {
             title: '评论点赞',
