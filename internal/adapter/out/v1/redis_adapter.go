@@ -27,6 +27,10 @@ func NewRedisAdapter(config domain.RedisConfig) out.SaveVoteUseCase {
 
 func (r *RedisAdapter) Count(ctx context.Context, businessId string, messageId string) (int, error) {
 	val, err := r.rdb.Get(ctx, fmt.Sprintf("likit:%s:%s:count", businessId, messageId)).Int()
+	if err == redis.Nil {
+		return 0, nil
+	}
+
 	if err != nil {
 		return 0, err
 	}

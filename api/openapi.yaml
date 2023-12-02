@@ -1,0 +1,192 @@
+openapi: 3.0.3
+
+info:
+  title: Likit API
+  version: v1
+  description: API for Likit
+
+paths:
+  /user/login:
+    post:
+      summary: Login to Dashboard
+      operationId: login
+      requestBody:
+        description: Login
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+          
+  /user/userInfo:
+    get:
+      summary: UserInfo
+      operationId: userInfo
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseUserInfo"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+
+  /businesses:
+    get:
+      summary: Get Business List
+      operationId: getBusinesses
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseBusinessList"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+
+
+components:
+  # securitySchemes:
+  #   access_token:
+  #     type: apiKey
+  #     in: header
+  #     name: Authorization
+  responses:
+    ResponseOK:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseResponse"
+
+    ResponseNotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseResponse"
+          example:
+            message: "Not Found"
+
+    ResponseBadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseResponse"
+          example:
+            message: "Bad Request"
+
+    ResponseInternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseResponse"
+          example:
+            message: "Internal Server Error"
+
+    ResponseUserInfo:
+      description: UserInfo
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserInfo"
+          example:
+            name: "admin"
+            avatar: "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
+            email: ""
+            accountId: "admin"
+            registrationTime: "2020-01-01 00:00:00"
+            permissions: "admin"
+
+    ResponseBusinessList:
+      description: BusinessList
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Businesses"
+
+  schemas:
+    BaseResponse:
+      properties:
+        status: 
+          type: string
+          example: "error"
+        msg:
+          description: message returned by server side if there is any
+          type: string
+          example: "账号或者密码错误"
+
+    LoginRequest:
+      readOnly: true
+      required:
+        - userName
+        - password
+      properties:
+        userName:
+          type: string
+          example: "admin"
+        password:
+          type: string
+          example: "admin"
+
+    UserInfo:
+      properties:
+        name:
+          type: string
+          example: "admin"
+        avatar:
+          type: string
+          example: "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
+        email:
+          type: string
+          example: ""
+        accountId:
+          type: string
+          example: "admin"
+        registrationTime:
+          type: string
+          example: "2020-01-01 00:00:00"
+        permissions:
+          type: string
+          example: "admin"
+
+    Businesses:
+      properties:
+        businesses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Business'
+
+    Business:
+      properties:
+        title:
+          type: string
+          example: "admin"
+        id:
+          type: string
+          example: "admin"
+        type:
+          type: string
+          example: "SIMPLE_VOTE"
+        create_at:
+          type: string
+          example: "2020-01-01 00:00:00"
+        update_at:
+          type: string
+          example: "2020-01-01 00:00:00"
+        config:
+          $ref: '#/components/schemas/Config'
+          
+    Config:
+      properties:
+        dataSourceConfig:
+          type: array
+          items:
+            type: string
+            example: "redisconfig:localhost:6379"

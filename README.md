@@ -20,6 +20,6 @@ Deloyment on zeabur by onclick
 
 ## Restful API
 
-## Grpc API
+## gRPC API
 
 ## SDK

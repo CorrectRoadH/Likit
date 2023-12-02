@@ -43,7 +43,7 @@ export default function LoginForm() {
     setErrorMessage('');
     setLoading(true);
     axios
-      .post('/api/user/login', params)
+      .post('/admin/v1/user/login', params)
       .then((res) => {
         const { status, msg } = res.data;
         if (status === 'ok') {
@@ -111,18 +111,18 @@ export default function LoginForm() {
             <Checkbox checked={rememberPassword} onChange={setRememberPassword}>
               {t['login.form.rememberPassword']}
             </Checkbox>
-            <Link>{t['login.form.forgetPassword']}</Link>
+            {/* <Link>{t['login.form.forgetPassword']}</Link> */}
           </div>
           <Button type="primary" long onClick={onSubmitClick} loading={loading}>
             {t['login.form.login']}
           </Button>
-          <Button
+          {/* <Button
             type="text"
             long
             className={styles['login-form-register-btn']}
           >
             {t['login.form.register']}
-          </Button>
+          </Button> */}
         </Space>
       </Form>
     </div>

@@ -39,7 +39,7 @@ func (b *BusinessAdapter) UpdateBusiness(ctx context.Context, businessId string,
 	panic("TODO: Implement")
 }
 
-func (b *BusinessAdapter) CreateBusiness(business domain.Business, ctx context.Context) error {
+func (b *BusinessAdapter) CreateBusiness(ctx context.Context, business domain.Business) error {
 	result := b.db.Create(&business)
 	return result.Error
 }

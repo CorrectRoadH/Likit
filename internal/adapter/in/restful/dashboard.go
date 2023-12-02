@@ -4,6 +4,7 @@ import (
 	"embed"
 	"io/fs"
 	"net/http"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -31,6 +32,12 @@ func getFileSystem(path string) http.FileSystem {
 
 func (v *DashboardServer) register(e *echo.Echo) error {
 	e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
+		Skipper: func(c echo.Context) bool {
+			if strings.HasPrefix(c.Request().URL.Path, "/api") || strings.HasPrefix(c.Request().URL.Path, "/admin") {
+				return true
+			}
+			return false
+		},
 		HTML5:      true,
 		Filesystem: getFileSystem("dist"),
 	}))
