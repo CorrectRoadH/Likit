@@ -43,7 +43,7 @@ export default function LoginForm() {
     setErrorMessage('');
     setLoading(true);
     axios
-      .post('/admin/user/login', params)
+      .post('/admin/v1/user/login', params)
       .then((res) => {
         const { status, msg } = res.data;
         if (status === 'ok') {

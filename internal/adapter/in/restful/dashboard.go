@@ -31,7 +31,7 @@ func getFileSystem(path string) http.FileSystem {
 
 func (v *DashboardServer) register(e *echo.Echo) error {
 	e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
-		HTML5:      true,
+		HTML5:      false,
 		Filesystem: getFileSystem("dist"),
 	}))
 

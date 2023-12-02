@@ -1,0 +1,97 @@
+openapi: 3.0.3
+
+info:
+  title: Likit API
+  version: v1
+  description: API for Likit
+
+servers:
+  - url: /admin/v1
+
+# security:
+#   - access_token: []
+
+paths:
+  /user/login:
+    post:
+      summary: Login to Dashboard
+      operationId: login
+      requestBody:
+        description: Login
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+
+
+components:
+  # securitySchemes:
+  #   access_token:
+  #     type: apiKey
+  #     in: header
+  #     name: Authorization
+  responses:
+    ResponseOK:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseResponse"
+
+    ResponseNotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseResponse"
+          example:
+            message: "Not Found"
+
+    ResponseBadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseResponse"
+          example:
+            message: "Bad Request"
+
+    ResponseInternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseResponse"
+          example:
+            message: "Internal Server Error"
+
+  schemas:
+    BaseResponse:
+      properties:
+        status: 
+          type: string
+          example: "error"
+        msg:
+          description: message returned by server side if there is any
+          type: string
+          example: "账号或者密码错误"
+
+    LoginRequest:
+      readOnly: true
+      required:
+        - userName
+        - password
+      properties:
+        userName:
+          type: string
+          example: "admin"
+        password:
+          type: string
+          example: "admin"
