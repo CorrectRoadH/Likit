@@ -15,8 +15,10 @@ func Main() {
 			restful.NewVoteServer,
 			restful.NewAdminServer,
 			restful.NewDashboardServer,
+			restful.NewUserServer,
 
 			server.NewVoteServer,
+			server.NewUserServer,
 			v1.NewRedisAdapter,
 
 			config.ProductEnvRedisConfig,
