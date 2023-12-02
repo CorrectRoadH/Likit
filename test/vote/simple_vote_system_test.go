@@ -25,7 +25,7 @@ var _ = Describe("Simple Vote Suite", func() {
 	var vote_server in.VoteUseCase
 
 	BeforeEach(func() {
-		vote_server = server.NewVoteServer(
+		vote_server = server.NewSimpleVoteServer(
 			v1.NewRedisAdapter(
 				config.TestEnvRedisConfig(),
 			),

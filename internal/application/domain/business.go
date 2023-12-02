@@ -6,7 +6,13 @@ type Business struct {
 	Type     string
 	CreateAt string
 	UpdateAt string
+
+	Config Config
 }
 
 type Config struct {
+	Id         string
+	BusinessId string
+
+	DataSourceConfig []string
 }
