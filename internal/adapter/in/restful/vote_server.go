@@ -94,7 +94,7 @@ func (v *VoteServer) ListUser(c echo.Context) error {
 }
 
 func (v *VoteServer) register(g *echo.Group) error {
-	g.GET("/vote/:businessId/:messageId", v.Count)
+	g.GET("/count/:businessId/:messageId", v.Count)
 	g.GET("/list/:businessId/:messageId", v.ListUser)
 
 	g.POST("/vote", v.Vote)

@@ -49,5 +49,6 @@ func (u *adminApiService) GetBusinesses(ctx echo.Context) error {
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
+	// TODO convert business to codegen.Business
 	return ctx.JSON(http.StatusOK, businesses)
 }

@@ -39,7 +39,7 @@ func NewVoteServer(adminUseCase in.AdminUseCase) (in.VoteUseCase, error) {
 func (v *VoteServer) Vote(ctx context.Context, businessId string, messageId string, userId string) error {
 	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
 	if !ok {
-		return fmt.Errorf("Business is not exist")
+		return fmt.Errorf("business is not exist")
 	}
 	return voteSystem.Vote(ctx, businessId, messageId, userId)
 }
@@ -47,7 +47,7 @@ func (v *VoteServer) Vote(ctx context.Context, businessId string, messageId stri
 func (v *VoteServer) UnVote(ctx context.Context, businessId string, messageId string, userId string) error {
 	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
 	if !ok {
-		return fmt.Errorf("Business is not exist")
+		return fmt.Errorf("business is not exist")
 	}
 	return voteSystem.Vote(ctx, businessId, messageId, userId)
 }
@@ -55,7 +55,7 @@ func (v *VoteServer) UnVote(ctx context.Context, businessId string, messageId st
 func (v *VoteServer) Count(ctx context.Context, businessId string, messageId string) (int, error) {
 	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
 	if !ok {
-		return 0, fmt.Errorf("Business is not exist")
+		return 0, fmt.Errorf("business is not exist")
 	}
 	return voteSystem.Count(ctx, businessId, messageId)
 }
@@ -63,7 +63,7 @@ func (v *VoteServer) Count(ctx context.Context, businessId string, messageId str
 func (v *VoteServer) IsVoted(ctx context.Context, businessId string, messageId string, userId string) (bool, error) {
 	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
 	if !ok {
-		return false, fmt.Errorf("Business is not exist")
+		return false, fmt.Errorf("business is not exist")
 	}
 	return voteSystem.IsVoted(ctx, businessId, messageId, userId)
 }
@@ -71,7 +71,7 @@ func (v *VoteServer) IsVoted(ctx context.Context, businessId string, messageId s
 func (v *VoteServer) VotedUsers(ctx context.Context, businessId string, messageId string) ([]string, error) {
 	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
 	if !ok {
-		return nil, fmt.Errorf("Business is not exist")
+		return nil, fmt.Errorf("business is not exist")
 	}
 	return voteSystem.VotedUsers(ctx, businessId, messageId)
 }
