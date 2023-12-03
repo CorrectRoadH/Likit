@@ -65,6 +65,38 @@ paths:
           $ref: "#/components/responses/ResponseNotFound"
         "500":
           $ref: "#/components/responses/ResponseInternalServerError"
+    put:
+      summary: Update Business
+      operationId: updateBusiness
+      requestBody:
+        description: Update Business
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Business"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+    # delete:
+    #   summary: Delete Business
+    #   operationId: deleteBusiness
+    #   requestBody:
+    #     description: Delete Business
+    #     content:
+    #       application/json:
+    #         schema:
+    #           $ref: "#/components/schemas/Business"
+    #   responses:
+    #     "200":
+    #       $ref: "#/components/responses/ResponseOK"
+    #     "404":
+    #       $ref: "#/components/responses/ResponseNotFound"
+    #     "500":
+    #       $ref: "#/components/responses/ResponseInternalServerError"
 
 components:
   # securitySchemes:

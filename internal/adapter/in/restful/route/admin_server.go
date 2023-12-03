@@ -88,3 +88,35 @@ func (a *adminApiService) CreateBusiness(ctx echo.Context) error {
 		Status: utils.Ptr("ok"),
 	})
 }
+
+// func (a *adminApiService) DeleteBusiness(ctx echo.Context) error {
+// 	var deleteBusinessRequest codegen.DeleteBusinessRequest
+// 	if err := ctx.Bind(&deleteBusinessRequest); err != nil {
+// 		return ctx.JSON(http.StatusBadRequest, err)
+// 	}
+
+// 	err := a.adminServer.DeleteBusiness(ctx.Request().Context(), *deleteBusinessRequest.BusinessId)
+// 	if err != nil {
+// 		return ctx.JSON(http.StatusInternalServerError, err)
+// 	}
+
+// 	return ctx.JSON(http.StatusOK, &codegen.BaseResponse{
+// 		Status: utils.Ptr("ok"),
+// 	})
+// }
+
+func (a *adminApiService) UpdateBusiness(ctx echo.Context) error {
+	var createBusinessRequest codegen.Business
+	if err := ctx.Bind(&createBusinessRequest); err != nil {
+		return ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	err := a.adminServer.UpdateBusiness(ctx.Request().Context(), convertBusiness(createBusinessRequest))
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, err)
+	}
+
+	return ctx.JSON(http.StatusOK, &codegen.BaseResponse{
+		Status: utils.Ptr("ok"),
+	})
+}
