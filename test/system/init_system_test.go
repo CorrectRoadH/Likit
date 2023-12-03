@@ -24,7 +24,7 @@ var _ = Describe("System Init Vote Suite", func() {
 
 	BeforeEach(func() {
 		voteServer, _ = server.NewVoteServer(
-			server.NewAdminServer(admin.NewBusinessAdapter(config.ProductEnvConfigDatabaseConfig())),
+			server.NewAdminServer(admin.NewBusinessAdapter(config.ProductEnvConfigDatabaseConfig()), config.TestEnvRedisConfig()),
 		)
 	})
 
