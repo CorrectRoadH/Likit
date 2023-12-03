@@ -3,6 +3,7 @@ package restful
 import (
 	"net/http"
 
+	"github.com/CorrectRoadH/Likit/internal/application/domain"
 	"github.com/CorrectRoadH/Likit/internal/port/in"
 	"github.com/labstack/echo/v4"
 )
@@ -28,6 +29,11 @@ type VoteEvent struct {
 	UserId     string `json:"userId"`
 }
 
+type ErrorResponse struct {
+	Status  int    `json:"status"`
+	Message string `json:"msg"`
+}
+
 func (v *VoteServer) Vote(c echo.Context) error {
 	var event VoteEvent
 	if err := c.Bind(&event); err != nil {
@@ -36,8 +42,18 @@ func (v *VoteServer) Vote(c echo.Context) error {
 
 	err := v.voteUseCase.Vote(c.Request().Context(), event.BusinessId, event.MessageId, event.UserId)
 	if err != nil {
-		// TODO to differentiate error type, return 400 or 500 error
-		return c.JSON(http.StatusInternalServerError, err)
+		if err == domain.ErrBusinessNotExist {
+			return c.JSON(http.StatusBadRequest, ErrorResponse{
+				Status:  http.StatusBadRequest,
+				Message: err.Error(),
+			})
+
+		}
+
+		return c.JSON(http.StatusInternalServerError, ErrorResponse{
+			Status:  http.StatusInternalServerError,
+			Message: err.Error(),
+		})
 	}
 
 	// need to define a struct for response
@@ -53,8 +69,18 @@ func (v *VoteServer) UnVote(c echo.Context) error {
 	err := v.voteUseCase.UnVote(c.Request().Context(), event.BusinessId, event.MessageId, event.UserId)
 
 	if err != nil {
-		// TODO to differentiate error type, return 400 or 500 error
-		return c.JSON(http.StatusInternalServerError, err)
+		if err == domain.ErrBusinessNotExist {
+			return c.JSON(http.StatusBadRequest, ErrorResponse{
+				Status:  http.StatusBadRequest,
+				Message: err.Error(),
+			})
+
+		}
+
+		return c.JSON(http.StatusInternalServerError, ErrorResponse{
+			Status:  http.StatusInternalServerError,
+			Message: err.Error(),
+		})
 	}
 
 	// need to define a struct for response
@@ -68,8 +94,18 @@ func (v *VoteServer) Count(c echo.Context) error {
 
 	count, err := v.voteUseCase.Count(c.Request().Context(), businessId, messageId)
 	if err != nil {
-		// TODO to differentiate error type, return 400 or 500 error
-		return c.JSON(http.StatusInternalServerError, err)
+		if err == domain.ErrBusinessNotExist {
+			return c.JSON(http.StatusBadRequest, ErrorResponse{
+				Status:  http.StatusBadRequest,
+				Message: err.Error(),
+			})
+
+		}
+
+		return c.JSON(http.StatusInternalServerError, ErrorResponse{
+			Status:  http.StatusInternalServerError,
+			Message: err.Error(),
+		})
 	}
 
 	// need to define a struct for response
@@ -82,8 +118,18 @@ func (v *VoteServer) ListUser(c echo.Context) error {
 
 	voteUsers, err := v.voteUseCase.VotedUsers(c.Request().Context(), businessId, messageId)
 	if err != nil {
-		// TODO to differentiate error type, return 400 or 500 error
-		return c.JSON(http.StatusInternalServerError, err)
+		if err == domain.ErrBusinessNotExist {
+			return c.JSON(http.StatusBadRequest, ErrorResponse{
+				Status:  http.StatusBadRequest,
+				Message: err.Error(),
+			})
+
+		}
+
+		return c.JSON(http.StatusInternalServerError, ErrorResponse{
+			Status:  http.StatusInternalServerError,
+			Message: err.Error(),
+		})
 	}
 
 	result := VoteUsersEvent{
