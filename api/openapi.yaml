@@ -48,6 +48,23 @@ paths:
         "500":
           $ref: "#/components/responses/ResponseInternalServerError"
 
+  /business:
+    post:
+      summary: Create Business
+      operationId: createBusiness
+      requestBody:
+        description: Create Business
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Business"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
 
 components:
   # securitySchemes:

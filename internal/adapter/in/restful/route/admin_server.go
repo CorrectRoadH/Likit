@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/CorrectRoadH/Likit/codegen"
+	"github.com/CorrectRoadH/Likit/internal/application/domain"
 	"github.com/CorrectRoadH/Likit/internal/port/in"
 	"github.com/CorrectRoadH/Likit/utils"
 	"github.com/labstack/echo/v4"
@@ -12,6 +13,17 @@ import (
 // TODO 回头把这个改个好名，别把controller和service搞混了
 type adminApiService struct {
 	adminServer in.AdminUseCase
+}
+
+func convertBusiness(business codegen.Business) domain.Business {
+	return domain.Business{
+		Id:    *business.Id,
+		Title: *business.Title,
+		Type:  *business.Type,
+		Config: domain.Config{
+			DataSourceConfig: *business.Config.DataSourceConfig,
+		},
+	}
 }
 
 func NewAdminApiService(adminServer in.AdminUseCase) codegen.ServerInterface {
@@ -51,4 +63,20 @@ func (u *adminApiService) GetBusinesses(ctx echo.Context) error {
 	}
 	// TODO convert business to codegen.Business
 	return ctx.JSON(http.StatusOK, businesses)
+}
+
+func (a *adminApiService) CreateBusiness(ctx echo.Context) error {
+	var createBusinessRequest codegen.Business
+	if err := ctx.Bind(&createBusinessRequest); err != nil {
+		return ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	err := a.adminServer.CreateBusiness(ctx.Request().Context(), convertBusiness(createBusinessRequest))
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, err)
+	}
+
+	return ctx.JSON(http.StatusOK, &codegen.BaseResponse{
+		Status: utils.Ptr("ok"),
+	})
 }
