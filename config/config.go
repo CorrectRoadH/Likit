@@ -38,7 +38,7 @@ func TestEnvRedisConfig() domain.RedisConfig {
 
 // the config is for business data. not vote data
 func ProductEnvConfigDatabaseConfig() domain.ConfigDatabaseConfig {
-	connectString := os.Getenv("DATABASE_URI")
+	connectString := os.Getenv("POSTGRES_CONNECTION_STRING")
 	if connectString == "" {
 		connectString = "postgres://postgres:postgres@localhost:5432/likit?sslmode=disable"
 	}
