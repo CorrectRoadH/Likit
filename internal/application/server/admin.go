@@ -12,19 +12,24 @@ type AdminServer struct {
 	businessStore out.BusinessUseCase
 }
 
-func NewAdminServer(businessUseCase out.BusinessUseCase) in.AdminUseCase {
+func NewAdminServer(businessUseCase out.BusinessUseCase, redisConfig domain.RedisConfig) in.AdminUseCase {
 	// init database
 	business, err := businessUseCase.Businesses(context.Background())
 	if err != nil {
 		panic(err)
 	}
 	if len(business) == 0 {
+
+		redisConfigJSON, err := domain.MarshalRedisConfig(redisConfig)
+		if err != nil {
+			panic(err)
+		}
 		businessUseCase.CreateBusiness(context.Background(), domain.Business{
 			Title: "Comment Like",
 			Id:    "COMMENT_LIKE",
 			Type:  "SIMPLE_VOTE",
 			Config: domain.Config{
-				DataSourceConfig: []string{`redisconfig:{"addr":"localhost:6379","passwd":""}`},
+				DataSourceConfig: []string{redisConfigJSON},
 			},
 		})
 	}
