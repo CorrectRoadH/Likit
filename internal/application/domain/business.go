@@ -17,7 +17,7 @@ type Business struct {
 }
 
 type Config struct {
-	DataSourceConfig []string
+	DataSourceConfig []string `json:"dataSourceConfig"`
 }
 
 // for gorm

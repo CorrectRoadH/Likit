@@ -45,8 +45,6 @@ const CreateBusinessEditor = () => {
     const [visible, setVisible] = useState(false);
     const [form] = Form.useForm();
     const [confirmLoading, setConfirmLoading] = useState(false);
-  
-
 
     return (
         <div>
@@ -65,6 +63,13 @@ const CreateBusinessEditor = () => {
         confirmLoading={confirmLoading}
         onOk={() => {
           form.validate().then((res) => {
+
+            // add database config to res
+
+            res.config = {
+              dataSourceConfig: []
+            }
+            
             setConfirmLoading(true);
 
             console.log(res)
@@ -103,14 +108,7 @@ const CreateBusinessEditor = () => {
               />
             }
           </div>
-          {/* <Form.Item
-            label='Self Introduction'
-            required
-            field='introduction'
-            rules={[{ required: true }]}
-          >
-            <Input.TextArea placeholder='Plear enter' />
-          </Form.Item> */}
+
         </Form>
       </Drawer>
 

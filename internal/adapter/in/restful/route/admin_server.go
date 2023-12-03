@@ -8,6 +8,8 @@ import (
 	"github.com/CorrectRoadH/Likit/internal/port/in"
 	"github.com/CorrectRoadH/Likit/utils"
 	"github.com/labstack/echo/v4"
+
+	"github.com/samber/lo"
 )
 
 // TODO 回头把这个改个好名，别把controller和service搞混了
@@ -61,8 +63,14 @@ func (u *adminApiService) GetBusinesses(ctx echo.Context) error {
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
-	// TODO convert business to codegen.Business
-	return ctx.JSON(http.StatusOK, businesses)
+
+	return ctx.JSON(http.StatusOK, lo.Map(businesses, func(business domain.Business, _ int) codegen.Business {
+		return codegen.Business{
+			Id:    utils.Ptr(business.Id),
+			Title: utils.Ptr(business.Title),
+			Type:  utils.Ptr(business.Type),
+		}
+	}))
 }
 
 func (a *adminApiService) CreateBusiness(ctx echo.Context) error {
