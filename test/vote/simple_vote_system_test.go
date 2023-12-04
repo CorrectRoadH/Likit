@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/CorrectRoadH/Likit/config"
-	v1 "github.com/CorrectRoadH/Likit/internal/adapter/out/v1"
 	"github.com/CorrectRoadH/Likit/internal/application/server"
 	"github.com/CorrectRoadH/Likit/internal/port/in"
 	. "github.com/onsi/ginkgo/v2"
@@ -26,9 +25,7 @@ var _ = Describe("Simple Vote Suite", func() {
 
 	BeforeEach(func() {
 		vote_server = server.NewSimpleVoteServer(
-			v1.NewRedisAdapter(
-				config.TestEnvRedisConfig(),
-			),
+			config.TestEnvRedisConfig(),
 		)
 	})
 
