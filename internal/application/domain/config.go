@@ -6,6 +6,22 @@ import (
 	"strings"
 )
 
+type DatabaseType string
+
+const (
+	REDIS    DatabaseType = "redis"
+	POSTGRES DatabaseType = "postgres"
+)
+
+type DatabaseConnectConfig struct {
+	DatabaseType DatabaseType `json:"database_type"`
+	Host         string       `json:"host"`
+	Port         int          `json:"port"`
+	Username     string       `json:"username"`
+	Password     string       `json:"password"`
+	DatabaseName string       `json:"database_name"`
+}
+
 type RedisConfig struct {
 	Addr   string `json:"addr"`
 	Passwd string `json:"passwd"`

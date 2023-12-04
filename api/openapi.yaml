@@ -81,6 +81,7 @@ paths:
           $ref: "#/components/responses/ResponseNotFound"
         "500":
           $ref: "#/components/responses/ResponseInternalServerError"
+    
     # delete:
     #   summary: Delete Business
     #   operationId: deleteBusiness
@@ -97,6 +98,96 @@ paths:
     #       $ref: "#/components/responses/ResponseNotFound"
     #     "500":
     #       $ref: "#/components/responses/ResponseInternalServerError"
+
+  /database/postgres:
+    get:
+      summary: Get Postgres Database List
+      operationId: getPostgresDatabaseList
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseBusinessList"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+    post:
+      summary: Create Postgres Database
+      operationId: createPostgresDatabase
+      requestBody:
+        description: Create Postgres Database
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostgresDatabase"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+    put:
+      summary: Update Postgres Database
+      operationId: updatePostgresDatabase
+      requestBody:
+        description: Update Postgres Database
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostgresDatabase"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+
+  /database/redis:
+    get:
+      summary: Get Redis Database List
+      operationId: getRedisDatabaseList
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseBusinessList"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+    post:
+      summary: Create Redis Database
+      operationId: createRedisDatabase
+      requestBody:
+        description: Create Redis Database
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostgresDatabase"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+    put:
+      summary: Update Redis Database
+      operationId: updateRedisDatabase
+      requestBody:
+        description: Update Redis Database
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostgresDatabase"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+
+
 
 components:
   # securitySchemes:
@@ -239,3 +330,9 @@ components:
           items:
             type: string
             example: "redisconfig:localhost:6379"
+
+    PostgresDatabase:
+      properties:
+        config:
+          type: string
+          example: "postgresconfig:localhost:5432"

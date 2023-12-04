@@ -47,72 +47,71 @@ const CreateBusinessEditor = () => {
     const [confirmLoading, setConfirmLoading] = useState(false);
 
     return (
-        <div>
-      <Button
-        onClick={() => {
-          setVisible(true);
-        }}
-        type='primary'
-      >
-        Open Drawer
-      </Button>
-      <Drawer
-        width={314}
-        title={<span>Basic Information </span>}
-        visible={visible}
-        confirmLoading={confirmLoading}
-        onOk={() => {
-          form.validate().then((res) => {
+      <div>
+        <Button
+          onClick={() => {
+            setVisible(true);
+          }}
+          type='primary'
+        >
+          Create Business
+        </Button>
+        <Drawer
+          width={314}
+          title={<span>Basic Information </span>}
+          visible={visible}
+          confirmLoading={confirmLoading}
+          onOk={() => {
+            form.validate().then((res) => {
 
-            // add database config to res
+              // add database config to res
 
-            res.config = {
-              dataSourceConfig: []
-            }
-            
-            setConfirmLoading(true);
+              res.config = {
+                dataSourceConfig: []
+              }
+              
+              setConfirmLoading(true);
 
-            console.log(res)
-            setTimeout(() => {
-              setVisible(false);
-              setConfirmLoading(false);
+              console.log(res)
+              setTimeout(() => {
+                setVisible(false);
+                setConfirmLoading(false);
 
-              axios.post('/admin/v1/business', res).then((res) => {
-                console.log(res)
-              })
-            }, 1500);
-          });
-        }}
-        onCancel={() => {
-          setVisible(false);
-        }}
-      >
-        <Form {...formItemLayout} form={form} layout='vertical'>
-          <Form.Item label='Title' field='title' rules={[{ required: true }]}>
-            <Input placeholder='Plear enter' />
-          </Form.Item>
-          <Form.Item label='Id' required field='id' rules={[{ required: true }]}>
-            <Input placeholder='Plear enter' />
-          </Form.Item>
-          <Form.Item label='Vote System' field='type' rules={[{ required: true }]}>
-            <Select placeholder='Plear select' options={['SIMPLE_VOTE']} />
-          </Form.Item>
+                axios.post('/admin/v1/business', res).then((res) => {
+                  console.log(res)
+                })
+              }, 1500);
+            });
+          }}
+          onCancel={() => {
+            setVisible(false);
+          }}
+        >
+          <Form {...formItemLayout} form={form} layout='vertical'>
+            <Form.Item label='Title' field='title' rules={[{ required: true }]}>
+              <Input placeholder='Plear enter' />
+            </Form.Item>
+            <Form.Item label='Id' required field='id' rules={[{ required: true }]}>
+              <Input placeholder='Plear enter' />
+            </Form.Item>
+            <Form.Item label='Vote System' field='type' rules={[{ required: true }]}>
+              <Select placeholder='Plear select' options={['SIMPLE_VOTE']} />
+            </Form.Item>
 
-          <div>
-            {
-              form.getFieldValue('type') === 'SIMPLE_VOTE' 
-              && 
-              <SystemFeatureTable 
-                features={SystemFeatures[form.getFieldValue('type') ].features} 
-                qps={SystemFeatures[form.getFieldValue('type') ].qps} 
-              />
-            }
-          </div>
+            <div>
+              {
+                form.getFieldValue('type') === 'SIMPLE_VOTE' 
+                && 
+                <SystemFeatureTable 
+                  features={SystemFeatures[form.getFieldValue('type') ].features} 
+                  qps={SystemFeatures[form.getFieldValue('type') ].qps} 
+                />
+              }
+            </div>
 
-        </Form>
-      </Drawer>
-
-        </div>
+          </Form>
+        </Drawer>
+      </div>
     )
 }
 
