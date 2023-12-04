@@ -12,6 +12,7 @@ const (
 )
 
 type DatabaseConnectConfig struct {
+	Title        string       `json:"title"`
 	DatabaseType DatabaseType `json:"database_type"`
 	Host         string       `json:"host"`
 	Port         int          `json:"port"`

@@ -40,7 +40,7 @@ type Businesses struct {
 
 // Config defines model for Config.
 type Config struct {
-	DataSourceConfig *[]string `json:"dataSourceConfig,omitempty"`
+	DataSourceConfig *[]DatabaseConnectConfig `json:"dataSourceConfig,omitempty"`
 }
 
 // DatabaseConnectConfig defines model for DatabaseConnectConfig.
@@ -50,6 +50,7 @@ type DatabaseConnectConfig struct {
 	Host         *string `json:"host,omitempty"`
 	Password     *string `json:"password,omitempty"`
 	Port         *int    `json:"port,omitempty"`
+	Title        *string `json:"title,omitempty"`
 	Username     *string `json:"username,omitempty"`
 }
 
@@ -71,6 +72,9 @@ type UserInfo struct {
 
 // ResponseBusinessList defines model for ResponseBusinessList.
 type ResponseBusinessList = Businesses
+
+// ResponseDatabaseList defines model for ResponseDatabaseList.
+type ResponseDatabaseList = Config
 
 // ResponseInternalServerError defines model for ResponseInternalServerError.
 type ResponseInternalServerError = BaseResponse
@@ -119,6 +123,9 @@ type ServerInterface interface {
 	// Get Business List
 	// (GET /businesses)
 	GetBusinesses(ctx echo.Context) error
+	// Get Database Connection Configure List
+	// (GET /database)
+	GetDatabaseConfigureList(ctx echo.Context) error
 	// Get Postgres Database List
 	// (GET /database/postgres)
 	GetPostgresDatabaseList(ctx echo.Context) error
@@ -177,6 +184,15 @@ func (w *ServerInterfaceWrapper) GetBusinesses(ctx echo.Context) error {
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.GetBusinesses(ctx)
+	return err
+}
+
+// GetDatabaseConfigureList converts echo context to params.
+func (w *ServerInterfaceWrapper) GetDatabaseConfigureList(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.GetDatabaseConfigureList(ctx)
 	return err
 }
 
@@ -292,6 +308,7 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 	router.POST(baseURL+"/business", wrapper.CreateBusiness)
 	router.PUT(baseURL+"/business", wrapper.UpdateBusiness)
 	router.GET(baseURL+"/businesses", wrapper.GetBusinesses)
+	router.GET(baseURL+"/database", wrapper.GetDatabaseConfigureList)
 	router.GET(baseURL+"/database/postgres", wrapper.GetPostgresDatabaseList)
 	router.POST(baseURL+"/database/postgres", wrapper.CreatePostgresDatabase)
 	router.PUT(baseURL+"/database/postgres", wrapper.UpdatePostgresDatabase)
@@ -307,26 +324,26 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/+RZwW7bRhD9FWLaI2MqdtqivMWOGwhxbcN2cimKYEWOqE3EXWZn6VgxCLSHFr31UhTo",
-	"radefSnQL0rr/kWxS1HiWiuFdhzEUIEAEanhzLz3dt+s6HNIZF5IgUITxOegkAopCO3F0fRiuyQukGiP",
-	"kzb3Eyk0CvuRFcWYJ0xzKaIXJIW5R8kIc2Y+fapwCDF8Es2LRPW3FDVJkaCqqhBSpETxwmSCGJySVThr",
-	"pS80KsHGx6hOUe0qJVWHjvCM5cUYzccciViGEEOTKqhzBXWyKuzaPyNsuvIhWJq+eWhf6q9kKdKb9r8v",
-	"dVAnuLWenZRN4MGT29P8HfUPnrQLPyVUfTGU1yOIJYkshe6nEANLcy4gBHbKNFMQw0jrguIoyl5vsDEv",
-	"2EQOXmCiaSORefRGUqRyKqTSbBxtc/ZmyMRZzvL9I3l29uzsJdsoRAYhYM74GGKAEATLsVWoQJVzIi4F",
-	"te4qzDhpZVs+4faBzd5m717v/r3e/aDXi+2/7jLOiPFQ2PquSWf3skN9fA6FkgUqzeudnlNm/nNTTZda",
-	"oFCXSmAaDCYB1YuZeIoBHwZ6hAoDTgETE0NMIwNc/vnH25//+vunXy+/++HtxY///P79v7/8dnlxASHo",
-	"SWEiSCsuMgtaM12SIyOg3S0LwQZUYw2LKBIphjx7F3s7dVQVQqKQaXzOtFvbp42nbZ66jzVqLwRqruul",
-	"2SXW3miHHve/Ptzbff7s4GTX90BZpDfG0GYTPXwOnO+4xpy6uvocCzCl2KQutjMTyC2UMs2OZakSnEfM",
-	"ys1BKUw51SLHY5mw8UiSjj/f+uLL5VS2yz9img0YmSICE72qGxPmFveugSb0ZEE226vvEdOzGzqD4gsv",
-	"GNFrqbquNWNebqhLDxcaM7RzqCQzn/JuK9PQtyczLo7wVYk1Ape1azZqqu93rm48lKUHYjyBWKsSzfWr",
-	"kitMIf5mnqtF17dVCO0B4jbbGhKdum0GSDv4dmbJQqnpcGlX8oV1Vu7KUOr0xOLAuoG3GNX4lH13sDw8",
-	"7AdDqYI9/pLbRV8bJNjr4OFhH0I4RUV19Ol905IsULCCQwxbG72NLSu1HllA0aA9Eabby6ht+7cHgR3r",
-	"9DNzqpcPkt6W6eTWT7S+sVw3ELTt0Tlqb/Z6y9LP4qLWiawK4UHvQfdHZofNKoTPrlPLd+C2R4syz5ma",
-	"+KEVpUeDp3ZSfUQN6gbWUoMFaFU43xY1ugw9mjxG3ToAvA8fV3+w3RVmHqOe0RLUzRlumsEdGb/I1GqK",
-	"DqcxzfnBpllXshqwQYM2aLpcZa1XKfpA29t/glvutwtg1tB4vRhXOPBdk2rqXWst1XKMjhnVPxpWONGR",
-	"Cfhf2JBFej0Pcsi5IwbkwlhD91kEuMJ67pRC0z25vgotAeg4jm5+y3v31QmSvsKn4e4jC2e6mjtDq681",
-	"0m45RiNfSaiiscy4WK6dfVvzgaRy3gR5FKprr5EcFlCgZfCI0WggmUpbQpSt10zewT17D/U+hMxf7N8h",
-	"h2n9IaL6LwAA//9WGKr6SxwAAA==",
+	"H4sIAAAAAAAC/+RZzW4bNxB+FYLtceOV7bRF9xY7biDEtQ3byaUoAmp3tGKiJTccrmPFENAeWvTWS1Gg",
+	"t5569aVAnyit+xYFuVqJlCh3/RNEUAAD3p/h/HzfcGa4uqCpLEopQGikyQVVgKUUCPbmeHKzUyEXgLjP",
+	"UZvnqRQahL1kZTnkKdNcivglSmGeYTqAgpmrTxX0aUI/iWdG4votxo1SQDoejyOaAaaKl0YTTahnchxN",
+	"XXnMNOsxhHt1ZVeKPs9v4kZXaFCCDU9AnYHaU0qqFt7AOSvKIZjLAhBZDjShjSpS6yK1snHUFkaG0HgV",
+	"imCp+mbRgdRfyUpkt/X/QGpSK7g3nz2VjeDh0/tLvf+xf/jUNfwMQXVFX94MIJamshK6m9GEsqzggkaU",
+	"nTHNFE3oQOsSkzjO32ywIS/ZSPZeQqpxI5VF/FZirAospdJsGO9w9rbPxHnBioNjeX7+/PwV2yhFTiMK",
+	"BeNDmlAaUcEKcAyVoAqOyKVA56mCnKNW1uVTbhdsdbY6DzqbDzqbpNNJ7F97GqfABCB03jXqbEnxoE8u",
+	"aKlkCUrzuuAUmJt/vqpJqhEFulICMtIbEayTGXkGhPeJHoACwpEwMTLANDTQqz//ePfzX3//9OvVdz+8",
+	"u/zxn9+///eX364uL2lE9ag0EqgVF7kNWjNdoUcjBbtbFoRNUE1pWIwirctJy6IT0VQB0/CCad92iJuA",
+	"2zzzlzVsLwhqruvUbCNrH7iiJ92vj/b3Xjw/PN0LLajK7NYxuGhCAM+e945rKLBtc5nFQplSbFQb250S",
+	"5BvKmGYnslIpzCRamWu60q4UAlI9o3bRdlg06IoR8+EMJkAjerrAmYKMY2jJQOIcUUOZsqF9HBAvGeIb",
+	"qdommqlcvujn2198OZPkQkMOaklOHhunSQNTMNfQdLSiXS4bzPdlzsUxvK6gDtuH+obRGesHra2bqsuy",
+	"QzEc0USrCsz964oryGjyzUyXg/G344i6Lcd31mkrrbxtWo4rfD/dZ8HUpB25lkJirZmba2OtViy2uFtU",
+	"I8Man6Dvt6JHR13Sl4rs81fc7pQ6fam9J4+OujSiZ6Cwlj7bNC7JEgQrOU3o9kZnY9tSrQc2oLjn9pDJ",
+	"njRsW//t6LBre8O0nNXpA6h3ZDa691E81MhrB4hbUL0zwlans0z9VC52ZrhxRB92HrZfMh1PxxH97Ca2",
+	"QiO6HUaqomBqFA6trAIcPLO97QNyUDuwlhwshDaOZtuiji6HACdPQDsjw13wmD/irQoyT0BPYSG1cwYb",
+	"dzBYhowzY/R5Xqn6tHwXkLxj94qB1PhGJiMVl4JMIw8gF5tKm6vrk+toIuMFvq5p1gQ7g7Lx8rqmNA/R",
+	"eyqMS2brpZ1qIZg1bFnBGK/pXatG1aTqrzVVy2P0ilF9RrumEtnz0EdRhvyTX6sa5IGzIgVo7gC7ftVn",
+	"McBrSs9KMTTZk+vL0JIAvYqjm68gwX11Cqjn8DTYfWDijFehQW+duFseo6GvQlDxUOZcLOfOfud6T1R5",
+	"39ACDNW214gOGxDRkjxmOOhJpjKHiMr5QBds3NMveHcBZPYjygpVGOdHn/F/AQAA//8fCJ0HPh4AAA==",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

@@ -24,6 +24,7 @@ func Main() {
 			server.NewDatabaseServer,
 
 			admin.NewBusinessAdapter,
+			admin.NewDatabaseAdapter,
 
 			config.ProductEnvRedisConfig,
 			config.ProductEnvConfigDatabaseConfig,

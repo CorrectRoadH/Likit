@@ -26,6 +26,7 @@ func ProductEnvRedisConfig() domain.RedisConfig {
 	}
 
 	return domain.RedisConfig{
+		Title:        "default redis",
 		DatabaseType: domain.REDIS,
 		Host:         host,
 		Port:         portInt,
@@ -52,6 +53,7 @@ func TestEnvRedisConfig() domain.RedisConfig {
 	}
 
 	return domain.RedisConfig{
+		Title:        "environment redis",
 		DatabaseType: domain.REDIS,
 		Host:         host,
 		Port:         portInt,
@@ -90,6 +92,7 @@ func ProductEnvConfigDatabaseConfig() domain.PostgresConfig {
 	}
 
 	return domain.PostgresConfig{
+		Title:        "default postgres",
 		DatabaseType: domain.POSTGRES,
 		Host:         host,
 		Port:         portInt,

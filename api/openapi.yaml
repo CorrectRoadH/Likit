@@ -98,6 +98,18 @@ paths:
     #       $ref: "#/components/responses/ResponseNotFound"
     #     "500":
     #       $ref: "#/components/responses/ResponseInternalServerError"
+  /database:
+    get:
+      summary: Get Database Connection Configure List
+      operationId: getDatabaseConfigureList
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseDatabaseList"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+
 
   /database/postgres:
     get:
@@ -205,7 +217,6 @@ paths:
         "500":
           $ref: "#/components/responses/ResponseInternalServerError"
 
-
 components:
   # securitySchemes:
   #   access_token:
@@ -267,6 +278,14 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Businesses"
+
+    ResponseDatabaseList:
+      description: BusinessList
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Config"
+
 
   schemas:
     BaseResponse:
@@ -339,15 +358,7 @@ components:
           example: "2020-01-01 00:00:00"
         config:
           $ref: '#/components/schemas/Config'
-          
-    Config:
-      properties:
-        dataSourceConfig:
-          type: array
-          items:
-            type: string
-            example: "redisconfig:localhost:6379"
-
+                    
     DatabaseConnectConfig:
       properties:
         databaseType:
@@ -368,3 +379,13 @@ components:
         database:
           type: string
           example: "0"
+        title:
+          type: string
+          example: "Redis Database"
+
+    Config:   
+      properties:
+        dataSourceConfig:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatabaseConnectConfig'

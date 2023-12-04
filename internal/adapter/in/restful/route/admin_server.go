@@ -27,6 +27,7 @@ func convertBusiness(business codegen.Business) domain.Business {
 
 func convertDatabaseConnectConfig(databaseConnectConfig codegen.DatabaseConnectConfig) domain.DatabaseConnectConfig {
 	return domain.DatabaseConnectConfig{
+		Title:        *databaseConnectConfig.Title,
 		DatabaseType: domain.DatabaseType(*databaseConnectConfig.DatabaseType),
 		Host:         *databaseConnectConfig.Host,
 		Port:         *databaseConnectConfig.Port,
@@ -182,5 +183,31 @@ func (a *adminApiService) TestDatabaseConnection(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, &codegen.BaseResponse{
 		Status: utils.Ptr("ok"),
+	})
+}
+
+func (a *adminApiService) GetDatabaseConfigureList(ctx echo.Context) error {
+	connections, err := a.databaseUseCase.DatabaseConfigureList()
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
+			Status: utils.Ptr("error"),
+			Msg:    utils.Ptr(err.Error()),
+		})
+	}
+
+	array := lo.Map(connections, func(connection domain.DatabaseConnectConfig, _ int) codegen.DatabaseConnectConfig {
+		return codegen.DatabaseConnectConfig{
+			Title:        utils.Ptr(connection.Title),
+			DatabaseType: utils.Ptr(string(connection.DatabaseType)),
+			Host:         utils.Ptr(connection.Host),
+			Port:         utils.Ptr(connection.Port),
+			Username:     utils.Ptr(connection.Username),
+			Password:     utils.Ptr(connection.Password),
+			Database:     utils.Ptr(connection.Database),
+		}
+	})
+
+	return ctx.JSON(http.StatusOK, codegen.ResponseDatabaseList{
+		DataSourceConfig: &array,
 	})
 }
