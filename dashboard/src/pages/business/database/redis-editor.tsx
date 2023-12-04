@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { toast } from 'sonner'
 
 const RedisEditor = () => {
 
-    const [host, setHost] = useState("");
-    const [port, setPort] = useState("");
+    const [host, setHost] = useState("localhost");
+    const [port, setPort] = useState("6379");
     const [password, setPassword] = useState("");
 
     const handleTestBtnClick = () => {
@@ -16,7 +17,9 @@ const RedisEditor = () => {
             "password": password,
             "database":""
         }).then((res) => {
-            console.log(res);
+            toast.success("connect success");
+        }).catch((err) => {
+            toast.error(err.response.data.msg);
         })
     }
 

@@ -6,6 +6,11 @@ import setting from './src/settings.json';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      '/admin': 'http://localhost:8080',
+    }
+  },
   resolve: {
     alias: [{ find: '@', replacement: '/src' }],
   },
