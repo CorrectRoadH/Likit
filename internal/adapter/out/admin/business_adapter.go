@@ -44,7 +44,7 @@ func (b *BusinessAdapter) CreateBusiness(ctx context.Context, business domain.Bu
 	return result.Error
 }
 
-func NewBusinessAdapter(config domain.DatabaseConnectConfig) out.BusinessUseCase {
+func NewBusinessAdapter(config domain.PostgresConfig) out.BusinessUseCase {
 	db, err := gorm.Open(
 		postgres.Open(
 			fmt.Sprintf("postgres://%s:%s@%s:%d/%s", config.Password, config.Username, config.Host, config.Port, config.DatabaseName),

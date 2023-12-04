@@ -12,7 +12,7 @@ type AdminServer struct {
 	businessStore out.BusinessUseCase
 }
 
-func NewAdminServer(businessUseCase out.BusinessUseCase, redisConfig domain.DatabaseConnectConfig) in.AdminUseCase {
+func NewAdminServer(businessUseCase out.BusinessUseCase, redisConfig domain.RedisConfig) in.AdminUseCase {
 	// init database
 	business, err := businessUseCase.Businesses(context.Background())
 	if err != nil {
@@ -25,7 +25,9 @@ func NewAdminServer(businessUseCase out.BusinessUseCase, redisConfig domain.Data
 			Id:    "COMMENT_LIKE",
 			Type:  "SIMPLE_VOTE",
 			Config: domain.Config{
-				DataSourceConfig: []domain.DatabaseConnectConfig{redisConfig},
+				DataSourceConfig: []domain.DatabaseConnectConfig{
+					domain.DatabaseConnectConfig(redisConfig),
+				},
 			},
 		})
 	}

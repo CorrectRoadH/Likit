@@ -7,7 +7,7 @@ import (
 	"github.com/CorrectRoadH/Likit/internal/application/domain"
 )
 
-func ProductEnvRedisConfig() domain.DatabaseConnectConfig {
+func ProductEnvRedisConfig() domain.RedisConfig {
 	host := os.Getenv("REDIS_HOST") // "localhost:6379"
 	port := os.Getenv("REDIS_PORT")
 	passwd := os.Getenv("PASSWORD")
@@ -25,7 +25,7 @@ func ProductEnvRedisConfig() domain.DatabaseConnectConfig {
 		panic(err)
 	}
 
-	return domain.DatabaseConnectConfig{
+	return domain.RedisConfig{
 		DatabaseType: domain.REDIS,
 		Host:         host,
 		Port:         portInt,
@@ -33,10 +33,10 @@ func ProductEnvRedisConfig() domain.DatabaseConnectConfig {
 	}
 }
 
-func TestEnvRedisConfig() domain.DatabaseConnectConfig {
+func TestEnvRedisConfig() domain.RedisConfig {
 	host := os.Getenv("REDIS_HOST") // "localhost:6379"
 	port := os.Getenv("REDIS_PORT")
-	passwd := os.Getenv("PASSWORD")
+	passwd := os.Getenv("REDIS_PASSWORD")
 
 	if host == "" {
 		host = "localhost"
@@ -51,7 +51,7 @@ func TestEnvRedisConfig() domain.DatabaseConnectConfig {
 		panic(err)
 	}
 
-	return domain.DatabaseConnectConfig{
+	return domain.RedisConfig{
 		DatabaseType: domain.REDIS,
 		Host:         host,
 		Port:         portInt,
@@ -60,12 +60,12 @@ func TestEnvRedisConfig() domain.DatabaseConnectConfig {
 }
 
 // the config is for business data. not vote data
-func ProductEnvConfigDatabaseConfig() domain.DatabaseConnectConfig {
+func ProductEnvConfigDatabaseConfig() domain.PostgresConfig {
 	host := os.Getenv("POSTGRES_HOST")
 	port := os.Getenv("POSTGRES_PORT")
 	username := os.Getenv("POSTGRES_USERNAME")
 	password := os.Getenv("POSTGRES_PASSWORD")
-	databaseName := os.Getenv("POSTGRES_DATABASE_NAME")
+	databaseName := os.Getenv("POSTGRES_DATABASE")
 
 	if host == "" {
 		host = "localhost"
@@ -89,7 +89,7 @@ func ProductEnvConfigDatabaseConfig() domain.DatabaseConnectConfig {
 		panic(err)
 	}
 
-	return domain.DatabaseConnectConfig{
+	return domain.PostgresConfig{
 		DatabaseType: domain.POSTGRES,
 		Host:         host,
 		Port:         portInt,
