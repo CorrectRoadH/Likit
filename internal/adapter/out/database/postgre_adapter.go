@@ -21,7 +21,7 @@ func testPostgresConnection(ctx context.Context, conn *pgx.Conn) error {
 }
 
 func (p *PostgresAdapter) TestConnect(config domain.DatabaseConnectConfig) error {
-	databaseURL := fmt.Sprintf("postgres://%s:%s@%s:%d/%s", config.Password, config.Username, config.Host, config.Port, config.Database)
+	databaseURL := fmt.Sprintf("postgres://%s:%s@%s:%d/%s", config.Username, config.Password, config.Host, config.Port, config.Database)
 	ctx := context.Background()
 	conn, err := pgx.Connect(ctx, databaseURL)
 	if err != nil {
