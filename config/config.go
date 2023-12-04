@@ -95,6 +95,6 @@ func ProductEnvConfigDatabaseConfig() domain.PostgresConfig {
 		Port:         portInt,
 		Username:     username,
 		Password:     password,
-		DatabaseName: databaseName,
+		Database:     databaseName,
 	}
 }

@@ -12,9 +12,9 @@ import (
 	"github.com/samber/lo"
 )
 
-// TODO 回头把这个改个好名，别把controller和service搞混了
 type adminApiService struct {
-	adminServer in.AdminUseCase
+	adminUseCase    in.AdminUseCase
+	databaseUseCase in.DatabaseUseCase
 }
 
 func convertBusiness(business codegen.Business) domain.Business {
@@ -25,9 +25,24 @@ func convertBusiness(business codegen.Business) domain.Business {
 	}
 }
 
-func NewAdminApiService(adminServer in.AdminUseCase) codegen.ServerInterface {
+func convertDatabaseConnectConfig(databaseConnectConfig codegen.DatabaseConnectConfig) domain.DatabaseConnectConfig {
+	return domain.DatabaseConnectConfig{
+		DatabaseType: domain.DatabaseType(*databaseConnectConfig.DatabaseType),
+		Host:         *databaseConnectConfig.Host,
+		Port:         *databaseConnectConfig.Port,
+		Username:     *databaseConnectConfig.Username,
+		Password:     *databaseConnectConfig.Password,
+		Database:     *databaseConnectConfig.Database,
+	}
+}
+
+func NewAdminApiService(
+	adminUseCase in.AdminUseCase,
+	databaseUseCase in.DatabaseUseCase,
+) codegen.ServerInterface {
 	return &adminApiService{
-		adminServer: adminServer,
+		adminUseCase:    adminUseCase,
+		databaseUseCase: databaseUseCase,
 	}
 }
 
@@ -56,9 +71,12 @@ func (a *adminApiService) UserInfo(ctx echo.Context) error {
 }
 
 func (u *adminApiService) GetBusinesses(ctx echo.Context) error {
-	businesses, err := u.adminServer.Businesses(ctx.Request().Context())
+	businesses, err := u.adminUseCase.Businesses(ctx.Request().Context())
 	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, err)
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
+			Status: utils.Ptr("error"),
+			Msg:    utils.Ptr(err.Error()),
+		})
 	}
 
 	return ctx.JSON(http.StatusOK, lo.Map(businesses, func(business domain.Business, _ int) codegen.Business {
@@ -76,9 +94,12 @@ func (a *adminApiService) CreateBusiness(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, err)
 	}
 
-	err := a.adminServer.CreateBusiness(ctx.Request().Context(), convertBusiness(createBusinessRequest))
+	err := a.adminUseCase.CreateBusiness(ctx.Request().Context(), convertBusiness(createBusinessRequest))
 	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, err)
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
+			Status: utils.Ptr("error"),
+			Msg:    utils.Ptr(err.Error()),
+		})
 	}
 
 	return ctx.JSON(http.StatusOK, &codegen.BaseResponse{
@@ -108,9 +129,55 @@ func (a *adminApiService) UpdateBusiness(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, err)
 	}
 
-	err := a.adminServer.UpdateBusiness(ctx.Request().Context(), convertBusiness(createBusinessRequest))
+	err := a.adminUseCase.UpdateBusiness(ctx.Request().Context(), convertBusiness(createBusinessRequest))
 	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, err)
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
+			Status: utils.Ptr("error"),
+			Msg:    utils.Ptr(err.Error()),
+		})
+	}
+
+	return ctx.JSON(http.StatusOK, &codegen.BaseResponse{
+		Status: utils.Ptr("ok"),
+	})
+}
+
+func (a *adminApiService) CreatePostgresDatabase(ctx echo.Context) error {
+	panic("TODO: Implement")
+}
+
+func (a *adminApiService) CreateRedisDatabase(ctx echo.Context) error {
+	panic("TODO: Implement")
+}
+
+func (a *adminApiService) GetPostgresDatabaseList(ctx echo.Context) error {
+	panic("TODO: Implement")
+}
+
+func (a *adminApiService) GetRedisDatabaseList(ctx echo.Context) error {
+	panic("TODO: Implement")
+}
+
+func (a *adminApiService) UpdatePostgresDatabase(ctx echo.Context) error {
+	panic("TODO: Implement")
+}
+
+func (a *adminApiService) UpdateRedisDatabase(ctx echo.Context) error {
+	panic("TODO: Implement")
+}
+
+func (a *adminApiService) TestDatabaseConnection(ctx echo.Context) error {
+	var databaseConnectConfig codegen.DatabaseConnectConfig
+	if err := ctx.Bind(&databaseConnectConfig); err != nil {
+		return ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	err := a.databaseUseCase.TestConnection(convertDatabaseConnectConfig(databaseConnectConfig))
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
+			Status: utils.Ptr("error"),
+			Msg:    utils.Ptr(err.Error()),
+		})
 	}
 
 	return ctx.JSON(http.StatusOK, &codegen.BaseResponse{

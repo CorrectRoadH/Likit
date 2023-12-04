@@ -118,7 +118,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PostgresDatabase"
+              $ref: "#/components/schemas/DatabaseConnectConfig"
       responses:
         "200":
           $ref: "#/components/responses/ResponseOK"
@@ -134,7 +134,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PostgresDatabase"
+              $ref: "#/components/schemas/DatabaseConnectConfig"
       responses:
         "200":
           $ref: "#/components/responses/ResponseOK"
@@ -162,7 +162,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PostgresDatabase"
+              $ref: "#/components/schemas/DatabaseConnectConfig"
       responses:
         "200":
           $ref: "#/components/responses/ResponseOK"
@@ -178,7 +178,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PostgresDatabase"
+              $ref: "#/components/schemas/DatabaseConnectConfig"
       responses:
         "200":
           $ref: "#/components/responses/ResponseOK"
@@ -186,7 +186,24 @@ paths:
           $ref: "#/components/responses/ResponseNotFound"
         "500":
           $ref: "#/components/responses/ResponseInternalServerError"
-
+  
+  /database/test:
+    post:
+      summary: Test Database Connection
+      operationId: testDatabaseConnection
+      requestBody:
+        description: Test Database Connection
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DatabaseConnectConfig"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
 
 
 components:
@@ -331,8 +348,23 @@ components:
             type: string
             example: "redisconfig:localhost:6379"
 
-    PostgresDatabase:
+    DatabaseConnectConfig:
       properties:
-        config:
+        databaseType:
           type: string
-          example: "postgresconfig:localhost:5432"
+          example: "redis"
+        host:
+          type: string
+          example: "localhost"
+        port:
+          type: integer
+          example: "6379"
+        username:
+          type: string
+          example: "admin"
+        password:
+          type: string
+          example: "admin"
+        database:
+          type: string
+          example: "0"
