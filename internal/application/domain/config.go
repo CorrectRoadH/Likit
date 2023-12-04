@@ -46,15 +46,14 @@ func MarshalRedisConfig(config RedisConfig) (string, error) {
 	return "redisconfig:" + string(configJson), err
 }
 
-func GetRedisConfig(config Config) (RedisConfig, error) {
+func GetRedisConfig(config Config) (DatabaseConnectConfig, error) {
 	for _, config := range config.DataSourceConfig {
-		config, err := UnmarshalRedisConfig(config)
-		if err != nil {
+		if config.DatabaseType != REDIS {
 			continue
 		}
 		return config, nil
 	}
-	return RedisConfig{}, fmt.Errorf("no redis config in config")
+	return DatabaseConnectConfig{}, fmt.Errorf("no redis config in config")
 }
 
 type ConfigDatabaseConfig string

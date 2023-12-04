@@ -1,49 +1,100 @@
 package config
 
 import (
-	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/CorrectRoadH/Likit/internal/application/domain"
 )
 
-func ProductEnvRedisConfig() domain.RedisConfig {
-	addr := os.Getenv("REDIS_URI") // "localhost:6379"
+func ProductEnvRedisConfig() domain.DatabaseConnectConfig {
+	host := os.Getenv("REDIS_HOST") // "localhost:6379"
+	port := os.Getenv("REDIS_PORT")
 	passwd := os.Getenv("PASSWORD")
 
-	fmt.Println("redis uri: ", addr)
-	if addr == "" {
-		addr = "localhost:6379"
+	if host == "" {
+		host = "localhost"
+	}
+	if port == "" {
+		port = "6379"
 	}
 
-	return domain.RedisConfig{
-		Addr:   addr,
-		Passwd: passwd,
+	// port to int
+	portInt, err := strconv.Atoi(port)
+	if err != nil {
+		panic(err)
+	}
+
+	return domain.DatabaseConnectConfig{
+		DatabaseType: domain.REDIS,
+		Host:         host,
+		Port:         portInt,
+		Password:     passwd,
 	}
 }
 
-func TestEnvRedisConfig() domain.RedisConfig {
-	addr := os.Getenv("REDIS_URI") // "localhost:6379"
+func TestEnvRedisConfig() domain.DatabaseConnectConfig {
+	host := os.Getenv("REDIS_HOST") // "localhost:6379"
+	port := os.Getenv("REDIS_PORT")
 	passwd := os.Getenv("PASSWORD")
 
-	if addr == "" {
-		addr = "localhost:6379"
+	if host == "" {
+		host = "localhost"
+	}
+	if port == "" {
+		port = "6379"
 	}
 
-	return domain.RedisConfig{
-		Addr:   addr,
-		Passwd: passwd,
+	// port to int
+	portInt, err := strconv.Atoi(port)
+	if err != nil {
+		panic(err)
+	}
+
+	return domain.DatabaseConnectConfig{
+		DatabaseType: domain.REDIS,
+		Host:         host,
+		Port:         portInt,
+		Password:     passwd,
 	}
 }
 
 // the config is for business data. not vote data
-func ProductEnvConfigDatabaseConfig() domain.ConfigDatabaseConfig {
-	connectString := os.Getenv("POSTGRES_CONNECTION_STRING")
-	if connectString == "" {
-		connectString = "postgres://postgres:postgres@localhost:5432/likit?sslmode=disable"
+func ProductEnvConfigDatabaseConfig() domain.DatabaseConnectConfig {
+	host := os.Getenv("POSTGRES_HOST")
+	port := os.Getenv("POSTGRES_PORT")
+	username := os.Getenv("POSTGRES_USERNAME")
+	password := os.Getenv("POSTGRES_PASSWORD")
+	databaseName := os.Getenv("POSTGRES_DATABASE_NAME")
+
+	if host == "" {
+		host = "localhost"
+	}
+	if port == "" {
+		port = "5432"
+	}
+	if username == "" {
+		username = "postgres"
+	}
+	if password == "" {
+		password = "postgres"
+	}
+	if databaseName == "" {
+		databaseName = "likit"
 	}
 
-	fmt.Println("postgres uri: ", connectString)
+	// port to int
+	portInt, err := strconv.Atoi(port)
+	if err != nil {
+		panic(err)
+	}
 
-	return domain.ConfigDatabaseConfig(connectString)
+	return domain.DatabaseConnectConfig{
+		DatabaseType: domain.POSTGRES,
+		Host:         host,
+		Port:         portInt,
+		Username:     username,
+		Password:     password,
+		DatabaseName: databaseName,
+	}
 }

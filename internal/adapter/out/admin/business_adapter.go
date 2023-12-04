@@ -44,8 +44,12 @@ func (b *BusinessAdapter) CreateBusiness(ctx context.Context, business domain.Bu
 	return result.Error
 }
 
-func NewBusinessAdapter(config domain.ConfigDatabaseConfig) out.BusinessUseCase {
-	db, err := gorm.Open(postgres.Open(string(config)), &gorm.Config{})
+func NewBusinessAdapter(config domain.DatabaseConnectConfig) out.BusinessUseCase {
+	db, err := gorm.Open(
+		postgres.Open(
+			fmt.Sprintf("postgres://%s:%s@%s:%d/%s", config.Password, config.Username, config.Host, config.Port, config.DatabaseName),
+		), &gorm.Config{})
+
 	if err != nil {
 		panic(fmt.Sprintf("failed to connect database: %v", err))
 	}

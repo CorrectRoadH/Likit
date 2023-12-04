@@ -13,10 +13,10 @@ type SimpleVoteServer struct {
 	rdb *redis.Client
 }
 
-func NewSimpleVoteServer(config domain.RedisConfig) in.VoteUseCase {
+func NewSimpleVoteServer(config domain.DatabaseConnectConfig) in.VoteUseCase {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     config.Addr,
-		Password: config.Passwd,
+		Addr:     fmt.Sprintf("%s:%d", config.Host, config.Port),
+		Password: config.Password,
 		DB:       0, // use default DB
 	})
 

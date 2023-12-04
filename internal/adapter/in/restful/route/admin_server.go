@@ -22,9 +22,6 @@ func convertBusiness(business codegen.Business) domain.Business {
 		Id:    *business.Id,
 		Title: *business.Title,
 		Type:  *business.Type,
-		Config: domain.Config{
-			DataSourceConfig: *business.Config.DataSourceConfig,
-		},
 	}
 }
 
