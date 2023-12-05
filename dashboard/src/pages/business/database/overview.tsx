@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import RedisEditor from "./redis-editor";
+import RedisEditor from "./editor/redis-editor";
 import { Card, Divider, Typography,Grid } from "@arco-design/web-react";
 import { DatabaseConnectionConfig } from "./types";
 import axios from "axios";
