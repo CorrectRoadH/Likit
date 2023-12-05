@@ -21,7 +21,6 @@
     "arco-design-pro": "^2.8.0",
     "axios": "^0.24.0",
     "bizcharts": "^4.1.11",
-    "sonner": "^1.2.4",
     "caniuse-lite": "^1.0.30001565",
     "classnames": "^2.3.1",
     "copy-to-clipboard": "^3.3.1",
@@ -35,7 +34,9 @@
     "react-redux": "^7.2.6",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "redux": "^4.1.2"
+    "redux": "^4.1.2",
+    "sonner": "^1.2.4",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@arco-design/webpack-plugin": "^1.6.0",

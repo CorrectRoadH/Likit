@@ -5,6 +5,7 @@ import { DatabaseConnectionConfig } from "./types";
 import axios from "axios";
 import Redis from "./blocks/redis";
 import Postgres from "./blocks/postgre";
+import CreateDatabase from "./create-database-editor";
 
 
 const { Row, Col } = Grid;
@@ -74,7 +75,7 @@ const Overview = () => {
 
             <div>new source</div>
 
-            <RedisEditor />
+            <CreateDatabase />
         </Card>
     )
 }
