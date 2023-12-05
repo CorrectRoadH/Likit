@@ -1,4 +1,3 @@
-# 非 host 版本, 不使用本机代理
 version: '3.3'
 services:
   pg:
@@ -18,7 +17,6 @@ services:
   redis:
     image: redis:alpine3.18
     container_name: redis
-    # image: registry.cn-hangzhou.aliyuncs.com/fastgpt/mongo:5.0.18 # 阿里云
     restart: always
     ports: # 生产环境建议不要暴露
       - 6379:6379
@@ -30,7 +28,7 @@ services:
       - ./redis/data:/data
   likit:
     container_name: likit
-    image: correctroad/likit:latest # git
+    image: correctroad/likit:latest
     ports:
       - 3000:8080
     networks:
