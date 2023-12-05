@@ -6,6 +6,7 @@ import {
     Select,
     Skeleton,
     Button,
+    Modal,
 } from '@arco-design/web-react';
 
 import styles from './style/overview.module.less';
@@ -49,9 +50,16 @@ const BusinessEditor = ({business}:BusinessEditorProps) => {
   }, []);
 
   const handleDeleteBtnClick = ()=>{
-    axios.delete(`/admin/v1/business?id=${business.id}`).then((res)=>{
-      console.log(res)
-    })
+    Modal.confirm({
+      title: 'Are you sure to delete this business?',
+      content: 'This action cannot be undone.',
+      onOk: () => {
+        axios.delete(`/admin/v1/business?id=${business.id}`).then((res)=>{
+          console.log(res)
+        })
+      },
+    });
+    
   }
 
   return (
@@ -75,7 +83,7 @@ const BusinessEditor = ({business}:BusinessEditorProps) => {
 
           <Divider />
 
-          <Row gutter={20}>
+          {/* <Row gutter={20}>
             <Col flex={1}>
               <Skeleton
                 loading={loading}
@@ -84,7 +92,7 @@ const BusinessEditor = ({business}:BusinessEditorProps) => {
               >
               </Skeleton>
             </Col>
-          </Row>
+          </Row> */}
 
           <Row>
             <Col span={12}>

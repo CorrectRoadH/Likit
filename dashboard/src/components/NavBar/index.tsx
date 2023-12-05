@@ -127,13 +127,10 @@ function Navbar({ show }: { show: boolean }) {
           {t['menu.dashboard.workplace']}
         </Menu.Item>
 
-
-        {/* TODO chinese locale the  */}
         <Menu.Item key="workplace">
           <IconDashboard className={styles['dropdown-icon']} />
           {t['menu.business.workplace']}
         </Menu.Item>
-
 
         <Menu.Item key="card list">
           <IconInteraction className={styles['dropdown-icon']} />
