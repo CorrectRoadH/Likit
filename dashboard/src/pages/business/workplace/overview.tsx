@@ -33,6 +33,7 @@ function Overview() {
     axios
       .get('/admin/v1/businesses')
       .then((res) => {
+        console.log(res)
         setData(res.data);
       })
       .finally(() => {
