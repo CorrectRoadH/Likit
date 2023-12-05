@@ -3,9 +3,10 @@ package in
 import "context"
 
 type VoteUseCase interface {
-	Vote(ctx context.Context, businessId string, messageId string, userId string) error
+	// TODO update return type to int64
+	Vote(ctx context.Context, businessId string, messageId string, userId string) (int, error)
 
-	UnVote(ctx context.Context, businessId string, messageId string, userId string) error
+	UnVote(ctx context.Context, businessId string, messageId string, userId string) (int, error)
 
 	Count(ctx context.Context, businessId string, messageId string) (int, error)
 
