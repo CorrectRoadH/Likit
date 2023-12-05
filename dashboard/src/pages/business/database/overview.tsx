@@ -10,6 +10,8 @@ import Postgres from "./blocks/postgre";
 const { Row, Col } = Grid;
 
 const Overview = () => {
+
+    // TODO extract to a hook
     const [data, setData] = useState<DatabaseConnectionConfig[]>([]);
     
     const fetchData = () => {

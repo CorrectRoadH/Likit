@@ -1,6 +1,9 @@
 import { Form, Input, Drawer, Button, Select } from "@arco-design/web-react";
 import axios from "axios";
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
+import { DatabaseConnectionConfig } from "../database/types";
+
+const Option = Select.Option;
 
 const formItemLayout = {
   wrapperCol: {
@@ -40,11 +43,24 @@ const SystemFeatureTable = ({features,qps}:SystemFeature) => {
   )
 }
 
+
 const CreateBusinessEditor = () => {
 
     const [visible, setVisible] = useState(false);
     const [form] = Form.useForm();
     const [confirmLoading, setConfirmLoading] = useState(false);
+
+    const [data,setData] = useState<DatabaseConnectionConfig[]>([])
+
+    const fetchData = () => {
+      axios.get('/admin/v1/database').then((res) => {
+          setData(res.data.dataSourceConfig);
+      });
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, []);
 
     return (
       <div>
@@ -63,14 +79,18 @@ const CreateBusinessEditor = () => {
           confirmLoading={confirmLoading}
           onOk={() => {
             form.validate().then((res) => {
-
-              // add database config to res
-
+              setConfirmLoading(true);
               res.config = {
                 dataSourceConfig: []
               }
-              
-              setConfirmLoading(true);
+
+              // build the config for backend
+              res.selectedDatabase.forEach((id) => {
+                const database = data.find((item) => item.id === id)
+                if (database) {
+                  res.config.dataSourceConfig.push(database)
+                }
+              })
 
               console.log(res)
               setTimeout(() => {
@@ -108,6 +128,19 @@ const CreateBusinessEditor = () => {
                 />
               }
             </div>
+
+            <Form.Item label='Database' field='selectedDatabase' rules={[{ required: true }]}>
+              <Select placeholder='Please' mode='multiple'>
+                {
+                  data.map((item)=>(
+                    <Option key={item.id} value={item.id}>
+                      {item.title}
+                    </Option>
+                  ))
+                }
+              </Select> 
+            </Form.Item>
+
 
           </Form>
         </Drawer>
