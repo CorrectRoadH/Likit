@@ -75,6 +75,7 @@ const BusinessEditor = ({business}:BusinessEditorProps) => {
             
             <Col span={12}>
               <Input placeholder="Business ID" 
+                disabled
                 value={business.id}
               />
             </Col>

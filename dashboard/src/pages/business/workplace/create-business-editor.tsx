@@ -112,15 +112,17 @@ const CreateBusinessEditor = () => {
         >
           <Form {...formItemLayout} form={form} layout='vertical'>
             <Form.Item label='Title' field='title' rules={[{ required: true }]}>
-              <Input placeholder='Plear enter' />
+              <Input placeholder='Business title' />
             </Form.Item>
 
             <Form.Item label='Id' required field='id' rules={[{ required: true }]}>
-              <Input placeholder='Plear enter' />
+              <Input placeholder='Business ID. like: COMMENT_LIKE' />
             </Form.Item>
 
+
+            {/* TODO rerender the component when select changes */}
             <Form.Item label='Vote System' field='type' rules={[{ required: true }]}>
-              <Select placeholder='Plear select' options={['SIMPLE_VOTE']} />
+              <Select placeholder='System select' options={['SIMPLE_VOTE']} />
             </Form.Item>
 
             <div>

@@ -26,7 +26,7 @@ const BusinessItem = ({business}:BusinessItemProps) => {
                   <div>{business.type}</div>
                 </Skeleton>
 
-                <Button type="text" size="small"
+                <Button size="small"
                   onClick={() => setVisible(true)}
                 >
                   Configure
