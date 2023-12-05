@@ -12,6 +12,7 @@ import {
 import styles from './style/overview.module.less';
 import { BusinessType } from './type';
 import axios from 'axios';
+import { toast } from 'sonner';
 
 const { Row, Col } = Grid;
 
@@ -55,7 +56,9 @@ const BusinessEditor = ({business}:BusinessEditorProps) => {
       content: 'This action cannot be undone.',
       onOk: () => {
         axios.delete(`/admin/v1/business?id=${business.id}`).then((res)=>{
-          console.log(res)
+          toast.success('Delete business successfully!')
+          // refresh the page
+          window.location.reload();
         })
       },
     });

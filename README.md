@@ -7,6 +7,11 @@
 ## What is Likit
 Likit is a backend as a service for like(vote, unlike, count) feature. It is very ease to deploy and use.
 
+# Screenshots
+
+![](./img/screenshot-1.png)
+![](./img/screenshot-2.png)
+
 # Deloyment
 
 ## Zeabur
