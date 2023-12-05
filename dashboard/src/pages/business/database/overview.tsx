@@ -1,24 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RedisEditor from "./redis-editor";
-import { Card, Divider, Typography } from "@arco-design/web-react";
+import { Card, Divider, Typography,Grid } from "@arco-design/web-react";
+import { DatabaseConnectionConfig } from "./types";
+import axios from "axios";
+import Redis from "./blocks/redis";
+import Postgres from "./blocks/postgre";
 
 
+const { Row, Col } = Grid;
 
 const Overview = () => {
-    const [data, setData] = useState<any[]>([]);
+    const [data, setData] = useState<DatabaseConnectionConfig[]>([]);
     
+    const fetchData = () => {
+        axios.get('/admin/v1/database').then((res) => {
+            setData(res.data.dataSourceConfig);
+        });
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, []);
     return (
         <Card>
             <Typography.Title heading={5}>
                 {'Database Overview'}
             </Typography.Title>
 
+            <Divider />
+
             <div>
                 redis
             </div>
+            <Row>
+                {
+                    data
+                        .filter((item) => item.databaseType === 'redis')
+                        .map((item) => (
+                                <>  
+                                <Col key={item.id} span={6}>
+                                    <Redis config={item} />
+                                </Col>
+                                </>
+ 
+                            ))
+                }
+            </Row>
+            
+            <Divider />
 
             <div>
                 postgres
+
+                <Row>
+                {
+                    data
+                        .filter((item) => item.databaseType === 'postgres')
+                        .map((item) => (
+                                <>  
+                                <Col key={item.id} span={6}>
+                                    <Postgres config={item} />
+                                </Col>
+                                </>
+                            ))
+                }
+            </Row>
             </div>
 
                 
