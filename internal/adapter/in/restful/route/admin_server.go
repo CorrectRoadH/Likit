@@ -27,6 +27,7 @@ func convertBusiness(business codegen.Business) domain.Business {
 
 func convertDatabaseConnectConfig(databaseConnectConfig codegen.DatabaseConnectConfig) domain.DatabaseConnectConfig {
 	return domain.DatabaseConnectConfig{
+		Id:           *databaseConnectConfig.Id,
 		Title:        *databaseConnectConfig.Title,
 		DatabaseType: domain.DatabaseType(*databaseConnectConfig.DatabaseType),
 		Host:         *databaseConnectConfig.Host,
@@ -108,21 +109,19 @@ func (a *adminApiService) CreateBusiness(ctx echo.Context) error {
 	})
 }
 
-// func (a *adminApiService) DeleteBusiness(ctx echo.Context) error {
-// 	var deleteBusinessRequest codegen.DeleteBusinessRequest
-// 	if err := ctx.Bind(&deleteBusinessRequest); err != nil {
-// 		return ctx.JSON(http.StatusBadRequest, err)
-// 	}
+func (a *adminApiService) DeleteBusiness(ctx echo.Context, params codegen.DeleteBusinessParams) error {
+	err := a.adminUseCase.DeleteBusiness(ctx.Request().Context(), params.Id)
 
-// 	err := a.adminServer.DeleteBusiness(ctx.Request().Context(), *deleteBusinessRequest.BusinessId)
-// 	if err != nil {
-// 		return ctx.JSON(http.StatusInternalServerError, err)
-// 	}
-
-// 	return ctx.JSON(http.StatusOK, &codegen.BaseResponse{
-// 		Status: utils.Ptr("ok"),
-// 	})
-// }
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
+			Status: utils.Ptr("error"),
+			Msg:    utils.Ptr(err.Error()),
+		})
+	}
+	return ctx.JSON(http.StatusOK, &codegen.BaseResponse{
+		Status: utils.Ptr("ok"),
+	})
+}
 
 func (a *adminApiService) UpdateBusiness(ctx echo.Context) error {
 	var createBusinessRequest codegen.Business
@@ -197,6 +196,7 @@ func (a *adminApiService) GetDatabaseConfigureList(ctx echo.Context) error {
 
 	array := lo.Map(connections, func(connection domain.DatabaseConnectConfig, _ int) codegen.DatabaseConnectConfig {
 		return codegen.DatabaseConnectConfig{
+			Id:           utils.Ptr(connection.Id),
 			Title:        utils.Ptr(connection.Title),
 			DatabaseType: utils.Ptr(string(connection.DatabaseType)),
 			Host:         utils.Ptr(connection.Host),

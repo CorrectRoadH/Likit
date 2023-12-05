@@ -46,7 +46,7 @@ func (a *AdminServer) CreateBusiness(ctx context.Context, business domain.Busine
 }
 
 func (a *AdminServer) DeleteBusiness(ctx context.Context, businessId string) error {
-	panic("TODO: Implement")
+	return a.businessStore.DeleteBusiness(ctx, businessId)
 }
 
 func (a *AdminServer) UpdateBusiness(ctx context.Context, business domain.Business) error {

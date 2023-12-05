@@ -30,7 +30,6 @@ func (b *BusinessAdapter) Businesses(ctx context.Context) ([]domain.Business, er
 }
 
 func (b *BusinessAdapter) DeleteBusiness(ctx context.Context, businessId string) error {
-
 	result := b.db.Delete(&domain.Business{}, "id = ?", businessId)
 	return result.Error
 }

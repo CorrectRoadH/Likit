@@ -81,23 +81,25 @@ paths:
           $ref: "#/components/responses/ResponseNotFound"
         "500":
           $ref: "#/components/responses/ResponseInternalServerError"
-    
-    # delete:
-    #   summary: Delete Business
-    #   operationId: deleteBusiness
-    #   requestBody:
-    #     description: Delete Business
-    #     content:
-    #       application/json:
-    #         schema:
-    #           $ref: "#/components/schemas/Business"
-    #   responses:
-    #     "200":
-    #       $ref: "#/components/responses/ResponseOK"
-    #     "404":
-    #       $ref: "#/components/responses/ResponseNotFound"
-    #     "500":
-    #       $ref: "#/components/responses/ResponseInternalServerError"
+    delete:
+      summary: Delete Business
+      operationId: deleteBusiness
+      parameters:
+        - name: id
+          in: query
+          description: Business ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+  
+
   /database:
     get:
       summary: Get Database Connection Configure List
@@ -382,6 +384,9 @@ components:
         title:
           type: string
           example: "Redis Database"
+        id:
+          type: string
+          example: "e44f105c-d115-47db-b826-f2dd8b90ee3b"
 
     Config:   
       properties:

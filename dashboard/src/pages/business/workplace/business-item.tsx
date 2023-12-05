@@ -31,21 +31,23 @@ const BusinessItem = ({business}:BusinessItemProps) => {
                 </Button> 
 
                 <Drawer  
-                        width={600}
-                        title={
-                        <>
-                            Edit Business
-                        </>
-                        }
-                        visible={visible}
-                        okText={"Update"}
-                        cancelText={"Cancel"}
-                        onOk={()=>{
-                          console.log("update")
-                        }}
-                        onCancel={() => setVisible(false)}
-                   >
-                    <BusinessEditor edit={true} />
+                  width={600}
+                  title={
+                  <>
+                      Edit Business
+                  </>
+                  }
+                  visible={visible}
+                  okText={"Update"}
+                  cancelText={"Cancel"}
+                  onOk={()=>{
+                    console.log("update")
+                  }}
+                  onCancel={() => setVisible(false)}
+                >
+                    <BusinessEditor edit={true} 
+                      business={business}
+                    />
                   </Drawer>
                 </div>
               </Card>

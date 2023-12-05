@@ -80,6 +80,7 @@ const CreateBusinessEditor = () => {
           onOk={() => {
             form.validate().then((res) => {
               setConfirmLoading(true);
+
               res.config = {
                 dataSourceConfig: []
               }
@@ -111,9 +112,11 @@ const CreateBusinessEditor = () => {
             <Form.Item label='Title' field='title' rules={[{ required: true }]}>
               <Input placeholder='Plear enter' />
             </Form.Item>
+
             <Form.Item label='Id' required field='id' rules={[{ required: true }]}>
               <Input placeholder='Plear enter' />
             </Form.Item>
+
             <Form.Item label='Vote System' field='type' rules={[{ required: true }]}>
               <Select placeholder='Plear select' options={['SIMPLE_VOTE']} />
             </Form.Item>
@@ -140,7 +143,6 @@ const CreateBusinessEditor = () => {
                 }
               </Select> 
             </Form.Item>
-
 
           </Form>
         </Drawer>
