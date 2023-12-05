@@ -43,8 +43,14 @@ func NewDatabaseServer(
 		panic(err)
 	}
 	if len(configs) == 0 {
-		databaseServer.CreateDatabaseConnectConfig(domain.DatabaseConnectConfig(defaultPostgresConfig))
-		databaseServer.CreateDatabaseConnectConfig(domain.DatabaseConnectConfig(defaultRedisConfig))
+		err := databaseServer.CreateDatabaseConnectConfig(domain.DatabaseConnectConfig(defaultPostgresConfig))
+		if err != nil {
+			panic(err)
+		}
+		err = databaseServer.CreateDatabaseConnectConfig(domain.DatabaseConnectConfig(defaultRedisConfig))
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	return &DatabaseServer{

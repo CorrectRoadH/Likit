@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/CorrectRoadH/Likit/internal/application/domain"
+	"github.com/CorrectRoadH/Likit/utils"
 )
 
 func ProductEnvRedisConfig() domain.RedisConfig {
@@ -26,6 +27,7 @@ func ProductEnvRedisConfig() domain.RedisConfig {
 	}
 
 	return domain.RedisConfig{
+		Id:           utils.Uuid(),
 		Title:        "default redis",
 		DatabaseType: domain.REDIS,
 		Host:         host,
@@ -53,6 +55,7 @@ func TestEnvRedisConfig() domain.RedisConfig {
 	}
 
 	return domain.RedisConfig{
+		Id:           utils.Uuid(),
 		Title:        "environment redis",
 		DatabaseType: domain.REDIS,
 		Host:         host,
@@ -92,6 +95,7 @@ func ProductEnvConfigDatabaseConfig() domain.PostgresConfig {
 	}
 
 	return domain.PostgresConfig{
+		Id:           utils.Uuid(),
 		Title:        "default postgres",
 		DatabaseType: domain.POSTGRES,
 		Host:         host,

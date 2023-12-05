@@ -54,6 +54,7 @@ func NewBusinessAdapter(config domain.PostgresConfig) out.BusinessUseCase {
 		panic(fmt.Sprintf("failed to connect database: %v", err))
 	}
 
+	// db.AutoMigrate(&domain.DatabaseConnectConfig{})
 	db.AutoMigrate(&domain.Business{})
 	return &BusinessAdapter{
 		db: db,

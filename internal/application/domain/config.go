@@ -12,6 +12,7 @@ const (
 )
 
 type DatabaseConnectConfig struct {
+	Id           string       `json:"id"`
 	Title        string       `json:"title"`
 	DatabaseType DatabaseType `json:"database_type"`
 	Host         string       `json:"host"`
@@ -20,6 +21,23 @@ type DatabaseConnectConfig struct {
 	Password     string       `json:"password"`
 	Database     string       `json:"database"`
 }
+
+// func (c DatabaseConnectConfig) Value() (driver.Value, error) {
+// 	str, err := json.Marshal(c)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return string(str), nil
+// }
+
+// func (c *DatabaseConnectConfig) Scan(value interface{}) error {
+// 	str, ok := value.(string)
+// 	if !ok {
+// 		return errors.New("数据类型不匹配")
+// 	}
+
+// 	return json.Unmarshal([]byte(str), c)
+// }
 
 type RedisConfig DatabaseConnectConfig
 type PostgresConfig DatabaseConnectConfig

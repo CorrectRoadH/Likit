@@ -23,7 +23,7 @@ func NewDatabaseAdapter(config domain.PostgresConfig) out.DatabaseUseCase {
 		panic(fmt.Sprintf("failed to connect database: %v", err))
 	}
 
-	db.AutoMigrate(&domain.Config{})
+	db.AutoMigrate(&domain.DatabaseConnectConfig{})
 	return &DatabaseAdapter{
 		db: db,
 	}
