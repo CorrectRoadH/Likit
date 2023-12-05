@@ -9,10 +9,10 @@ import (
 )
 
 type AdminServer struct {
-	businessStore out.BusinessUseCase
+	businessStore out.BusinessPort
 }
 
-func NewAdminServer(businessUseCase out.BusinessUseCase, redisConfig domain.RedisConfig) in.AdminUseCase {
+func NewAdminServer(businessUseCase out.BusinessPort, redisConfig domain.RedisConfig) in.AdminUseCase {
 	// init database
 	business, err := businessUseCase.Businesses(context.Background())
 	if err != nil {

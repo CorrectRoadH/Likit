@@ -13,7 +13,7 @@ type DatabaseAdapter struct {
 	db *gorm.DB
 }
 
-func NewDatabaseAdapter(config domain.PostgresConfig) out.DatabaseUseCase {
+func NewDatabaseAdapter(config domain.PostgresConfig) out.DatabasePort {
 	db, err := gorm.Open(
 		postgres.Open(
 			fmt.Sprintf("postgres://%s:%s@%s:%d/%s", config.Username, config.Password, config.Host, config.Port, config.Database),

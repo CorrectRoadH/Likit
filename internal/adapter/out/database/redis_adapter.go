@@ -21,6 +21,6 @@ func (r *RedisAdapter) TestConnect(config domain.DatabaseConnectConfig) error {
 	return err
 }
 
-func NewRedisAdapter() out.RedisUseCase {
+func NewRedisAdapter() out.RedisPort {
 	return &RedisAdapter{}
 }

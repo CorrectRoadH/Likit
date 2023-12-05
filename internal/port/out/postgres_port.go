@@ -2,6 +2,6 @@ package out
 
 import "github.com/CorrectRoadH/Likit/internal/application/domain"
 
-type PostgresUseCase interface {
+type PostgresPort interface {
 	TestConnect(config domain.DatabaseConnectConfig) error
 }
