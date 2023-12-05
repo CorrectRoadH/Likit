@@ -25,8 +25,3 @@ func (u UserServer) CreateUser(ctx context.Context, username string, password st
 	//TODO implement me
 	panic("implement me")
 }
-
-func (u UserServer) CreateUserByEnv(username string, password string) error {
-	//TODO implement me
-	panic("implement me")
-}

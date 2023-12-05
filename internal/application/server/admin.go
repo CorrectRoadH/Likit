@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"os"
 
 	"github.com/CorrectRoadH/Likit/internal/application/domain"
 	"github.com/CorrectRoadH/Likit/internal/port/in"
@@ -12,7 +13,7 @@ type AdminServer struct {
 	businessStore out.BusinessUseCase
 }
 
-func NewAdminServer(businessUseCase out.BusinessUseCase, redisConfig domain.RedisConfig) in.AdminUseCase {
+func NewAdminServer(businessUseCase out.BusinessUseCase, redisConfig domain.RedisConfig, useCase out.SaveUserUseCase) in.AdminUseCase {
 	// init database
 	business, err := businessUseCase.Businesses(context.Background())
 	if err != nil {
@@ -30,6 +31,14 @@ func NewAdminServer(businessUseCase out.BusinessUseCase, redisConfig domain.Redi
 				},
 			},
 		})
+	}
+
+	// the first start create user
+	username := os.Getenv("USERNAME")
+	password := os.Getenv("PASSWORD")
+	_, err = useCase.CreateUserByEnv(username, password)
+	if err != nil {
+		panic(err)
 	}
 
 	return &AdminServer{

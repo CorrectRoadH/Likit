@@ -22,9 +22,11 @@ func Main() {
 			server.NewVoteServer,
 			server.NewAdminServer,
 			server.NewDatabaseServer,
+			server.NewUserServer,
 
 			admin.NewBusinessAdapter,
 			admin.NewDatabaseAdapter,
+			admin.NewUserAdapter,
 
 			config.ProductEnvRedisConfig,
 			config.ProductEnvConfigDatabaseConfig,
