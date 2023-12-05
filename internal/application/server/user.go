@@ -7,10 +7,10 @@ import (
 )
 
 type UserServer struct {
-	userStore out.SaveUserUseCase
+	userStore out.UserPortUseCase
 }
 
-func NewUserServer(userStore out.SaveUserUseCase) in.UserUseCase {
+func NewUserServer(userStore out.UserPortUseCase) in.UserUseCase {
 	return &UserServer{
 		userStore: userStore,
 	}

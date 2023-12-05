@@ -8,15 +8,11 @@ import (
 	"github.com/CorrectRoadH/Likit/utils"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"os"
 )
 
 type UserAdapter struct {
 	db *gorm.DB
-}
-
-func (u *UserAdapter) Login(ctx context.Context, username string, password string) (bool, error) {
-	//TODO implement me
-	panic("implement me")
 }
 
 func (u *UserAdapter) CreateUser(ctx context.Context, username string, password string) error {
@@ -24,7 +20,11 @@ func (u *UserAdapter) CreateUser(ctx context.Context, username string, password 
 	panic("implement me")
 }
 
-func (u *UserAdapter) CreateUserByEnv(username string, password string) (domain.User, error) {
+func (u *UserAdapter) CreateUserByEnv() (domain.User, error) {
+	// the first start create user
+	username := os.Getenv("USERNAME")
+	password := os.Getenv("PASSWORD")
+
 	var user domain.User
 	var count int64
 
@@ -52,7 +52,7 @@ func (u *UserAdapter) CreateUserByEnv(username string, password string) (domain.
 	return user, result.Error
 }
 
-func NewUserAdapter(config domain.PostgresConfig) out.SaveUserUseCase {
+func NewUserAdapter(config domain.PostgresConfig) out.UserPortUseCase {
 	db, err := gorm.Open(
 		postgres.Open(
 			fmt.Sprintf("postgres://%s:%s@%s:%d/%s", config.Username, config.Password, config.Host, config.Port, config.Database),

@@ -82,7 +82,7 @@ func ProductEnvConfigDatabaseConfig() domain.PostgresConfig {
 		username = "postgres"
 	}
 	if password == "" {
-		password = "3333"
+		password = "postgres"
 	}
 	if databaseName == "" {
 		databaseName = "likit"
