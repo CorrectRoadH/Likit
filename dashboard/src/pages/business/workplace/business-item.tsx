@@ -1,4 +1,4 @@
-import { Button, Card, Drawer, Grid, Skeleton } from '@arco-design/web-react';
+import { Button, Card, Drawer, Grid, Skeleton, Typography } from '@arco-design/web-react';
 import React, { useState, useEffect } from 'react';
 import styles from './style/overview.module.less';
 import BusinessEditor from './business-editor';
@@ -6,6 +6,7 @@ import { BusinessType } from './type';
 
 const { Row, Col } = Grid;
   
+const { Title,Text } = Typography;
 interface BusinessItemProps {
     business: BusinessType;
 }
@@ -20,8 +21,9 @@ const BusinessItem = ({business}:BusinessItemProps) => {
                 <Skeleton 
                   loading={false} text={{ rows: 2, width: 60 }} animation
                 >
-                  <div className={styles.title}>{business.title}</div>
-                  <div className=''>{business.type}</div>
+                  <Title heading={5} className={styles.title}>{business.title}</Title>
+                  <Text>{business.id}</Text>
+                  <div>{business.type}</div>
                 </Skeleton>
 
                 <Button type="text" size="small"

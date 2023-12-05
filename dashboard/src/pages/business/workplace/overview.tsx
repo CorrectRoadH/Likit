@@ -81,12 +81,11 @@ function Overview() {
       <Row gutter={20}>
         {
           data.map((item)=>
-            <BusinessItem key={item.business_id} business={item} />
+            <BusinessItem key={item.id} business={item} />
           )
         }
       </Row>
 
-      <Divider />
     </Card>
   );
 }

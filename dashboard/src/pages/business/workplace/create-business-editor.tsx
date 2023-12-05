@@ -2,6 +2,7 @@ import { Form, Input, Drawer, Button, Select } from "@arco-design/web-react";
 import axios from "axios";
 import React, { useState,useEffect } from "react"
 import { DatabaseConnectionConfig } from "../database/types";
+import { toast } from "sonner";
 
 const Option = Select.Option;
 
@@ -100,6 +101,7 @@ const CreateBusinessEditor = () => {
 
                 axios.post('/admin/v1/business', res).then((res) => {
                   console.log(res)
+                  toast.success('Create Business Success')
                 })
               }, 1500);
             });

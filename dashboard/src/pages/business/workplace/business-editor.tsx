@@ -59,7 +59,6 @@ const BusinessEditor = ({business}:BusinessEditorProps) => {
         })
       },
     });
-    
   }
 
   return (
