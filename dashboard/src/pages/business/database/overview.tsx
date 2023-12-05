@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import RedisEditor from "./editor/redis-editor";
 import { Card, Divider, Typography,Grid } from "@arco-design/web-react";
 import { DatabaseConnectionConfig } from "./types";
 import axios from "axios";
@@ -9,6 +8,7 @@ import CreateDatabase from "./create-database-editor";
 
 
 const { Row, Col } = Grid;
+const { Title } = Typography;
 
 const Overview = () => {
 
@@ -32,9 +32,8 @@ const Overview = () => {
 
             <Divider />
 
-            <div>
-                redis
-            </div>
+            <Title heading={6}>Redis</Title>
+
             <Row>
                 {
                     data
@@ -53,19 +52,19 @@ const Overview = () => {
             <Divider />
 
             <div>
-                postgres
+                <Title heading={6}>Postgres</Title>
 
                 <Row>
                 {
                     data
                         .filter((item) => item.databaseType === 'postgres')
                         .map((item) => (
-                                <>  
+                            <>  
                                 <Col key={item.id} span={6}>
                                     <Postgres config={item} />
                                 </Col>
-                                </>
-                            ))
+                            </>
+                        ))
                 }
             </Row>
             </div>
@@ -73,7 +72,7 @@ const Overview = () => {
                 
             <Divider />
 
-            <div>new source</div>
+            <Title heading={6}>Database Management</Title>
 
             <CreateDatabase />
         </Card>

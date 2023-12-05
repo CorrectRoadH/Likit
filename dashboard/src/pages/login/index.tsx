@@ -13,13 +13,13 @@ function Login() {
   return (
     <div className={styles.container}>
       <div className={styles.logo}>
-        <Logo />
+        <Logo 
+          style={{
+            width: 50,
+            height: 50,
+          }}
+        />
         <div className={styles['logo-text']}>Arco Design Pro</div>
-      </div>
-      <div className={styles.banner}>
-        <div className={styles['banner-inner']}>
-          <LoginBanner />
-        </div>
       </div>
       <div className={styles.content}>
         <div className={styles['content-inner']}>

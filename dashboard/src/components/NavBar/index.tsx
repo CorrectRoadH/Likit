@@ -150,7 +150,12 @@ function Navbar({ show }: { show: boolean }) {
     <div className={styles.navbar}>
       <div className={styles.left}>
         <div className={styles.logo}>
-          <Logo />
+          <Logo 
+            style={{
+              width: 50,
+              height: 50
+            }}
+          />
           <div className={styles['logo-name']}>Likit Dashboard</div>
         </div>
       </div>
