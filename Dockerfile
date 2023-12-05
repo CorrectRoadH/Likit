@@ -15,7 +15,7 @@ FROM golang:1.21-alpine AS backend
 WORKDIR /backend-build
 
 COPY . .
-COPY --from=frontend /frontend-build/dashboard/dist ./adapter/in/restful/dist
+COPY --from=frontend /frontend-build/dashboard/dist ./internal/adapter/in/restful/dist
 
 RUN CGO_ENABLED=0 go build -o likit ./main.go
 

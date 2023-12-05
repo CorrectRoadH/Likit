@@ -2,41 +2,90 @@ package server
 
 import (
 	"context"
+	"fmt"
 
-	v1 "github.com/CorrectRoadH/Likit/internal/adapter/out/v1"
 	"github.com/CorrectRoadH/Likit/internal/application/domain"
 	"github.com/CorrectRoadH/Likit/internal/port/in"
-	"github.com/CorrectRoadH/Likit/internal/port/out"
+	"github.com/redis/go-redis/v9"
 )
 
 type SimpleVoteServer struct {
-	voteStore out.SaveVoteUseCase
+	rdb *redis.Client
 }
 
-func NewSimpleVoteServer(voteStore out.SaveVoteUseCase) in.VoteUseCase {
+func NewSimpleVoteServer(config domain.RedisConfig) in.VoteUseCase {
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%d", config.Host, config.Port),
+		Password: config.Password,
+		DB:       0, // use default DB
+	})
+
 	return &SimpleVoteServer{
-		voteStore: voteStore,
+		rdb: rdb,
 	}
+
 }
 
 func (v *SimpleVoteServer) Vote(ctx context.Context, businessId string, messageId string, userId string) error {
-	return v.voteStore.Vote(ctx, businessId, messageId, userId)
+	keyForCount := fmt.Sprintf("%s:%s:count", businessId, messageId)
+	keyForVotedUser := fmt.Sprintf("%s:%s:voted_user", businessId, messageId)
+
+	sAdd := v.rdb.SAdd(ctx, keyForVotedUser, userId)
+
+	if _, err := sAdd.Result(); err != nil {
+		return err
+	}
+
+	if value, _ := sAdd.Result(); value == 1 {
+		incr := v.rdb.Incr(ctx, keyForCount)
+		if _, err := incr.Result(); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (v *SimpleVoteServer) Count(ctx context.Context, businessId string, messageId string) (int, error) {
-	return v.voteStore.Count(ctx, businessId, messageId)
+	val, err := v.rdb.Get(ctx, fmt.Sprintf("%s:%s:count", businessId, messageId)).Int()
+	if err == redis.Nil {
+		return 0, nil
+	}
+
+	if err != nil {
+		return 0, err
+	}
+	return val, nil
 }
 
 func (v *SimpleVoteServer) IsVoted(ctx context.Context, businessId string, messageId string, userId string) (bool, error) {
-	return v.voteStore.IsVoted(ctx, businessId, messageId, userId)
+	val, err := v.rdb.SIsMember(ctx, fmt.Sprintf("%s:%s:voted_user", businessId, messageId), userId).Result()
+	return val, err
 }
 
 func (v *SimpleVoteServer) UnVote(ctx context.Context, businessId string, messageId string, userId string) error {
-	return v.voteStore.UnVote(ctx, businessId, messageId, userId)
+	keyForCount := fmt.Sprintf("%s:%s:count", businessId, messageId)
+	keyForVotedUser := fmt.Sprintf("%s:%s:voted_user", businessId, messageId)
+
+	sRem := v.rdb.SRem(ctx, keyForVotedUser, userId)
+
+	if _, err := sRem.Result(); err != nil {
+		return err
+	}
+
+	if value, _ := sRem.Result(); value == 1 {
+		decr := v.rdb.Decr(ctx, keyForCount)
+		if _, err := decr.Result(); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (v *SimpleVoteServer) VotedUsers(ctx context.Context, businessId string, messageId string) ([]string, error) {
-	return v.voteStore.VotedUsers(ctx, businessId, messageId)
+	members, err := v.rdb.SMembers(ctx, fmt.Sprintf("%s:%s:voted_user", businessId, messageId)).Result()
+	return members, err
 }
 
 func NewSimpleVoteSystem(config domain.Config) (in.VoteUseCase, error) {
@@ -45,8 +94,6 @@ func NewSimpleVoteSystem(config domain.Config) (in.VoteUseCase, error) {
 		return nil, err
 	}
 
-	// check config require
-	voteStore := v1.NewRedisAdapter(redisConfig)
 	// s := NewSimpleVoteServer()
-	return NewSimpleVoteServer(voteStore), nil
+	return NewSimpleVoteServer(redisConfig), nil
 }

@@ -2,13 +2,10 @@ package server
 
 import (
 	"context"
-
-	"github.com/CorrectRoadH/Likit/internal/port/out"
 )
 
 // MiddleVoteServer is suit for middle vote server
 type MiddleVoteServer struct {
-	voteStore out.SaveVoteUseCase
 }
 
 func (m *MiddleVoteServer) Count(ctx context.Context, businessId string, messageId string) (int, error) {

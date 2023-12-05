@@ -40,7 +40,18 @@ type Businesses struct {
 
 // Config defines model for Config.
 type Config struct {
-	DataSourceConfig *[]string `json:"dataSourceConfig,omitempty"`
+	DataSourceConfig *[]DatabaseConnectConfig `json:"dataSourceConfig,omitempty"`
+}
+
+// DatabaseConnectConfig defines model for DatabaseConnectConfig.
+type DatabaseConnectConfig struct {
+	Database     *string `json:"database,omitempty"`
+	DatabaseType *string `json:"databaseType,omitempty"`
+	Host         *string `json:"host,omitempty"`
+	Password     *string `json:"password,omitempty"`
+	Port         *int    `json:"port,omitempty"`
+	Title        *string `json:"title,omitempty"`
+	Username     *string `json:"username,omitempty"`
 }
 
 // LoginRequest defines model for LoginRequest.
@@ -62,6 +73,9 @@ type UserInfo struct {
 // ResponseBusinessList defines model for ResponseBusinessList.
 type ResponseBusinessList = Businesses
 
+// ResponseDatabaseList defines model for ResponseDatabaseList.
+type ResponseDatabaseList = Config
+
 // ResponseInternalServerError defines model for ResponseInternalServerError.
 type ResponseInternalServerError = BaseResponse
 
@@ -74,14 +88,65 @@ type ResponseOK = BaseResponse
 // ResponseUserInfo defines model for ResponseUserInfo.
 type ResponseUserInfo = UserInfo
 
+// CreateBusinessJSONRequestBody defines body for CreateBusiness for application/json ContentType.
+type CreateBusinessJSONRequestBody = Business
+
+// UpdateBusinessJSONRequestBody defines body for UpdateBusiness for application/json ContentType.
+type UpdateBusinessJSONRequestBody = Business
+
+// CreatePostgresDatabaseJSONRequestBody defines body for CreatePostgresDatabase for application/json ContentType.
+type CreatePostgresDatabaseJSONRequestBody = DatabaseConnectConfig
+
+// UpdatePostgresDatabaseJSONRequestBody defines body for UpdatePostgresDatabase for application/json ContentType.
+type UpdatePostgresDatabaseJSONRequestBody = DatabaseConnectConfig
+
+// CreateRedisDatabaseJSONRequestBody defines body for CreateRedisDatabase for application/json ContentType.
+type CreateRedisDatabaseJSONRequestBody = DatabaseConnectConfig
+
+// UpdateRedisDatabaseJSONRequestBody defines body for UpdateRedisDatabase for application/json ContentType.
+type UpdateRedisDatabaseJSONRequestBody = DatabaseConnectConfig
+
+// TestDatabaseConnectionJSONRequestBody defines body for TestDatabaseConnection for application/json ContentType.
+type TestDatabaseConnectionJSONRequestBody = DatabaseConnectConfig
+
 // LoginJSONRequestBody defines body for Login for application/json ContentType.
 type LoginJSONRequestBody = LoginRequest
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
+	// Create Business
+	// (POST /business)
+	CreateBusiness(ctx echo.Context) error
+	// Update Business
+	// (PUT /business)
+	UpdateBusiness(ctx echo.Context) error
 	// Get Business List
 	// (GET /businesses)
 	GetBusinesses(ctx echo.Context) error
+	// Get Database Connection Configure List
+	// (GET /database)
+	GetDatabaseConfigureList(ctx echo.Context) error
+	// Get Postgres Database List
+	// (GET /database/postgres)
+	GetPostgresDatabaseList(ctx echo.Context) error
+	// Create Postgres Database
+	// (POST /database/postgres)
+	CreatePostgresDatabase(ctx echo.Context) error
+	// Update Postgres Database
+	// (PUT /database/postgres)
+	UpdatePostgresDatabase(ctx echo.Context) error
+	// Get Redis Database List
+	// (GET /database/redis)
+	GetRedisDatabaseList(ctx echo.Context) error
+	// Create Redis Database
+	// (POST /database/redis)
+	CreateRedisDatabase(ctx echo.Context) error
+	// Update Redis Database
+	// (PUT /database/redis)
+	UpdateRedisDatabase(ctx echo.Context) error
+	// Test Database Connection
+	// (POST /database/test)
+	TestDatabaseConnection(ctx echo.Context) error
 	// Login to Dashboard
 	// (POST /user/login)
 	Login(ctx echo.Context) error
@@ -95,12 +160,102 @@ type ServerInterfaceWrapper struct {
 	Handler ServerInterface
 }
 
+// CreateBusiness converts echo context to params.
+func (w *ServerInterfaceWrapper) CreateBusiness(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.CreateBusiness(ctx)
+	return err
+}
+
+// UpdateBusiness converts echo context to params.
+func (w *ServerInterfaceWrapper) UpdateBusiness(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.UpdateBusiness(ctx)
+	return err
+}
+
 // GetBusinesses converts echo context to params.
 func (w *ServerInterfaceWrapper) GetBusinesses(ctx echo.Context) error {
 	var err error
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.GetBusinesses(ctx)
+	return err
+}
+
+// GetDatabaseConfigureList converts echo context to params.
+func (w *ServerInterfaceWrapper) GetDatabaseConfigureList(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.GetDatabaseConfigureList(ctx)
+	return err
+}
+
+// GetPostgresDatabaseList converts echo context to params.
+func (w *ServerInterfaceWrapper) GetPostgresDatabaseList(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.GetPostgresDatabaseList(ctx)
+	return err
+}
+
+// CreatePostgresDatabase converts echo context to params.
+func (w *ServerInterfaceWrapper) CreatePostgresDatabase(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.CreatePostgresDatabase(ctx)
+	return err
+}
+
+// UpdatePostgresDatabase converts echo context to params.
+func (w *ServerInterfaceWrapper) UpdatePostgresDatabase(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.UpdatePostgresDatabase(ctx)
+	return err
+}
+
+// GetRedisDatabaseList converts echo context to params.
+func (w *ServerInterfaceWrapper) GetRedisDatabaseList(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.GetRedisDatabaseList(ctx)
+	return err
+}
+
+// CreateRedisDatabase converts echo context to params.
+func (w *ServerInterfaceWrapper) CreateRedisDatabase(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.CreateRedisDatabase(ctx)
+	return err
+}
+
+// UpdateRedisDatabase converts echo context to params.
+func (w *ServerInterfaceWrapper) UpdateRedisDatabase(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.UpdateRedisDatabase(ctx)
+	return err
+}
+
+// TestDatabaseConnection converts echo context to params.
+func (w *ServerInterfaceWrapper) TestDatabaseConnection(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.TestDatabaseConnection(ctx)
 	return err
 }
 
@@ -150,7 +305,17 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 		Handler: si,
 	}
 
+	router.POST(baseURL+"/business", wrapper.CreateBusiness)
+	router.PUT(baseURL+"/business", wrapper.UpdateBusiness)
 	router.GET(baseURL+"/businesses", wrapper.GetBusinesses)
+	router.GET(baseURL+"/database", wrapper.GetDatabaseConfigureList)
+	router.GET(baseURL+"/database/postgres", wrapper.GetPostgresDatabaseList)
+	router.POST(baseURL+"/database/postgres", wrapper.CreatePostgresDatabase)
+	router.PUT(baseURL+"/database/postgres", wrapper.UpdatePostgresDatabase)
+	router.GET(baseURL+"/database/redis", wrapper.GetRedisDatabaseList)
+	router.POST(baseURL+"/database/redis", wrapper.CreateRedisDatabase)
+	router.PUT(baseURL+"/database/redis", wrapper.UpdateRedisDatabase)
+	router.POST(baseURL+"/database/test", wrapper.TestDatabaseConnection)
 	router.POST(baseURL+"/user/login", wrapper.Login)
 	router.GET(baseURL+"/user/userInfo", wrapper.UserInfo)
 
@@ -159,22 +324,26 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/8xWQW/cRBT+K6MHR3ftJAWEb00JaNWQREnpBaHqxX7rndaemc4bp7uNLMEBxI0LQuLG",
-	"iWsuSPyiQvgXyON41+46qpvuodJKa4/fvPe998375l1CogujFSnHEF+CJTZaMfmX05uX/ZKlIuZDya5e",
-	"T7RypPwjGpPLBJ3UKnzGWtVrnMypwPrpY0sziOGjcB0kbL5y2DolhqqqAkiJEytN7Qli6IWsghWUqXJk",
-	"FeZnZC/IHlir7QhEtMDC5FQ/FsSMGUEMrSvR+BKNsyoYix+ZWlRDGdzqvt10pN2XulTpXfEfaScaB1vD",
-	"3HPZGh4/2h7nb4l//Kgb+BsmO1Uz/W4FwiTRpXLTFGLAtJAKAsALdGghhrlzhuMwzF5OMJcGl/r8GSWO",
-	"J4kuwleaQ1uw0dZhHu5LfDVDtSiwODrVi8WTxXOcGJVBAFSgzCEGCEBhQZ1AhmwhmaVW3Fm1lEl21kN+",
-	"LP2G3Wg3uhft3It2RBTF/jeexlVhBkrY+da6873cK318CcZqQ9bJptMLzuq/vquboyYsudIqSsX5UnBz",
-	"mFmmJORMuDlZEpIFqmVdmJYGuP7rz9e//P3Pz79df//j66uf/v3jh/9+/f366goCcEtTW7CzUmU+aYeu",
-	"5B6NQL5bNozrpFpp2Mwi0Woms7dV72FjVQWQWEJHT9H1Yw9xMwBbpv1tLdsbhk665miOsfULXdOz6dcn",
-	"hwdPnxw/PhjaUJr0zjl0q0kD9TzvfZOOCh6r6utcAK3FZRPs4YqgfqAUHZ7p0ia0tliFWydlKZXckBzn",
-	"OsF8rtnFn+599vntpeyGP9SZVKf0oqTmHuuDMMj8UtuxrJZM9sh3/wjzqhYBTI9VvoTY2ZLq9xeltJRC",
-	"/O3aV7BG8V0VQFcB+2A7KjcKbauAXePtiOFGqBt17EYaMlNja/eGqo7asam4d2iOmjV5U/2+Mj44mYqZ",
-	"tuJQPpcOVh0O/l08OJlCABdkubG+2KkhaUMKjYQY9ibRZM9T7eY+obDfaBn501nT7RPwV9lX5DqtGvQH",
-	"td0ouq0xV3bh4DRXBXA/uj9+82poqQL45F2iDg1u/ooqiwLtsslQtNhEA64KIKx7I8zrzvVdoHmgOL6x",
-	"oekpYrev0+XWZpaeaAxcuE3s6n0YacaeD4UHn5BwWnyBPD/XaNMOEWVHkQbP6Uqy3qcg6yHmwylLd+iq",
-	"/g8AAP//8KU9qDcNAAA=",
+	"H4sIAAAAAAAC/+RZzW4bNxB+FYLtceOV7bRF9xY7biDEtQ3byaUoAmp3tGKiJTccrmPFENAeWvTWS1Gg",
+	"t5569aVAnyit+xYFuVqJlCh3/RNEUAAD3p/h/HzfcGa4uqCpLEopQGikyQVVgKUUCPbmeHKzUyEXgLjP",
+	"UZvnqRQahL1kZTnkKdNcivglSmGeYTqAgpmrTxX0aUI/iWdG4votxo1SQDoejyOaAaaKl0YTTahnchxN",
+	"XXnMNOsxhHt1ZVeKPs9v4kZXaFCCDU9AnYHaU0qqFt7AOSvKIZjLAhBZDjShjSpS6yK1snHUFkaG0HgV",
+	"imCp+mbRgdRfyUpkt/X/QGpSK7g3nz2VjeDh0/tLvf+xf/jUNfwMQXVFX94MIJamshK6m9GEsqzggkaU",
+	"nTHNFE3oQOsSkzjO32ywIS/ZSPZeQqpxI5VF/FZirAospdJsGO9w9rbPxHnBioNjeX7+/PwV2yhFTiMK",
+	"BeNDmlAaUcEKcAyVoAqOyKVA56mCnKNW1uVTbhdsdbY6DzqbDzqbpNNJ7F97GqfABCB03jXqbEnxoE8u",
+	"aKlkCUrzuuAUmJt/vqpJqhEFulICMtIbEayTGXkGhPeJHoACwpEwMTLANDTQqz//ePfzX3//9OvVdz+8",
+	"u/zxn9+///eX364uL2lE9ag0EqgVF7kNWjNdoUcjBbtbFoRNUE1pWIwirctJy6IT0VQB0/CCad92iJuA",
+	"2zzzlzVsLwhqruvUbCNrH7iiJ92vj/b3Xjw/PN0LLajK7NYxuGhCAM+e945rKLBtc5nFQplSbFQb250S",
+	"5BvKmGYnslIpzCRamWu60q4UAlI9o3bRdlg06IoR8+EMJkAjerrAmYKMY2jJQOIcUUOZsqF9HBAvGeIb",
+	"qdommqlcvujn2198OZPkQkMOaklOHhunSQNTMNfQdLSiXS4bzPdlzsUxvK6gDtuH+obRGesHra2bqsuy",
+	"QzEc0USrCsz964oryGjyzUyXg/G344i6Lcd31mkrrbxtWo4rfD/dZ8HUpB25lkJirZmba2OtViy2uFtU",
+	"I8Man6Dvt6JHR13Sl4rs81fc7pQ6fam9J4+OujSiZ6Cwlj7bNC7JEgQrOU3o9kZnY9tSrQc2oLjn9pDJ",
+	"njRsW//t6LBre8O0nNXpA6h3ZDa691E81MhrB4hbUL0zwlans0z9VC52ZrhxRB92HrZfMh1PxxH97Ca2",
+	"QiO6HUaqomBqFA6trAIcPLO97QNyUDuwlhwshDaOZtuiji6HACdPQDsjw13wmD/irQoyT0BPYSG1cwYb",
+	"dzBYhowzY/R5Xqn6tHwXkLxj94qB1PhGJiMVl4JMIw8gF5tKm6vrk+toIuMFvq5p1gQ7g7Lx8rqmNA/R",
+	"eyqMS2brpZ1qIZg1bFnBGK/pXatG1aTqrzVVy2P0ilF9RrumEtnz0EdRhvyTX6sa5IGzIgVo7gC7ftVn",
+	"McBrSs9KMTTZk+vL0JIAvYqjm68gwX11Cqjn8DTYfWDijFehQW+duFseo6GvQlDxUOZcLOfOfud6T1R5",
+	"39ACDNW214gOGxDRkjxmOOhJpjKHiMr5QBds3NMveHcBZPYjygpVGOdHn/F/AQAA//8fCJ0HPh4AAA==",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

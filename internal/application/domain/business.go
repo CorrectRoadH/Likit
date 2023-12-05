@@ -4,6 +4,8 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"errors"
+
+	"gorm.io/gorm"
 )
 
 type Business struct {
@@ -17,7 +19,8 @@ type Business struct {
 }
 
 type Config struct {
-	DataSourceConfig []string
+	gorm.Model
+	DataSourceConfig []DatabaseConnectConfig `json:"data_source_config"`
 }
 
 // for gorm

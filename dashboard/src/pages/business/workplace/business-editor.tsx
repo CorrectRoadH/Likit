@@ -65,29 +65,11 @@ const BusinessEditor = ({business}:BusinessEditorProps) => {
 
           <Row gutter={20}>
             <Col flex={1}>
-              <Select placeholder="Business Type" defaultValue="1" >
-                  <Option value="1">Simple Vote System</Option>
-                  <Option value="2" disabled>Middle Vote System</Option>
-              </Select>
-            </Col>
-
-            <Divider type="vertical" className={styles.divider}  />
-
-
-
-            <Col flex={1}>
               <Skeleton
                 loading={loading}
                 text={{rows:2, width:60}}
                 animation
               >
-                {/* data[0] && (
-                  <div>
-                    <div>id: {data[0].id}</div>
-                    <div>feature: {data[0].feature[0]}</div>
-                    <div>qps: {data[0].qps}</div>
-                  </div>
-                ) */}
               </Skeleton>
             </Col>
           </Row>

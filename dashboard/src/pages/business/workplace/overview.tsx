@@ -15,6 +15,7 @@ import styles from './style/overview.module.less';
 import BusinessEditor from './business-editor';
 import BusinessItem from './business-item';
 import { BusinessType } from './type';
+import CreateBusinessEditor from './create-business-editor';
 
 const { Row, Col } = Grid;
 
@@ -27,10 +28,6 @@ function Overview() {
 
   const [visible, setVisible] = useState(false);
 
-
-  const handleNewBusiness = () => {
-    console.log("hello")
-  }
   const fetchData = () => {
     setLoading(true);
     axios
@@ -63,27 +60,10 @@ function Overview() {
         </Typography.Paragraph>
       </div>
 
-      <Row>
-        <Button type="primary" style={{ marginLeft: 8 }}
-          onClick={() => setVisible(true)}
-        >Create Business</Button>
-      </Row>
+      {/* <Row> */}
+        <CreateBusinessEditor />
+      {/* </Row> */}
 
-      <Drawer
-        width={600}
-        title={
-          <>
-            New Business
-          </>
-        }
-        visible={visible}
-        okText={"Create"}
-        cancelText={locale['settings.close']}
-        onOk={handleNewBusiness}
-        onCancel={() => setVisible(false)}
-      >
-        <BusinessEditor edit={false} />
-      </Drawer>
 
       <Divider />
       

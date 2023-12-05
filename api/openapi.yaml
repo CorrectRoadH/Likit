@@ -48,6 +48,174 @@ paths:
         "500":
           $ref: "#/components/responses/ResponseInternalServerError"
 
+  /business:
+    post:
+      summary: Create Business
+      operationId: createBusiness
+      requestBody:
+        description: Create Business
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Business"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+    put:
+      summary: Update Business
+      operationId: updateBusiness
+      requestBody:
+        description: Update Business
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Business"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+    
+    # delete:
+    #   summary: Delete Business
+    #   operationId: deleteBusiness
+    #   requestBody:
+    #     description: Delete Business
+    #     content:
+    #       application/json:
+    #         schema:
+    #           $ref: "#/components/schemas/Business"
+    #   responses:
+    #     "200":
+    #       $ref: "#/components/responses/ResponseOK"
+    #     "404":
+    #       $ref: "#/components/responses/ResponseNotFound"
+    #     "500":
+    #       $ref: "#/components/responses/ResponseInternalServerError"
+  /database:
+    get:
+      summary: Get Database Connection Configure List
+      operationId: getDatabaseConfigureList
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseDatabaseList"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+
+
+  /database/postgres:
+    get:
+      summary: Get Postgres Database List
+      operationId: getPostgresDatabaseList
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseBusinessList"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+    post:
+      summary: Create Postgres Database
+      operationId: createPostgresDatabase
+      requestBody:
+        description: Create Postgres Database
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DatabaseConnectConfig"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+    put:
+      summary: Update Postgres Database
+      operationId: updatePostgresDatabase
+      requestBody:
+        description: Update Postgres Database
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DatabaseConnectConfig"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+
+  /database/redis:
+    get:
+      summary: Get Redis Database List
+      operationId: getRedisDatabaseList
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseBusinessList"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+    post:
+      summary: Create Redis Database
+      operationId: createRedisDatabase
+      requestBody:
+        description: Create Redis Database
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DatabaseConnectConfig"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+    put:
+      summary: Update Redis Database
+      operationId: updateRedisDatabase
+      requestBody:
+        description: Update Redis Database
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DatabaseConnectConfig"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+  
+  /database/test:
+    post:
+      summary: Test Database Connection
+      operationId: testDatabaseConnection
+      requestBody:
+        description: Test Database Connection
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DatabaseConnectConfig"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
 
 components:
   # securitySchemes:
@@ -110,6 +278,14 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Businesses"
+
+    ResponseDatabaseList:
+      description: BusinessList
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Config"
+
 
   schemas:
     BaseResponse:
@@ -182,11 +358,34 @@ components:
           example: "2020-01-01 00:00:00"
         config:
           $ref: '#/components/schemas/Config'
-          
-    Config:
+                    
+    DatabaseConnectConfig:
+      properties:
+        databaseType:
+          type: string
+          example: "redis"
+        host:
+          type: string
+          example: "localhost"
+        port:
+          type: integer
+          example: "6379"
+        username:
+          type: string
+          example: "admin"
+        password:
+          type: string
+          example: "admin"
+        database:
+          type: string
+          example: "0"
+        title:
+          type: string
+          example: "Redis Database"
+
+    Config:   
       properties:
         dataSourceConfig:
           type: array
           items:
-            type: string
-            example: "redisconfig:localhost:6379"
+            $ref: '#/components/schemas/DatabaseConnectConfig'

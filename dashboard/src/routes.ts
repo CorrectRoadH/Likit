@@ -12,16 +12,16 @@ export type IRoute = AuthParams & {
 };
 
 export const routes: IRoute[] = [
-  {
-    name: 'menu.dashboard',
-    key: 'dashboard',
-    children: [
-      {
-        name: 'menu.dashboard.workplace',
-        key: 'dashboard/workplace',
-      },
-    ],
-  },
+  // {
+  //   name: 'menu.dashboard',
+  //   key: 'dashboard',
+  //   children: [
+  //     {
+  //       name: 'menu.dashboard.workplace',
+  //       key: 'dashboard/workplace',
+  //     },
+  //   ],
+  // },
 
   {
     name: 'menu.business',
@@ -30,6 +30,10 @@ export const routes: IRoute[] = [
       {
         name: 'menu.business.workplace',
         key: 'business/workplace',
+      },
+      {
+        name: 'menu.business.database',
+        key: 'business/database',
       },
     ]
   },
