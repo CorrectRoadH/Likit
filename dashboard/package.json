@@ -21,6 +21,7 @@
     "arco-design-pro": "^2.8.0",
     "axios": "^0.24.0",
     "bizcharts": "^4.1.11",
+    "sonner": "^1.2.4",
     "caniuse-lite": "^1.0.30001565",
     "classnames": "^2.3.1",
     "copy-to-clipboard": "^3.3.1",
