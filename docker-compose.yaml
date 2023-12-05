@@ -1,0 +1,52 @@
+# 非 host 版本, 不使用本机代理
+version: '3.3'
+services:
+  pg:
+    image: postgres:16.1-bullseye 
+    container_name: pg
+    restart: always
+    ports: # 生产环境建议不要暴露
+      - 5432:5432
+    networks:
+      - likit
+    environment:
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./pg/data:/var/lib/postgresql/data
+  redis:
+    image: redis:alpine3.18
+    container_name: redis
+    # image: registry.cn-hangzhou.aliyuncs.com/fastgpt/mongo:5.0.18 # 阿里云
+    restart: always
+    ports: # 生产环境建议不要暴露
+      - 6379:6379
+    networks:
+      - likit
+    environment:
+      - REDIS_PASSWORD=password
+    volumes:
+      - ./redis/data:/data
+  likit:
+    container_name: likit
+    image: correctroad/likit:latest # git
+    ports:
+      - 3000:8080
+    networks:
+      - likit
+    depends_on:
+      - redis
+      - pg
+    restart: always
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=password
+      - POSTGRES_HOST=pg
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DATABASE=postgres
+networks:
+  likit:
