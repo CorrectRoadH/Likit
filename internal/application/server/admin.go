@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-
 	"github.com/CorrectRoadH/Likit/internal/application/domain"
 	"github.com/CorrectRoadH/Likit/internal/port/in"
 	"github.com/CorrectRoadH/Likit/internal/port/out"
@@ -12,7 +11,7 @@ type AdminServer struct {
 	businessStore out.BusinessPort
 }
 
-func NewAdminServer(businessUseCase out.BusinessPort, redisConfig domain.RedisConfig) in.AdminUseCase {
+func NewAdminServer(businessUseCase out.BusinessUseCase, redisConfig domain.RedisConfig, useCase out.UserPortUseCase) in.AdminUseCase {
 	// init database
 	business, err := businessUseCase.Businesses(context.Background())
 	if err != nil {
