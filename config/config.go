@@ -9,9 +9,9 @@ import (
 )
 
 func ProductEnvRedisConfig() domain.RedisConfig {
-	host := os.Getenv("REDIS_HOST") // "localhost:6379"
-	port := os.Getenv("REDIS_PORT")
-	passwd := os.Getenv("PASSWORD")
+	host := os.Getenv("REDIS_HOST") // localhost
+	port := os.Getenv("REDIS_PORT") // 6379
+	passwd := os.Getenv("REDIS_PASSWORD")
 
 	if host == "" {
 		host = "localhost"
