@@ -119,7 +119,10 @@ func (v *VoteServer) Count(c echo.Context) error {
 	}
 
 	// need to define a struct for response
-	return c.JSON(http.StatusOK, count)
+	return c.JSON(http.StatusOK, VoteResponse{
+		Status: http.StatusOK,
+		Count:  int64(count),
+	})
 }
 
 func (v *VoteServer) ListUser(c echo.Context) error {
@@ -149,9 +152,14 @@ func (v *VoteServer) ListUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, result)
 }
 
+func (v *VoteServer) IsVoted(c echo.Context) error {
+	return nil
+}
+
 func (v *VoteServer) register(g *echo.Group) error {
 	g.GET("/count/:businessId/:messageId", v.Count)
 	g.GET("/list/:businessId/:messageId", v.ListUser)
+	g.GET("/isVoted/:businessId/:messageId/:userId", v.Vote)
 
 	g.POST("/vote", v.Vote)
 	g.POST("/unvote", v.UnVote)
