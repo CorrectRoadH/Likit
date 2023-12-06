@@ -8,7 +8,7 @@ import (
 )
 
 type AdminServer struct {
-	businessStore out.BusinessUseCase
+	businessStore out.BusinessPort
 }
 
 func NewAdminServer(businessUseCase out.BusinessUseCase, redisConfig domain.RedisConfig, useCase out.UserPortUseCase) in.AdminUseCase {
@@ -45,7 +45,7 @@ func (a *AdminServer) CreateBusiness(ctx context.Context, business domain.Busine
 }
 
 func (a *AdminServer) DeleteBusiness(ctx context.Context, businessId string) error {
-	panic("TODO: Implement")
+	return a.businessStore.DeleteBusiness(ctx, businessId)
 }
 
 func (a *AdminServer) UpdateBusiness(ctx context.Context, business domain.Business) error {

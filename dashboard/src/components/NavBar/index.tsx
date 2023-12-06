@@ -127,13 +127,10 @@ function Navbar({ show }: { show: boolean }) {
           {t['menu.dashboard.workplace']}
         </Menu.Item>
 
-
-        {/* TODO chinese locale the  */}
         <Menu.Item key="workplace">
           <IconDashboard className={styles['dropdown-icon']} />
           {t['menu.business.workplace']}
         </Menu.Item>
-
 
         <Menu.Item key="card list">
           <IconInteraction className={styles['dropdown-icon']} />
@@ -153,7 +150,12 @@ function Navbar({ show }: { show: boolean }) {
     <div className={styles.navbar}>
       <div className={styles.left}>
         <div className={styles.logo}>
-          <Logo />
+          <Logo 
+            style={{
+              width: 50,
+              height: 50
+            }}
+          />
           <div className={styles['logo-name']}>Likit Dashboard</div>
         </div>
       </div>

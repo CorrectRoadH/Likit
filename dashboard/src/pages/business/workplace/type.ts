@@ -1,6 +1,6 @@
 type BusinessType = {
     title: string;
-    business_id: string;
+    id: string;
     type: string;
   };
 

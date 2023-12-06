@@ -4,21 +4,37 @@
 
 # Likit
 
+[Demo](https://likit.zeabur.com)
+
 ## What is Likit
 Likit is a backend as a service for like(vote, unlike, count) feature. It is very ease to deploy and use.
 
-# Deloyment
+[Getting started](./docs/getting-started.md)
+
+# Screenshots
+
+![](./img/screenshot-1.png)
+![](./img/screenshot-2.png)
+
+# Deployment
 
 ## Zeabur
-Deloyment on zeabur by onclick
+Deloyment on Zeabur by onclick
 
 ## Docker Compose
+```
+wget https://raw.githubusercontent.com/CorrectRoadH/Likit/main/docker-compose.yaml
 
+docker-compose up -d
+```
 ## K8S
+Coming soon
 
 # Documentation
 
-## Restful API
+## RESTful API
+
+
 
 ## gRPC API
 

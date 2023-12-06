@@ -7,10 +7,10 @@ import (
 )
 
 type DatabaseServer struct {
-	databaseServer out.DatabaseUseCase
+	databaseServer out.DatabasePort
 
-	postgres out.PostgresUseCase
-	redis    out.RedisUseCase
+	postgres out.PostgresPort
+	redis    out.RedisPort
 }
 
 func (d *DatabaseServer) TestConnection(config domain.DatabaseConnectConfig) error {
@@ -29,10 +29,10 @@ func (d *DatabaseServer) DatabaseConfigureList() ([]domain.DatabaseConnectConfig
 }
 
 func NewDatabaseServer(
-	postgres out.PostgresUseCase,
-	redis out.RedisUseCase,
+	postgres out.PostgresPort,
+	redis out.RedisPort,
 
-	databaseServer out.DatabaseUseCase,
+	databaseServer out.DatabasePort,
 
 	defaultPostgresConfig domain.PostgresConfig,
 	defaultRedisConfig domain.RedisConfig,

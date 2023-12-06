@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import RedisEditor from "./redis-editor";
 import { Card, Divider, Typography,Grid } from "@arco-design/web-react";
 import { DatabaseConnectionConfig } from "./types";
 import axios from "axios";
 import Redis from "./blocks/redis";
 import Postgres from "./blocks/postgre";
+import CreateDatabase from "./create-database-editor";
 
 
 const { Row, Col } = Grid;
+const { Title } = Typography;
 
 const Overview = () => {
+
+    // TODO extract to a hook
     const [data, setData] = useState<DatabaseConnectionConfig[]>([]);
     
     const fetchData = () => {
@@ -29,9 +32,8 @@ const Overview = () => {
 
             <Divider />
 
-            <div>
-                redis
-            </div>
+            <Title heading={6}>Redis</Title>
+
             <Row>
                 {
                     data
@@ -50,19 +52,19 @@ const Overview = () => {
             <Divider />
 
             <div>
-                postgres
+                <Title heading={6}>Postgres</Title>
 
                 <Row>
                 {
                     data
                         .filter((item) => item.databaseType === 'postgres')
                         .map((item) => (
-                                <>  
+                            <>  
                                 <Col key={item.id} span={6}>
                                     <Postgres config={item} />
                                 </Col>
-                                </>
-                            ))
+                            </>
+                        ))
                 }
             </Row>
             </div>
@@ -70,9 +72,9 @@ const Overview = () => {
                 
             <Divider />
 
-            <div>new source</div>
+            <Title heading={6}>Database Management</Title>
 
-            <RedisEditor />
+            <CreateDatabase />
         </Card>
     )
 }

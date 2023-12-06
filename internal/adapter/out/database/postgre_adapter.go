@@ -34,6 +34,6 @@ func (p *PostgresAdapter) TestConnect(config domain.DatabaseConnectConfig) error
 	return err
 }
 
-func NewPostgresAdapter() out.PostgresUseCase {
+func NewPostgresAdapter() out.PostgresPort {
 	return &PostgresAdapter{}
 }

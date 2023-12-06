@@ -34,13 +34,18 @@ type ErrorResponse struct {
 	Message string `json:"msg"`
 }
 
+type VoteResponse struct {
+	Status int   `json:"status"`
+	Count  int64 `json:"count"`
+}
+
 func (v *VoteServer) Vote(c echo.Context) error {
 	var event VoteEvent
 	if err := c.Bind(&event); err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	err := v.voteUseCase.Vote(c.Request().Context(), event.BusinessId, event.MessageId, event.UserId)
+	val, err := v.voteUseCase.Vote(c.Request().Context(), event.BusinessId, event.MessageId, event.UserId)
 	if err != nil {
 		if err == domain.ErrBusinessNotExist {
 			return c.JSON(http.StatusBadRequest, ErrorResponse{
@@ -57,7 +62,10 @@ func (v *VoteServer) Vote(c echo.Context) error {
 	}
 
 	// need to define a struct for response
-	return c.JSON(http.StatusOK, "success")
+	return c.JSON(http.StatusOK, VoteResponse{
+		Status: http.StatusOK,
+		Count:  int64(val),
+	})
 }
 
 func (v *VoteServer) UnVote(c echo.Context) error {
@@ -66,7 +74,7 @@ func (v *VoteServer) UnVote(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	err := v.voteUseCase.UnVote(c.Request().Context(), event.BusinessId, event.MessageId, event.UserId)
+	val, err := v.voteUseCase.UnVote(c.Request().Context(), event.BusinessId, event.MessageId, event.UserId)
 
 	if err != nil {
 		if err == domain.ErrBusinessNotExist {
@@ -84,8 +92,10 @@ func (v *VoteServer) UnVote(c echo.Context) error {
 	}
 
 	// need to define a struct for response
-	return c.JSON(http.StatusOK, "success")
-
+	return c.JSON(http.StatusOK, VoteResponse{
+		Status: http.StatusOK,
+		Count:  int64(val),
+	})
 }
 
 func (v *VoteServer) Count(c echo.Context) error {

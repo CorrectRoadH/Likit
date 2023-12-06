@@ -33,6 +33,7 @@ function Overview() {
     axios
       .get('/admin/v1/businesses')
       .then((res) => {
+        console.log(res)
         setData(res.data);
       })
       .finally(() => {
@@ -80,12 +81,11 @@ function Overview() {
       <Row gutter={20}>
         {
           data.map((item)=>
-            <BusinessItem key={item.business_id} business={item} />
+            <BusinessItem key={item.id} business={item} />
           )
         }
       </Row>
 
-      <Divider />
     </Card>
   );
 }

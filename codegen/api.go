@@ -8,10 +8,12 @@ import (
 	"compress/gzip"
 	"encoding/base64"
 	"fmt"
+	"net/http"
 	"net/url"
 	"path"
 	"strings"
 
+	"github.com/deepmap/oapi-codegen/pkg/runtime"
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/labstack/echo/v4"
 )
@@ -48,6 +50,7 @@ type DatabaseConnectConfig struct {
 	Database     *string `json:"database,omitempty"`
 	DatabaseType *string `json:"databaseType,omitempty"`
 	Host         *string `json:"host,omitempty"`
+	Id           *string `json:"id,omitempty"`
 	Password     *string `json:"password,omitempty"`
 	Port         *int    `json:"port,omitempty"`
 	Title        *string `json:"title,omitempty"`
@@ -88,6 +91,12 @@ type ResponseOK = BaseResponse
 // ResponseUserInfo defines model for ResponseUserInfo.
 type ResponseUserInfo = UserInfo
 
+// DeleteBusinessParams defines parameters for DeleteBusiness.
+type DeleteBusinessParams struct {
+	// Id Business ID
+	Id string `form:"id" json:"id"`
+}
+
 // CreateBusinessJSONRequestBody defines body for CreateBusiness for application/json ContentType.
 type CreateBusinessJSONRequestBody = Business
 
@@ -114,6 +123,9 @@ type LoginJSONRequestBody = LoginRequest
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
+	// Delete Business
+	// (DELETE /business)
+	DeleteBusiness(ctx echo.Context, params DeleteBusinessParams) error
 	// Create Business
 	// (POST /business)
 	CreateBusiness(ctx echo.Context) error
@@ -158,6 +170,24 @@ type ServerInterface interface {
 // ServerInterfaceWrapper converts echo contexts to parameters.
 type ServerInterfaceWrapper struct {
 	Handler ServerInterface
+}
+
+// DeleteBusiness converts echo context to params.
+func (w *ServerInterfaceWrapper) DeleteBusiness(ctx echo.Context) error {
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params DeleteBusinessParams
+	// ------------- Required query parameter "id" -------------
+
+	err = runtime.BindQueryParameter("form", true, true, "id", ctx.QueryParams(), &params.Id)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+	}
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.DeleteBusiness(ctx, params)
+	return err
 }
 
 // CreateBusiness converts echo context to params.
@@ -305,6 +335,7 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 		Handler: si,
 	}
 
+	router.DELETE(baseURL+"/business", wrapper.DeleteBusiness)
 	router.POST(baseURL+"/business", wrapper.CreateBusiness)
 	router.PUT(baseURL+"/business", wrapper.UpdateBusiness)
 	router.GET(baseURL+"/businesses", wrapper.GetBusinesses)
@@ -324,26 +355,28 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
+	"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",
+	"AAAA//+RUb1D5h8AAA==",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

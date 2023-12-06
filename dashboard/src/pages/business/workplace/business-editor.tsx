@@ -5,11 +5,14 @@ import {
     Input,
     Select,
     Skeleton,
+    Button,
+    Modal,
 } from '@arco-design/web-react';
 
 import styles from './style/overview.module.less';
 import { BusinessType } from './type';
 import axios from 'axios';
+import { toast } from 'sonner';
 
 const { Row, Col } = Grid;
 
@@ -47,23 +50,43 @@ const BusinessEditor = ({business}:BusinessEditorProps) => {
     fetchData();
   }, []);
 
+  const handleDeleteBtnClick = ()=>{
+    Modal.confirm({
+      title: 'Are you sure to delete this business?',
+      content: 'This action cannot be undone.',
+      onOk: () => {
+        axios.delete(`/admin/v1/business?id=${business.id}`).then((res)=>{
+          toast.success('Delete business successfully!')
+          // refresh the page
+          window.location.reload();
+        })
+      },
+    });
+  }
+
   return (
         <div>
           <h1>Business Editor</h1>
 
+
           <Row gutter={20}>
             <Col span={12}>
-              <Input type='primary' placeholder="Business Title" />
+              <Input type='primary' placeholder="Business Title"
+                value={business.title}
+              />
             </Col>
             
             <Col span={12}>
-              <Input placeholder="Business ID" />
+              <Input placeholder="Business ID" 
+                disabled
+                value={business.id}
+              />
             </Col>
           </Row>
 
           <Divider />
 
-          <Row gutter={20}>
+          {/* <Row gutter={20}>
             <Col flex={1}>
               <Skeleton
                 loading={loading}
@@ -71,6 +94,14 @@ const BusinessEditor = ({business}:BusinessEditorProps) => {
                 animation
               >
               </Skeleton>
+            </Col>
+          </Row> */}
+
+          <Row>
+            <Col span={12}>
+              <Button
+                onClick={handleDeleteBtnClick}
+              >Delete</Button>
             </Col>
           </Row>
         </div>

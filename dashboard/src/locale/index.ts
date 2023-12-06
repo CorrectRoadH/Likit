@@ -2,6 +2,12 @@ const i18n = {
   'en-US': {
     'menu.welcome': 'Welcome',
     'menu.dashboard': 'Dashboard',
+
+    'menu.business': 'Workplace',
+    'menu.business.workplace': 'Business',
+    'menu.business.database': 'Database',
+
+
     'menu.list': 'List',
     'menu.result': 'Result',
     'menu.exception': 'Exception',
@@ -61,6 +67,11 @@ const i18n = {
   },
   'zh-CN': {
     'menu.dashboard': '仪表盘',
+
+    'menu.business': 'Workplace',
+    'menu.business.workplace': 'Business',
+    'menu.business.database': '数据库',
+
     'menu.list': '列表页',
     'menu.result': '结果页',
     'menu.exception': '异常页',

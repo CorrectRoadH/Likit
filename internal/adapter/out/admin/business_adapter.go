@@ -30,7 +30,6 @@ func (b *BusinessAdapter) Businesses(ctx context.Context) ([]domain.Business, er
 }
 
 func (b *BusinessAdapter) DeleteBusiness(ctx context.Context, businessId string) error {
-
 	result := b.db.Delete(&domain.Business{}, "id = ?", businessId)
 	return result.Error
 }
@@ -44,7 +43,7 @@ func (b *BusinessAdapter) CreateBusiness(ctx context.Context, business domain.Bu
 	return result.Error
 }
 
-func NewBusinessAdapter(config domain.PostgresConfig) out.BusinessUseCase {
+func NewBusinessAdapter(config domain.PostgresConfig) out.BusinessPort {
 	db, err := gorm.Open(
 		postgres.Open(
 			fmt.Sprintf("postgres://%s:%s@%s:%d/%s", config.Username, config.Password, config.Host, config.Port, config.Database),

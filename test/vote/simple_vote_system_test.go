@@ -41,7 +41,7 @@ var _ = Describe("Simple Vote Suite", func() {
 				for i := 0; i < 100; i++ {
 					wg.Go(func() {
 						randomUser := "user" + strconv.Itoa(rand.Intn(100000))
-						err := vote_server.Vote(ctx, businessId, messageId, randomUser)
+						_, err := vote_server.Vote(ctx, businessId, messageId, randomUser)
 						Expect(err).To(BeNil())
 					})
 				}
@@ -80,7 +80,7 @@ var _ = Describe("Simple Vote Suite", func() {
 				messageId = "messageId_" + strconv.Itoa(rand.Intn(100000))
 
 				iter.ForEach[string](voted_users, func(user *string) {
-					err := vote_server.Vote(ctx, businessId, messageId, *user)
+					_, err := vote_server.Vote(ctx, businessId, messageId, *user)
 					Expect(err).To(BeNil())
 				})
 
@@ -146,7 +146,7 @@ var _ = Describe("Simple Vote Suite", func() {
 				messageId = "messageId_" + strconv.Itoa(rand.Intn(100000))
 
 				iter.ForEach[string](voted_users, func(user *string) {
-					err := vote_server.Vote(ctx, businessId, messageId, *user)
+					_, err := vote_server.Vote(ctx, businessId, messageId, *user)
 					Expect(err).To(BeNil())
 				})
 
@@ -218,12 +218,12 @@ var _ = Describe("Simple Vote Suite", func() {
 				messageId = "messageId_" + strconv.Itoa(rand.Intn(100000))
 
 				iter.ForEach[string](voted_users, func(user *string) {
-					err := vote_server.Vote(ctx, businessId, messageId, *user)
+					_, err := vote_server.Vote(ctx, businessId, messageId, *user)
 					Expect(err).To(BeNil())
 				})
 
 				iter.ForEach[string](unvoted_users, func(user *string) {
-					err := vote_server.UnVote(ctx, businessId, messageId, *user)
+					_, err := vote_server.UnVote(ctx, businessId, messageId, *user)
 					Expect(err).To(BeNil())
 				})
 			})

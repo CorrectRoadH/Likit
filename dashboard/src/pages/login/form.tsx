@@ -77,7 +77,7 @@ export default function LoginForm() {
     <div className={styles['login-form-wrapper']}>
       <div className={styles['login-form-title']}>{t['login.form.title']}</div>
       <div className={styles['login-form-sub-title']}>
-        {t['login.form.title']}
+        {t['login.form.subtitle']}
       </div>
       <div className={styles['login-form-error-msg']}>{errorMessage}</div>
       <Form

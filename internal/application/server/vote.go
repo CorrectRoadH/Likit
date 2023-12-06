@@ -36,18 +36,18 @@ func NewVoteServer(adminUseCase in.AdminUseCase) (in.VoteUseCase, error) {
 	}, nil
 }
 
-func (v *VoteServer) Vote(ctx context.Context, businessId string, messageId string, userId string) error {
+func (v *VoteServer) Vote(ctx context.Context, businessId string, messageId string, userId string) (int, error) {
 	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
 	if !ok {
-		return domain.ErrBusinessNotExist
+		return 0, domain.ErrBusinessNotExist
 	}
 	return voteSystem.Vote(ctx, businessId, messageId, userId)
 }
 
-func (v *VoteServer) UnVote(ctx context.Context, businessId string, messageId string, userId string) error {
+func (v *VoteServer) UnVote(ctx context.Context, businessId string, messageId string, userId string) (int, error) {
 	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
 	if !ok {
-		return domain.ErrBusinessNotExist
+		return 0, domain.ErrBusinessNotExist
 	}
 	return voteSystem.Vote(ctx, businessId, messageId, userId)
 }
