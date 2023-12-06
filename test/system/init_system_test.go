@@ -27,6 +27,7 @@ var _ = Describe("System Init Vote Suite", func() {
 			server.NewAdminServer(
 				admin.NewBusinessAdapter(config.ProductEnvConfigDatabaseConfig()),
 				config.TestEnvRedisConfig(),
+				admin.NewUserAdapter(config.ProductEnvConfigDatabaseConfig()),
 			),
 		)
 	})

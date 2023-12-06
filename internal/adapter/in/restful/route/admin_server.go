@@ -15,6 +15,7 @@ import (
 type adminApiService struct {
 	adminUseCase    in.AdminUseCase
 	databaseUseCase in.DatabaseUseCase
+	userUseCase     in.UserUseCase
 }
 
 func convertBusiness(business codegen.Business) domain.Business {
@@ -41,10 +42,12 @@ func convertDatabaseConnectConfig(databaseConnectConfig codegen.DatabaseConnectC
 func NewAdminApiService(
 	adminUseCase in.AdminUseCase,
 	databaseUseCase in.DatabaseUseCase,
+	userUseCase in.UserUseCase,
 ) codegen.ServerInterface {
 	return &adminApiService{
 		adminUseCase:    adminUseCase,
 		databaseUseCase: databaseUseCase,
+		userUseCase:     userUseCase,
 	}
 }
 
@@ -55,13 +58,29 @@ func (a *adminApiService) Login(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, err)
 	}
 
+	verified, err := a.userUseCase.Login(ctx.Request().Context(), loginRequest.UserName, loginRequest.Password)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
+			Status: utils.Ptr("error"),
+			Msg:    utils.Ptr(err.Error()),
+		})
+	}
+
+	if !verified {
+		return ctx.JSON(http.StatusUnauthorized, codegen.ResponseInternalServerError{
+			Status: utils.Ptr("error"),
+			Msg:    utils.Ptr("username or password is wrong"),
+		})
+	}
+
 	return ctx.JSON(http.StatusOK, &codegen.BaseResponse{
 		Status: utils.Ptr("ok"),
-		Msg:    utils.Ptr(loginRequest.UserName + ":" + loginRequest.Password),
 	})
 }
 
 func (a *adminApiService) UserInfo(ctx echo.Context) error {
+
+	// TODO wait to implement
 	return ctx.JSON(http.StatusOK, &codegen.ResponseUserInfo{
 		Name:             utils.Ptr("test"),
 		Avatar:           utils.Ptr("https://avatars.githubusercontent.com/u/11234?v=4"),
