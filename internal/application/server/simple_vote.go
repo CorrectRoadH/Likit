@@ -45,6 +45,8 @@ func (v *SimpleVoteServer) Vote(ctx context.Context, businessId string, messageI
 		} else {
 			voteNum = int(val)
 		}
+	} else {
+		return 0, domain.ErrUserHasVoted
 	}
 	// else the user has already voted
 
@@ -71,6 +73,8 @@ func (v *SimpleVoteServer) UnVote(ctx context.Context, businessId string, messag
 
 			voteNum = int(val)
 		}
+	} else {
+		return 0, domain.ErrUserNotVoted
 	}
 	// else the user not voted
 
