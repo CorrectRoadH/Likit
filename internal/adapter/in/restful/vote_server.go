@@ -152,14 +152,33 @@ func (v *VoteServer) ListUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, result)
 }
 
+type IsVoteResponse struct {
+	Status int  `json:"status"`
+	IsVote bool `json:"isVote"`
+}
+
 func (v *VoteServer) IsVoted(c echo.Context) error {
-	return nil
+	businessId := c.Param("businessId")
+	messageId := c.Param("messageId")
+	userId := c.Param("userId")
+	isVote, err := v.voteUseCase.IsVoted(c.Request().Context(), businessId, messageId, userId)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, ErrorResponse{
+			Status:  http.StatusInternalServerError,
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, IsVoteResponse{
+		Status: http.StatusOK,
+		IsVote: isVote,
+	})
 }
 
 func (v *VoteServer) register(g *echo.Group) error {
 	g.GET("/count/:businessId/:messageId", v.Count)
 	g.GET("/list/:businessId/:messageId", v.ListUser)
-	g.GET("/isVoted/:businessId/:messageId/:userId", v.Vote)
+	g.GET("/isVoted/:businessId/:messageId/:userId", v.IsVoted)
 
 	g.POST("/vote", v.Vote)
 	g.POST("/unvote", v.UnVote)
