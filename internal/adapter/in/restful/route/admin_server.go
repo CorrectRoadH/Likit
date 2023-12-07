@@ -23,6 +23,11 @@ func convertBusiness(business codegen.Business) domain.Business {
 		Id:    *business.Id,
 		Title: *business.Title,
 		Type:  *business.Type,
+		Config: domain.Config{
+			DataSourceConfig: lo.Map(*business.Config.DataSourceConfig, func(dataSourceConfig codegen.DatabaseConnectConfig, _ int) domain.DatabaseConnectConfig {
+				return convertDatabaseConnectConfig(dataSourceConfig)
+			}),
+		},
 	}
 }
 

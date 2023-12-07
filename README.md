@@ -4,7 +4,7 @@
 
 # Likit
 
-[Demo](https://likit.zeabur.com)
+[Demo](https://likit.zeabur.app)
 
 ## What is Likit
 Likit is a backend as a service for like(vote, unlike, count) feature. It is very ease to deploy and use.
