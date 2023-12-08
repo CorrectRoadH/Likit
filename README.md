@@ -20,6 +20,7 @@ Likit is a backend as a service for like(vote, unlike, count) feature. It is ver
 
 ## Zeabur
 Deloyment on Zeabur by onclick
+[![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/KZOLHA?referralCode=CorrectRoadH)
 
 ## Docker Compose
 ```

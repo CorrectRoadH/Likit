@@ -19,8 +19,14 @@ interface SystemFeature {
 
 const SystemFeatures = {
   "SIMPLE_VOTE": {
-    features: ["vote", "vote_count","list_voted_users"],
+    features: ["vote","unvote", "vote_count","list_voted_users","is_voted"],
     qps: 100,
+    require: [
+      {
+        type: "redis",
+        number: 1,
+      }
+    ],
   },
 }
 
