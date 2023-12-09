@@ -27,7 +27,7 @@ Deloyment on Zeabur by one click
 ```
 wget https://raw.githubusercontent.com/CorrectRoadH/Likit/main/docker-compose.yaml
 
-docker-compose up -d
+docker compose up -d
 ```
 ## K8S
 Coming soon
