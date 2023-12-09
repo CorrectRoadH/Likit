@@ -4,6 +4,8 @@ import React, { useState,useEffect } from "react"
 import { DatabaseConnectionConfig } from "../database/types";
 import { toast } from "sonner";
 import style from './style/overview.module.less'
+import useLocale from "@/utils/useLocale";
+import locale from "./locale";
 const Option = Select.Option;
 
 const { Title } = Typography
@@ -25,6 +27,7 @@ interface SystemFeature {
 
 const SystemFeatures = {
   "SIMPLE_VOTE": {
+    id: "SIMPLE_VOTE",
     features: ["vote","unvote", "vote_count","list_voted_users","is_voted"],
     qps: 100,
     require: [
@@ -36,7 +39,11 @@ const SystemFeatures = {
   },
 }
 
+const system_features = ['SIMPLE_VOTE']
+
 const SystemFeatureTable = ({features,qps,require}:SystemFeature) => {
+  const t = useLocale(locale);
+
   return (
     <div>
       <div>
@@ -46,7 +53,7 @@ const SystemFeatureTable = ({features,qps,require}:SystemFeature) => {
             features.map((item,index) => {
               return (
                 <Tag  key={index}>
-                  {item}
+                  {t[`vote.${item}`]}
                 </Tag>
               )
             })
@@ -90,6 +97,7 @@ const CreateBusinessEditor = () => {
     const [data,setData] = useState<DatabaseConnectionConfig[]>([])
 
     const [beSelectedSystem,setBeSelectedSystem] = useState<string>()
+    const t = useLocale(locale);
 
     const fetchData = () => {
       axios.get('/admin/v1/database').then((res) => {
@@ -161,11 +169,21 @@ const CreateBusinessEditor = () => {
             {/* TODO rerender the component when select changes */}
             <Form.Item label='Vote System' field='type' rules={[{ required: true }]}
             >
-              <Select placeholder='System select' options={['SIMPLE_VOTE']} 
+              <Select placeholder='System select'
                 onChange={(value) => {
                   setBeSelectedSystem(value)
                 }}
-              />
+              >
+                {
+                  system_features.map((item) => {
+                    return (
+                      <Option key={item} value={item}>
+                       {t[`vote.system.${item}`]}
+                      </Option>
+                    )
+                  })
+                }
+              </Select>
             </Form.Item>
 
             <div>
