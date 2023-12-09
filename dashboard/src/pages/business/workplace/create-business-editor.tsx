@@ -1,10 +1,12 @@
-import { Form, Input, Drawer, Button, Select } from "@arco-design/web-react";
+import { Form, Input, Drawer, Button, Select, Tag, Space, Typography } from "@arco-design/web-react";
 import axios from "axios";
 import React, { useState,useEffect } from "react"
 import { DatabaseConnectionConfig } from "../database/types";
 import { toast } from "sonner";
-
+import style from './style/overview.module.less'
 const Option = Select.Option;
+
+const { Title } = Typography
 
 const formItemLayout = {
   wrapperCol: {
@@ -15,6 +17,10 @@ const formItemLayout = {
 interface SystemFeature {
   features: string[],
   qps: number,
+  require: {
+    type: string,
+    number: number,
+  }[],
 }
 
 const SystemFeatures = {
@@ -30,22 +36,46 @@ const SystemFeatures = {
   },
 }
 
-const SystemFeatureTable = ({features,qps}:SystemFeature) => {
+const SystemFeatureTable = ({features,qps,require}:SystemFeature) => {
   return (
     <div>
       <div>
-        <div>Support Features:</div>
-        {
-          features.map((item,index) => {
-            return (
-              <div key={index}>
-                <span>{item}</span>
-              </div>
-            )
-          })
-        }
+      <Title heading={6}>Features:</Title>
+        <Space className={style.features}>
+          {
+            features.map((item,index) => {
+              return (
+                <Tag  key={index}>
+                  {item}
+                </Tag>
+              )
+            })
+          }
+        </Space>
       </div>
-      <span>qps:{qps}</span>
+
+      <div>
+        <Title heading={6}>Qbs:</Title>
+        <Title>
+          {qps}
+        </Title>
+      </div>
+
+      <div>
+        <Title heading={6}>Require:</Title>
+        <Space>
+          {
+            require.map((item,index) => {
+              return (
+                <div key={index}>
+                  <span>{item.type}</span>
+                  <Title>{item.number}</Title>
+                </div>
+              )
+            })
+          }
+        </Space>
+      </div>
     </div>
   )
 }
@@ -58,6 +88,8 @@ const CreateBusinessEditor = () => {
     const [confirmLoading, setConfirmLoading] = useState(false);
 
     const [data,setData] = useState<DatabaseConnectionConfig[]>([])
+
+    const [beSelectedSystem,setBeSelectedSystem] = useState<string>()
 
     const fetchData = () => {
       axios.get('/admin/v1/database').then((res) => {
@@ -127,8 +159,13 @@ const CreateBusinessEditor = () => {
 
 
             {/* TODO rerender the component when select changes */}
-            <Form.Item label='Vote System' field='type' rules={[{ required: true }]}>
-              <Select placeholder='System select' options={['SIMPLE_VOTE']} />
+            <Form.Item label='Vote System' field='type' rules={[{ required: true }]}
+            >
+              <Select placeholder='System select' options={['SIMPLE_VOTE']} 
+                onChange={(value) => {
+                  setBeSelectedSystem(value)
+                }}
+              />
             </Form.Item>
 
             <div>
@@ -138,6 +175,7 @@ const CreateBusinessEditor = () => {
                 <SystemFeatureTable 
                   features={SystemFeatures[form.getFieldValue('type') ].features} 
                   qps={SystemFeatures[form.getFieldValue('type') ].qps} 
+                  require={SystemFeatures[form.getFieldValue('type') ].require}
                 />
               }
             </div>

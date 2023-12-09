@@ -29,6 +29,7 @@ wget https://raw.githubusercontent.com/CorrectRoadH/Likit/main/docker-compose.ya
 
 docker compose up -d
 ```
+
 ## K8S
 Coming soon
 
