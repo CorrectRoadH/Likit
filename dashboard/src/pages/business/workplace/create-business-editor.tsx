@@ -41,7 +41,7 @@ const SystemFeatures = {
 
 const system_features = ['SIMPLE_VOTE']
 
-const SystemFeatureTable = ({features,qps,require}:SystemFeature) => {
+const VoteSystemComponent = ({features,qps,require}:SystemFeature) => {
   const t = useLocale(locale);
 
   return (
@@ -63,7 +63,7 @@ const SystemFeatureTable = ({features,qps,require}:SystemFeature) => {
 
       <div>
         <Title heading={6}>Qbs:</Title>
-        <Title>
+        <Title  heading={2}>
           {qps}
         </Title>
       </div>
@@ -76,7 +76,7 @@ const SystemFeatureTable = ({features,qps,require}:SystemFeature) => {
               return (
                 <div key={index}>
                   <span>{item.type}</span>
-                  <Title>{item.number}</Title>
+                  <Title heading={2}>{item.number}</Title>
                 </div>
               )
             })
@@ -190,7 +190,7 @@ const CreateBusinessEditor = () => {
               {
                 form.getFieldValue('type') === 'SIMPLE_VOTE' 
                 && 
-                <SystemFeatureTable 
+                <VoteSystemComponent 
                   features={SystemFeatures[form.getFieldValue('type') ].features} 
                   qps={SystemFeatures[form.getFieldValue('type') ].qps} 
                   require={SystemFeatures[form.getFieldValue('type') ].require}
