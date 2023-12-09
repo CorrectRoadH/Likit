@@ -19,7 +19,8 @@ Likit is a backend as a service for like(vote, unlike, count) feature. It is ver
 # Deployment
 
 ## Zeabur
-Deloyment on Zeabur by onclick
+Deloyment on Zeabur by one click
+
 [![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/KZOLHA?referralCode=CorrectRoadH)
 
 ## Docker Compose
@@ -80,3 +81,6 @@ Coming soon
 ### Golang
 [Likit Go](https://github.com/CorrectRoadH/likit-go)
 
+
+### Java
+Coming soon
