@@ -9,7 +9,22 @@
 ## What is Likit
 Likit is a backend as a service for like(vote, unlike, count) feature. It is very ease to deploy and use.
 
+The goal of Likit is help your implement like function within 10 minutes.
+
+Likit is suites small and middle size application. You can select difference vote implement engine to get difference features and performance.
+
 [Getting started](./docs/getting-started.md)
+
+| features | Simple Vote System | WIP |
+| __  | ___ | ___ |
+| Vote | ✅ |     |
+| Repate Vote |   |
+| Unvote | ✅ |   |
+| Count | ✅ | |
+| List the voted users | ✅ | | 
+| is Voted | ✅ | | 
+| vote events | ❌ | |
+| requires | redis |  |
 
 # Screenshots
 
