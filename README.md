@@ -15,16 +15,17 @@ Likit is suites small and middle size application. You can select difference vot
 
 [Getting started](./docs/getting-started.md)
 
-| features | Simple Vote System | WIP |
+| features | Simple Vote System | Middle Vote System(WIP) |
 | __  | ___ | ___ |
-| Vote | ✅ |     |
-| Repate Vote |   |
-| Unvote | ✅ |   |
-| Count | ✅ | |
-| List the voted users | ✅ | | 
-| is Voted | ✅ | | 
-| vote events | ❌ | |
-| requires | redis |  |
+| Vote | ✅ |  🚧 |
+| Repate Vote | 🚧 |
+| Unvote | ✅ |  🚧 |
+| Count | ✅ | 🚧 |
+| List the voted users | ✅ | 🚧 | 
+| is Voted | ✅ | 🚧 | 
+| vote events | ❌ | 🚧 |
+| message queue | ❌ | ❌ | 
+| requires | redis |  redis,postgres |
 
 # Screenshots
 

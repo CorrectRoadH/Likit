@@ -1,6 +1,7 @@
 package in
 
-type MiddleVoteUseCase interface {
-	// TODO update return type to int64
+import "context"
 
+type MiddleVoteUseCase interface {
+	Rank(ctx context.Context, businessId string, messageId string)
 }

@@ -10,4 +10,6 @@ type BasicVoteUseCase interface {
 	Check(ctx context.Context, config domain.Config) error
 	Features(ctx context.Context)
 	Requires(ctx context.Context)
+
+	Init(ctx context.Context)
 }
