@@ -4,6 +4,7 @@ import {
   Card,
   Typography,
   Divider,
+  Skeleton,
 } from '@arco-design/web-react';
 import styles from './style/overview.module.less';
 import BusinessItem from './business-item';
@@ -48,13 +49,15 @@ function Overview() {
         </Typography.Paragraph>
       </div>
 
-      <Row gutter={20}>
-        {
-          businesses.map((item)=>
-            <BusinessItem key={item.id} business={item} />
-          )
-        }
-      </Row>
+      <Skeleton loading={isLoading}>
+        <Row gutter={20}>
+          {
+            !isLoading && businesses.map((item)=>
+              <BusinessItem key={item.id} business={item} />
+            )
+          }
+        </Row>
+      </Skeleton>
 
     </Card>
   );

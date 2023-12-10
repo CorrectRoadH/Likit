@@ -102,7 +102,9 @@ const CreateDatabase = () => {
                 
                 {
                 beSelectedType != "" && 
-                <Skeleton>
+                <Skeleton
+                    loading={false}
+                >
                     <Form.Item label='Title' field='title' rules={[{ required: true }]}>
                         <Input placeholder='Title' />
                     </Form.Item>

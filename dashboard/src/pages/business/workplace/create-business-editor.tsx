@@ -103,7 +103,7 @@ const CreateBusinessEditor = () => {
     const t = useLocale(locale);
 
     const { createBusiness } = useBusiness()
-    const { database:databases, isLoading, isError } = useDatabase()
+    const { database, isLoading, isError } = useDatabase()
 
     return (
       <div>
@@ -130,9 +130,9 @@ const CreateBusinessEditor = () => {
 
               // build the config for backend
               res.selectedDatabase.forEach((id) => {
-                const database = databases.find((item) => item.id === id)
-                if (database) {
-                  res.config.dataSourceConfig.push(database)
+                const db = database.find((item) => item.id === id)
+                if (db) {
+                  res.config.dataSourceConfig.push(db)
                 }
               })
 
@@ -198,7 +198,7 @@ const CreateBusinessEditor = () => {
               <Form.Item label='Database' field='selectedDatabase' rules={[{ required: true }]}>
                 <Select placeholder='Please' mode='multiple'>
                   {
-                    databases.map((item)=>(
+                    !isLoading && database.map((item)=>(
                       <Option key={item.id} value={item.id}>
                         {item.title}
                       </Option>
