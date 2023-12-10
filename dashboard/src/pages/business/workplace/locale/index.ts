@@ -11,6 +11,11 @@ const i18n = {
         'vote.list_voted_users': 'list voted users',
         'vote.is_voted': 'get vote status',
 
+        'vote.description.vote': '',
+        'vote.description.unvote': '',
+        'vote.description.vote_count': '',
+        "vote.description.list_voted_users": '',
+        'vote.description.is_voted': '',
     },
     'zh-CN': {
         'menu.business': 'Business',
@@ -23,6 +28,12 @@ const i18n = {
         'vote.vote_count': '统计投票数',
         'vote.list_voted_users': '列出投票的用户',
         'vote.is_voted': '取得投票状态',
+
+        'vote.description.vote': '一个用户只能投票一次',
+        'vote.description.unvote': '用户只能取消投过的票',
+        'vote.description.vote_count': '某业务的某 Message Id 的投票数',
+        "vote.description.list_voted_users": '某业务的某 Message Id 的投票的用户id',
+        'vote.description.is_voted': '某用户是否对某业务的某 Message Id 的过投票',
     }
 }
 export default i18n;

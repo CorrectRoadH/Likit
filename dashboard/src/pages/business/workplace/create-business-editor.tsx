@@ -1,4 +1,4 @@
-import { Form, Input, Drawer, Button, Select, Tag, Space, Typography, Skeleton } from "@arco-design/web-react";
+import { Form, Input, Drawer, Button, Select, Tag, Space, Typography, Skeleton, Popover } from "@arco-design/web-react";
 import React, { useState } from "react"
 import { DatabaseConnectionConfig } from "../../../types";
 import { toast } from "sonner";
@@ -50,13 +50,16 @@ const VoteSystemComponent = ({features,qps,require}:SystemFeature) => {
       <Title heading={6}>Features:</Title>
         <Space className={style.features}>
           {
-            features.map((item,index) => {
-              return (
-                <Tag  key={index}>
-                  {t[`vote.${item}`]}
-                </Tag>
+            features.map((item,index) => 
+                <Popover
+                  key={index}
+                  title={t[`vote.description.${item}`]}
+                >
+                  <Tag  >
+                    {t[`vote.${item}`]}
+                  </Tag>
+                </Popover>
               )
-            })
           }
         </Space>
       </div>
