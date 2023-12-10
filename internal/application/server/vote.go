@@ -36,7 +36,7 @@ func NewVoteServer(adminUseCase in.AdminUseCase) (in.VoteUseCase, error) {
 	}, nil
 }
 
-func (v *VoteServer) Vote(ctx context.Context, businessId string, messageId string, userId string) (int, error) {
+func (v *VoteServer) Vote(ctx context.Context, businessId string, messageId string, userId string) (int64, error) {
 	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
 	if !ok {
 		return 0, domain.ErrBusinessNotExist
@@ -44,7 +44,7 @@ func (v *VoteServer) Vote(ctx context.Context, businessId string, messageId stri
 	return voteSystem.Vote(ctx, businessId, messageId, userId)
 }
 
-func (v *VoteServer) UnVote(ctx context.Context, businessId string, messageId string, userId string) (int, error) {
+func (v *VoteServer) UnVote(ctx context.Context, businessId string, messageId string, userId string) (int64, error) {
 	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
 	if !ok {
 		return 0, domain.ErrBusinessNotExist
@@ -52,7 +52,7 @@ func (v *VoteServer) UnVote(ctx context.Context, businessId string, messageId st
 	return voteSystem.Vote(ctx, businessId, messageId, userId)
 }
 
-func (v *VoteServer) Count(ctx context.Context, businessId string, messageId string) (int, error) {
+func (v *VoteServer) Count(ctx context.Context, businessId string, messageId string) (int64, error) {
 	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
 	if !ok {
 		return 0, domain.ErrBusinessNotExist

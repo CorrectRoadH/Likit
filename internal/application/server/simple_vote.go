@@ -26,11 +26,11 @@ func NewSimpleVoteServer(config domain.RedisConfig) in.VoteUseCase {
 
 }
 
-func (v *SimpleVoteServer) Vote(ctx context.Context, businessId string, messageId string, userId string) (int, error) {
+func (v *SimpleVoteServer) Vote(ctx context.Context, businessId string, messageId string, userId string) (int64, error) {
 	keyForCount := fmt.Sprintf("likit:%s:%s:count", businessId, messageId)
 	keyForVotedUser := fmt.Sprintf("likit:%s:%s:voted_user", businessId, messageId)
 
-	voteNum := 0
+	var voteNum int64
 
 	sAdd := v.rdb.SAdd(ctx, keyForVotedUser, userId)
 
@@ -43,7 +43,7 @@ func (v *SimpleVoteServer) Vote(ctx context.Context, businessId string, messageI
 		if val, err := incr.Result(); err != nil {
 			return 0, err
 		} else {
-			voteNum = int(val)
+			voteNum = val
 		}
 	} else {
 		return 0, domain.ErrUserHasVoted
@@ -53,11 +53,11 @@ func (v *SimpleVoteServer) Vote(ctx context.Context, businessId string, messageI
 	return voteNum, nil
 }
 
-func (v *SimpleVoteServer) UnVote(ctx context.Context, businessId string, messageId string, userId string) (int, error) {
+func (v *SimpleVoteServer) UnVote(ctx context.Context, businessId string, messageId string, userId string) (int64, error) {
 	keyForCount := fmt.Sprintf("likit:%s:%s:count", businessId, messageId)
 	keyForVotedUser := fmt.Sprintf("likit:%s:%s:voted_user", businessId, messageId)
 
-	voteNum := 0
+	var voteNum int64
 
 	sRem := v.rdb.SRem(ctx, keyForVotedUser, userId)
 
@@ -70,8 +70,7 @@ func (v *SimpleVoteServer) UnVote(ctx context.Context, businessId string, messag
 		if val, err := decr.Result(); err != nil {
 			return 0, err
 		} else {
-
-			voteNum = int(val)
+			voteNum = val
 		}
 	} else {
 		return 0, domain.ErrUserNotVoted
@@ -81,8 +80,8 @@ func (v *SimpleVoteServer) UnVote(ctx context.Context, businessId string, messag
 	return voteNum, nil
 }
 
-func (v *SimpleVoteServer) Count(ctx context.Context, businessId string, messageId string) (int, error) {
-	val, err := v.rdb.Get(ctx, fmt.Sprintf("likit:%s:%s:count", businessId, messageId)).Int()
+func (v *SimpleVoteServer) Count(ctx context.Context, businessId string, messageId string) (int64, error) {
+	val, err := v.rdb.Get(ctx, fmt.Sprintf("likit:%s:%s:count", businessId, messageId)).Int64()
 	if err == redis.Nil {
 		return 0, nil
 	}
@@ -101,6 +100,18 @@ func (v *SimpleVoteServer) IsVoted(ctx context.Context, businessId string, messa
 func (v *SimpleVoteServer) VotedUsers(ctx context.Context, businessId string, messageId string) ([]string, error) {
 	members, err := v.rdb.SMembers(ctx, fmt.Sprintf("likit:%s:%s:voted_user", businessId, messageId)).Result()
 	return members, err
+}
+
+func (s *SimpleVoteServer) Check(ctx context.Context, config domain.Config) error {
+	panic("TODO: Implement")
+}
+
+func (s *SimpleVoteServer) Features(ctx context.Context) {
+	panic("TODO: Implement")
+}
+
+func (s *SimpleVoteServer) Requires(ctx context.Context) {
+	panic("TODO: Implement")
 }
 
 func NewSimpleVoteSystem(config domain.Config) (in.VoteUseCase, error) {

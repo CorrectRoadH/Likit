@@ -1,7 +1,13 @@
 package in
 
-import "github.com/CorrectRoadH/Likit/internal/application/domain"
+import (
+	"context"
+
+	"github.com/CorrectRoadH/Likit/internal/application/domain"
+)
 
 type BasicVoteUseCase interface {
-	CheckRequire(config domain.Config) error
+	Check(ctx context.Context, config domain.Config) error
+	Features(ctx context.Context)
+	Requires(ctx context.Context)
 }
