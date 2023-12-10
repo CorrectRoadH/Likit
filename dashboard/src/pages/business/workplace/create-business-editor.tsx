@@ -1,11 +1,11 @@
-import { Form, Input, Drawer, Button, Select, Tag, Space, Typography } from "@arco-design/web-react";
-import axios from "axios";
-import React, { useState,useEffect } from "react"
+import { Form, Input, Drawer, Button, Select, Tag, Space, Typography, Skeleton } from "@arco-design/web-react";
+import React, { useState } from "react"
 import { DatabaseConnectionConfig } from "../database/types";
 import { toast } from "sonner";
 import style from './style/overview.module.less'
 import useLocale from "@/utils/useLocale";
 import locale from "./locale";
+import { useBusiness, useDatabase } from "@/api";
 const Option = Select.Option;
 
 const { Title } = Typography
@@ -94,20 +94,13 @@ const CreateBusinessEditor = () => {
     const [form] = Form.useForm();
     const [confirmLoading, setConfirmLoading] = useState(false);
 
-    const [data,setData] = useState<DatabaseConnectionConfig[]>([])
+    // const [data,setData] = useState<DatabaseConnectionConfig[]>([])
 
     const [beSelectedSystem,setBeSelectedSystem] = useState<string>()
     const t = useLocale(locale);
 
-    const fetchData = () => {
-      axios.get('/admin/v1/database').then((res) => {
-          setData(res.data.dataSourceConfig);
-      });
-    }
-
-    useEffect(() => {
-        fetchData()
-    }, []);
+    const { createBusiness } = useBusiness()
+    const { database:databases, isLoading, isError } = useDatabase()
 
     return (
       <div>
@@ -134,7 +127,7 @@ const CreateBusinessEditor = () => {
 
               // build the config for backend
               res.selectedDatabase.forEach((id) => {
-                const database = data.find((item) => item.id === id)
+                const database = databases.find((item) => item.id === id)
                 if (database) {
                   res.config.dataSourceConfig.push(database)
                 }
@@ -145,7 +138,7 @@ const CreateBusinessEditor = () => {
                 setVisible(false);
                 setConfirmLoading(false);
 
-                axios.post('/admin/v1/business', res).then((res) => {
+                createBusiness(res).then((res) => {
                   console.log(res)
                   toast.success('Create Business Success')
                 })
@@ -198,17 +191,21 @@ const CreateBusinessEditor = () => {
               }
             </div>
 
-            <Form.Item label='Database' field='selectedDatabase' rules={[{ required: true }]}>
-              <Select placeholder='Please' mode='multiple'>
-                {
-                  data.map((item)=>(
-                    <Option key={item.id} value={item.id}>
-                      {item.title}
-                    </Option>
-                  ))
-                }
-              </Select> 
-            </Form.Item>
+            <Skeleton
+              loading={isLoading}
+            >
+              <Form.Item label='Database' field='selectedDatabase' rules={[{ required: true }]}>
+                <Select placeholder='Please' mode='multiple'>
+                  {
+                    databases.map((item)=>(
+                      <Option key={item.id} value={item.id}>
+                        {item.title}
+                      </Option>
+                    ))
+                  }
+                </Select> 
+              </Form.Item>
+            </Skeleton>
 
           </Form>
         </Drawer>

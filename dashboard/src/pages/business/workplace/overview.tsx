@@ -4,46 +4,23 @@ import {
   Card,
   Typography,
   Divider,
-  Button,
-  Skeleton,
-  Drawer,
 } from '@arco-design/web-react';
 import locale from './locale';
 import useLocale from '@/utils/useLocale';
 import axios from 'axios';
 import styles from './style/overview.module.less';
-import BusinessEditor from './business-editor';
 import BusinessItem from './business-item';
 import { BusinessType } from './type';
 import CreateBusinessEditor from './create-business-editor';
+import { useBusiness } from '@/api';
 
 const { Row, Col } = Grid;
 
 
 function Overview() {
-  const [data, setData] = useState<BusinessType[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { businesses,isLoading,isError} = useBusiness()
 
   const t = useLocale(locale);
-
-  const [visible, setVisible] = useState(false);
-
-  const fetchData = () => {
-    setLoading(true);
-    axios
-      .get('/admin/v1/businesses')
-      .then((res) => {
-        console.log(res)
-        setData(res.data);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <Card>
@@ -80,7 +57,7 @@ function Overview() {
 
       <Row gutter={20}>
         {
-          data.map((item)=>
+          businesses.map((item)=>
             <BusinessItem key={item.id} business={item} />
           )
         }
