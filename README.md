@@ -16,7 +16,7 @@ Likit is suites small and middle size application. You can select difference vot
 [Getting started](./docs/getting-started.md)
 
 | features | Simple Vote System | Middle Vote System(WIP) |
-| __  | ___ | ___ |
+| -- | -- | -- |
 | Vote | ✅ |  🚧 |
 | Repate Vote | 🚧 |
 | Unvote | ✅ |  🚧 |
