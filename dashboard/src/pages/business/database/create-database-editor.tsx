@@ -43,7 +43,7 @@ const CreateDatabase = () => {
             }}
         >Create Database</Button>
         <Drawer
-            width={314}
+            width={600}
             title={<span>Basic Information </span>}
             visible={visible}
             confirmLoading={confirmLoading}
