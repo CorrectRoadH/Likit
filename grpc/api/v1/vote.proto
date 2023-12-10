@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package likit.api.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+
+service VoteService {
+    rpc Vote(VoteRequest) returns (VoteResponse) {
+        option (google.api.http) = { get: "/v1/vote" };
+    }
+    rpc UnVote(VoteRequest) returns (VoteResponse)  {
+        option (google.api.http) = { get: "/v1/unvote" };
+    }
+    rpc Count(CountRequest) returns (CountResponse) {
+
+    }
+}
+
+
+message VoteRequest {
+    string business_id = 1;
+    string message_id = 2;
+    string user_id = 3;
+}
+
+message VoteResponse {
+    int64 count = 1;
+}
+
+message CountRequest {
+    string business_id = 1;
+    string message_id = 2;
+}
+
+message CountResponse {
+    int64 count = 1;
+}
+
