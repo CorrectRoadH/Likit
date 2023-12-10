@@ -22,7 +22,7 @@ const useDatabase = ()=> {
     }
 
     return {
-        database:data.dataSourceConfig||[],
+        database:data?.dataSourceConfig||[],
         isLoading,
         isError:error,
         createDatabase,

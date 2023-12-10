@@ -2,25 +2,33 @@
 WIP
 
 ## Getting started
-WIP
+Likit is very easy to embed in your backend. You just need to deploy it and create the business Id for your business. Then you can use it in your backend.
+
 ### Deployment
 
 #### zeabur
-WIP
+Deloyment on Zeabur by one click
+
+[![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/KZOLHA?referralCode=CorrectRoadH)
+
+
 #### docker-compose
-WIP
+```
+wget https://raw.githubusercontent.com/CorrectRoadH/Likit/main/docker-compose.yaml
+
+docker compose up -d
+```
 
 ### Create Business
 1. create database connection if you want use extra database
  
-Screenshots-1
+![create extract database connect](./imgs/screenshot-1.png)
 
-2. create business by click the button `Create Business` on the top right corner.
+1. create business by click the button `Create Business` on the top right corner.
 
-Screenshots-2
+![create business](./imgs/screenshot-2.png)
 
 Input the business title and id
-
 
 ### Implement the logic in your backend
 Copy business id and use it in your backend.
@@ -33,4 +41,7 @@ Message id mean the id of object that be vote, The message id can be any string.
 WIP
 
 #### RESTful API
+WIP
+
+#### gRPC
 WIP

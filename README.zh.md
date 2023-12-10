@@ -6,15 +6,14 @@
 
 [Demo](https://likit.zeabur.app)
 
-English | [简体中文](./README.zh.md)
+[English](./README.md) | 简体中文
 
 ## What is Likit
-Likit is a Backend as a Service for like(vote, unlike, count) feature. It is very ease to deploy and use.
+Likit 是一个 Backend as a Service ，提供点赞（投票、点赞、计数）功能。 部署和使用非常容易。
 
-The goal of Likit is help your implement like function within 10 minutes.
+Likit的目标是帮助您在10分钟内实现类似的功能。
 
-Likit is suitable for small and middle size application. You can select difference vote implement engine to get difference features and performance.
-
+Likit 适用于中小型应用程序。 您可以选择差异投票工具引擎来获得不同的功能和性能。
 [Getting started](./docs/getting-started.md)
 
 | features | Simple Vote System | Middle Vote System(WIP) |
