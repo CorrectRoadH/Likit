@@ -1,6 +1,6 @@
 import { useDatabase } from "@/api";
 import { uuid } from "@/utils/uuid";
-import { Form, Button, Drawer, Input, Select } from "@arco-design/web-react"
+import { Form, Button, Drawer, Input, Select, Skeleton } from "@arco-design/web-react"
 import axios from "axios";
 import React, { useState } from "react"
 import { toast } from "sonner";
@@ -99,45 +99,49 @@ const CreateDatabase = () => {
                         }}
                     />
                 </Form.Item>
+                
+                {
+                beSelectedType != "" && 
+                <Skeleton>
+                    <Form.Item label='Title' field='title' rules={[{ required: true }]}>
+                        <Input placeholder='Title' />
+                    </Form.Item>
 
-                <Form.Item label='Title' field='title' rules={[{ required: true }]}>
-                    <Input placeholder='Title' />
-                </Form.Item>
+                    <Form.Item label='Host' field='host' 
+                        rules={database_require[beSelectedType]['host']}
+                    >
+                        <Input placeholder='Host' />
+                    </Form.Item>
 
-                <Form.Item label='Host' field='host' 
-                    rules={database_require[beSelectedType]['host']}
-                >
-                    <Input placeholder='Host' />
-                </Form.Item>
+                    <Form.Item label='Port' field='port' 
+                        rules={database_require[beSelectedType]['port']}
+                    >
+                        <Input placeholder='Port' />
+                    </Form.Item>
 
-                <Form.Item label='Port' field='port' 
-                    rules={database_require[beSelectedType]['port']}
-                >
-                    <Input placeholder='Port' />
-                </Form.Item>
+                    <Form.Item label='Username' field='username'
+                        rules={database_require[beSelectedType]['username']}
+                    >
+                        <Input placeholder='Username' />
+                    </Form.Item>
 
-                <Form.Item label='Username' field='username'
-                    rules={database_require[beSelectedType]['username']}
-                >
-                    <Input placeholder='Username' />
-                </Form.Item>
+                    <Form.Item label='Password' field='password' 
+                        rules={database_require[beSelectedType]['password']}
+                    >
+                        <Input placeholder='Password' />
+                    </Form.Item>
 
-                <Form.Item label='Password' field='password' 
-                    rules={database_require[beSelectedType]['password']}
-                >
-                    <Input placeholder='Password' />
-                </Form.Item>
+                    <Form.Item label='Database' field='database'
+                        rules={database_require[beSelectedType]['database']}
+                    >
+                        <Input placeholder='Input the Database' />
+                    </Form.Item>
 
-                <Form.Item label='Database' field='database'
-                    rules={database_require[beSelectedType]['database']}
-                >
-                    <Input placeholder='Input the Database' />
-                </Form.Item>
-
-                <Button
-                    onClick={handleTestBtnClick}
-                >test connect</Button>
-
+                    <Button
+                        onClick={handleTestBtnClick}
+                    >test connect</Button>
+                </Skeleton>
+            }
             </Form>
         </Drawer>
     </>

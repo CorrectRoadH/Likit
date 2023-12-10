@@ -1,6 +1,6 @@
 import { Form, Input, Drawer, Button, Select, Tag, Space, Typography, Skeleton } from "@arco-design/web-react";
 import React, { useState } from "react"
-import { DatabaseConnectionConfig } from "../database/types";
+import { DatabaseConnectionConfig } from "../../../types";
 import { toast } from "sonner";
 import style from './style/overview.module.less'
 import useLocale from "@/utils/useLocale";
@@ -158,8 +158,6 @@ const CreateBusinessEditor = () => {
               <Input placeholder='Business ID. like: COMMENT_LIKE' />
             </Form.Item>
 
-
-            {/* TODO rerender the component when select changes */}
             <Form.Item label='Vote System' field='type' rules={[{ required: true }]}
             >
               <Select placeholder='System select'

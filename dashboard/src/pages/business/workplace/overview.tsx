@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Grid,
   Card,
   Typography,
   Divider,
 } from '@arco-design/web-react';
-import locale from './locale';
-import useLocale from '@/utils/useLocale';
-import axios from 'axios';
 import styles from './style/overview.module.less';
 import BusinessItem from './business-item';
-import { BusinessType } from './type';
+import { BusinessType } from '@/types';
 import CreateBusinessEditor from './create-business-editor';
 import { useBusiness } from '@/api';
 
-const { Row, Col } = Grid;
+const { Row } = Grid;
 
 
 function Overview() {
-  const { businesses,isLoading,isError} = useBusiness()
-
-  const t = useLocale(locale);
+  const { businesses, isLoading, isError} = useBusiness()
 
   return (
     <Card>
@@ -38,9 +33,7 @@ function Overview() {
         </Typography.Paragraph>
       </div>
 
-      {/* <Row> */}
-        <CreateBusinessEditor />
-      {/* </Row> */}
+      <CreateBusinessEditor />
 
 
       <Divider />

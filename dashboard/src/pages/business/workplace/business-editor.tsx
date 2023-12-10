@@ -10,7 +10,7 @@ import {
 } from '@arco-design/web-react';
 
 import styles from './style/overview.module.less';
-import { BusinessType } from './type';
+import { BusinessType } from '../../../types/type';
 import axios from 'axios';
 import { toast } from 'sonner';
 

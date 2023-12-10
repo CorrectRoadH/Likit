@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card, Divider, Typography,Grid } from "@arco-design/web-react";
-import { DatabaseConnectionConfig } from "./types";
+import { DatabaseConnectionConfig } from "../../../types";
 import axios from "axios";
 import Redis from "./blocks/redis";
 import Postgres from "./blocks/postgre";

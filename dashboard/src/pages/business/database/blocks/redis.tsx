@@ -1,5 +1,5 @@
 import React from 'react'
-import { DatabaseConnectionConfig } from '../types'
+import { DatabaseConnectionConfig } from '../../../../types'
 import styles from '../style/blocks.module.less';
 import { Button, Card,Typography } from '@arco-design/web-react';
 const { Text, Title } = Typography;

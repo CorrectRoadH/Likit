@@ -8,5 +8,12 @@ interface DatabaseConnectionConfig{
     password: string;
     database: string;
 }
+type BusinessType = {
+    title: string;
+    id: string;
+    type: string;
+  };
 
-export type {DatabaseConnectionConfig}
+  
+
+export type { DatabaseConnectionConfig, BusinessType }

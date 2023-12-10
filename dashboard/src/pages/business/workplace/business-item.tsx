@@ -2,7 +2,7 @@ import { Button, Card, Drawer, Grid, Skeleton, Typography } from '@arco-design/w
 import React, { useState, useEffect } from 'react';
 import styles from './style/overview.module.less';
 import BusinessEditor from './business-editor';
-import { BusinessType } from './type';
+import { BusinessType } from '../../../types/type';
 
 const { Row, Col } = Grid;
   
