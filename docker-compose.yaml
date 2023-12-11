@@ -44,7 +44,7 @@ services:
       - REDIS_PASSWORD=password
       - POSTGRES_HOST=pg
       - POSTGRES_PORT=5432
-      - POSTGRES_USER=username
+      - POSTGRES_USERNAME=username
       - POSTGRES_PASSWORD=password
       - POSTGRES_DATABASE=postgres
 networks:
