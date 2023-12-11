@@ -29,6 +29,7 @@ ENV TZ="UTC"
 COPY --from=backend /backend-build/likit /usr/local/likit/
 
 EXPOSE 7789
+EXPOSE 4778
 
 # Directory to store the data, which can be referenced as the mounting point.
 RUN mkdir -p /var/opt/likit
