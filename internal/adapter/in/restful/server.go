@@ -41,7 +41,7 @@ func NewRESTfulServer(
 func (v *RESTfulServer) Start() error {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "7789"
 	}
 	v.e.Start(fmt.Sprintf(":%s", port))
 	return nil
