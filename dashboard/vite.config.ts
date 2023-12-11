@@ -8,7 +8,7 @@ import setting from './src/settings.json';
 export default defineConfig({
   server: {
     proxy: {
-      '/admin': 'http://localhost:8080',
+      '/admin': 'http://localhost:7789',
     }
   },
   resolve: {

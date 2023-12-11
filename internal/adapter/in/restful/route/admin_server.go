@@ -105,13 +105,15 @@ func (u *adminApiService) GetBusinesses(ctx echo.Context) error {
 		})
 	}
 
-	return ctx.JSON(http.StatusOK, lo.Map(businesses, func(business domain.Business, _ int) codegen.Business {
-		return codegen.Business{
-			Id:    utils.Ptr(business.Id),
-			Title: utils.Ptr(business.Title),
-			Type:  utils.Ptr(business.Type),
-		}
-	}))
+	return ctx.JSON(http.StatusOK, codegen.ResponseBusinessList{
+		Businesses: utils.Ptr(lo.Map(businesses, func(business domain.Business, _ int) codegen.Business {
+			return codegen.Business{
+				Id:    utils.Ptr(business.Id),
+				Title: utils.Ptr(business.Title),
+				Type:  utils.Ptr(business.Type),
+			}
+		})),
+	})
 }
 
 func (a *adminApiService) CreateBusiness(ctx echo.Context) error {
@@ -128,7 +130,7 @@ func (a *adminApiService) CreateBusiness(ctx echo.Context) error {
 		})
 	}
 
-	return ctx.JSON(http.StatusOK, &codegen.BaseResponse{
+	return ctx.JSON(http.StatusOK, &codegen.ResponseOK{
 		Status: utils.Ptr("ok"),
 	})
 }
@@ -161,7 +163,7 @@ func (a *adminApiService) UpdateBusiness(ctx echo.Context) error {
 		})
 	}
 
-	return ctx.JSON(http.StatusOK, &codegen.BaseResponse{
+	return ctx.JSON(http.StatusOK, &codegen.ResponseOK{
 		Status: utils.Ptr("ok"),
 	})
 }

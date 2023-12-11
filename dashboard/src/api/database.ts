@@ -1,9 +1,15 @@
 import useSWR from "swr";
-import fetcher from "./fetcher";
 import axios from "axios";
 
+import admin_api from "./api";
+
+const databaseFetcher = async (key) =>{
+    return (await admin_api.getDatabaseConfigureList()).data.dataSourceConfig
+ };
+ 
+ 
 const useDatabase = ()=> {
-    const {data,isLoading,error, mutate} = useSWR("/admin/v1/database",fetcher)
+    const {data,isLoading,error, mutate} = useSWR("database",databaseFetcher)
 
     const createDatabase = (database)=>{
         mutate(
@@ -22,7 +28,7 @@ const useDatabase = ()=> {
     }
 
     return {
-        database:data?.dataSourceConfig||[],
+        database:data||[],
         isLoading,
         isError:error,
         createDatabase,
