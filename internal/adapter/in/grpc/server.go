@@ -36,3 +36,7 @@ func NewGrpcServer(voteGRPCServer *VoteGRPCServer) *GrpcServer {
 		listener: lis,
 	}
 }
+
+func (s *GrpcServer) Start() error {
+	return s.Server.Serve(s.listener)
+}

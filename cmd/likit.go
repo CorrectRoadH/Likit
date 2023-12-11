@@ -39,7 +39,8 @@ func Main() {
 			database.NewPostgresAdapter,
 		),
 		fx.Invoke(func(s *restful.RESTfulServer, g *grpc.GrpcServer) {
-			s.Start()
+			go s.Start()
+			go g.Start()
 		}),
 	).Run()
 
