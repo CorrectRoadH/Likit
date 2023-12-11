@@ -12,7 +12,7 @@ type VoteServer struct {
 	adminUseCase            in.AdminUseCase
 }
 
-func NewVoteServer(adminUseCase in.AdminUseCase) (in.VoteUseCase, error) {
+func NewVoteServer(adminUseCase in.AdminUseCase) (in.VoteAdminUseCase, error) {
 	businessIdMapVoteSystem := make(map[string]in.VoteUseCase)
 
 	// loading business data
@@ -74,4 +74,13 @@ func (v *VoteServer) VotedUsers(ctx context.Context, businessId string, messageI
 		return nil, domain.ErrBusinessNotExist
 	}
 	return voteSystem.VotedUsers(ctx, businessId, messageId)
+}
+
+func (v *VoteServer) CreateBusiness(ctx context.Context, business domain.Business) error {
+	simpleVoteSystem, err := NewSimpleVoteSystem(business.Config)
+	if err != nil {
+		return err
+	}
+	v.businessIdMapVoteSystem[business.Id] = simpleVoteSystem
+	return nil
 }

@@ -16,6 +16,7 @@ type adminApiService struct {
 	adminUseCase    in.AdminUseCase
 	databaseUseCase in.DatabaseUseCase
 	userUseCase     in.UserUseCase
+	voteUseCase     in.VoteAdminUseCase
 }
 
 func convertBusiness(business codegen.Business) domain.Business {
@@ -48,11 +49,13 @@ func NewAdminApiService(
 	adminUseCase in.AdminUseCase,
 	databaseUseCase in.DatabaseUseCase,
 	userUseCase in.UserUseCase,
+	voteUseCase in.VoteAdminUseCase,
 ) codegen.ServerInterface {
 	return &adminApiService{
 		adminUseCase:    adminUseCase,
 		databaseUseCase: databaseUseCase,
 		userUseCase:     userUseCase,
+		voteUseCase:     voteUseCase,
 	}
 }
 
@@ -123,6 +126,10 @@ func (a *adminApiService) CreateBusiness(ctx echo.Context) error {
 	}
 
 	err := a.adminUseCase.CreateBusiness(ctx.Request().Context(), convertBusiness(createBusinessRequest))
+	// TODO handle multi error
+	if err == nil {
+		err = a.voteUseCase.CreateBusiness(ctx.Request().Context(), convertBusiness(createBusinessRequest))
+	}
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
 			Status: utils.Ptr("error"),

@@ -9,10 +9,10 @@ import (
 )
 
 type VoteServer struct {
-	voteUseCase in.VoteUseCase
+	voteUseCase in.VoteAdminUseCase
 }
 
-func NewVoteServer(voteUseCase in.VoteUseCase) *VoteServer {
+func NewVoteServer(voteUseCase in.VoteAdminUseCase) *VoteServer {
 	s := &VoteServer{
 		voteUseCase: voteUseCase,
 	}

@@ -11,10 +11,10 @@ import (
 
 type VoteGRPCServer struct {
 	apiv1.UnimplementedVoteServiceServer
-	voteUseCase in.VoteUseCase
+	voteUseCase in.VoteAdminUseCase
 }
 
-func NewVoteGRPCServer(voteUseCase in.VoteUseCase) *VoteGRPCServer {
+func NewVoteGRPCServer(voteUseCase in.VoteAdminUseCase) *VoteGRPCServer {
 	s := &VoteGRPCServer{
 		voteUseCase: voteUseCase,
 	}
