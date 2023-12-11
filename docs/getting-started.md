@@ -41,7 +41,9 @@ Message id mean the id of object that be vote, The message id can be any string.
 WIP
 
 #### RESTful API
-WIP
+Coming soon
 
 #### gRPC
-WIP
+gRPC client library in [buf.build](https://buf.build/likit/likit/sdks/main)
+
+

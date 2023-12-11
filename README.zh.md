@@ -39,6 +39,8 @@ Deloyment on Zeabur by one click
 
 [![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/KZOLHA?referralCode=CorrectRoadH)
 
+Note: In zeabur the gRPC port is 443.
+
 ## Docker Compose
 ```
 wget https://raw.githubusercontent.com/CorrectRoadH/Likit/main/docker-compose.yaml
@@ -91,7 +93,7 @@ GET `http(s)://<your likit ip>/api/v1/isVoted/:businessId/:messageId/:userId`
 
 
 ## gRPC API
-Coming soon
+gRPC SDK [buf.build](https://buf.build/likit/likit/sdks/main)
 
 ## SDK
 
