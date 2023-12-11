@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/CorrectRoadH/Likit/config"
+	"github.com/CorrectRoadH/Likit/internal/adapter/in/grpc"
 	"github.com/CorrectRoadH/Likit/internal/adapter/in/restful"
 	"github.com/CorrectRoadH/Likit/internal/adapter/in/restful/route"
 	"github.com/CorrectRoadH/Likit/internal/adapter/out/admin"
@@ -19,6 +20,9 @@ func Main() {
 
 			route.NewAdminApiService,
 
+			grpc.NewGrpcServer,
+			grpc.NewVoteGRPCServer,
+
 			server.NewVoteServer,
 			server.NewAdminServer,
 			server.NewDatabaseServer,
@@ -34,7 +38,7 @@ func Main() {
 			database.NewRedisAdapter,
 			database.NewPostgresAdapter,
 		),
-		fx.Invoke(func(s *restful.RESTfulServer) {
+		fx.Invoke(func(s *restful.RESTfulServer, g *grpc.GrpcServer) {
 			s.Start()
 		}),
 	).Run()
