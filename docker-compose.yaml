@@ -30,7 +30,8 @@ services:
     container_name: likit
     image: correctroad/likit:latest
     ports:
-      - 3000:8080
+      - 7789:7789
+      - 4778:4778
     networks:
       - likit
     depends_on:

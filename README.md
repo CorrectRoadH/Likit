@@ -46,6 +46,8 @@ wget https://raw.githubusercontent.com/CorrectRoadH/Likit/main/docker-compose.ya
 
 docker compose up -d
 ```
+and visit `http://localhost:7789`
+grpc host is `localhost:4778`
 
 ## K8S
 Coming soon
