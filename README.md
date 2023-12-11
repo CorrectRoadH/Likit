@@ -54,6 +54,7 @@ Coming soon
 [Document](./docs/getting-started.md)
 
 ## RESTful API
+OpenAPI will be supported in the future
 
 ### Vote
 POST `http(s)://<your likit ip>/api/v1/vote`
@@ -92,7 +93,7 @@ GET `http(s)://<your likit ip>/api/v1/isVoted/:businessId/:messageId/:userId`
 
 
 ## gRPC API
-Coming soon
+[gRPC SDKs in Buf](https://buf.build/likit/likit/sdks/main)
 
 ## SDK
 
