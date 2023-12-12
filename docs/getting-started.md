@@ -38,7 +38,7 @@ Message id mean the id of object that be vote, The message id can be any string.
 [Click here](https://github.com/CorrectRoadH/likit-go/blob/main/README.md)
 
 #### Java
-WIP
+[Click here](https://github.com/LxiHaaa/Likit-client)
 
 #### RESTful API
 Coming soon

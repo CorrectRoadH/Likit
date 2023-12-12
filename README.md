@@ -105,4 +105,4 @@ GET `http(s)://<your likit ip>/api/v1/isVoted/:businessId/:messageId/:userId`
 [Likit Go](https://github.com/CorrectRoadH/likit-go)
 
 ### Java
-Coming soon
+[Likit Java](https://github.com/LxiHaaa/Likit-client)
