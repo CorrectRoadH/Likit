@@ -9,7 +9,7 @@ interface DatabaseConnectionConfig{
     database: string;
 }
 type BusinessType = {
-    title: string;
+    title?: string;
     id: string;
     type: string;
   };

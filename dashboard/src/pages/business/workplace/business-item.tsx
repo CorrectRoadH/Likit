@@ -1,14 +1,14 @@
 import { Button, Card, Drawer, Grid, Skeleton, Typography } from '@arco-design/web-react';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './style/overview.module.less';
 import BusinessEditor from './business-editor';
-import { BusinessType } from '../../../types/type';
+import { Business } from '@/api/openapi';
 
 const { Row, Col } = Grid;
   
 const { Title,Text } = Typography;
 interface BusinessItemProps {
-    business: BusinessType;
+    business: Business;
 }
 
 const BusinessItem = ({business}:BusinessItemProps) => {

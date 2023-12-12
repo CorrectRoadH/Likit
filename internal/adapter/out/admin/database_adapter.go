@@ -30,7 +30,8 @@ func NewDatabaseAdapter(config domain.PostgresConfig) out.DatabasePort {
 }
 
 func (d *DatabaseAdapter) CreateDatabaseConnectConfig(config domain.DatabaseConnectConfig) error {
-	return d.db.Create(&config).Error
+	fmt.Println(config)
+	return d.db.Create(config).Error
 }
 
 func (d *DatabaseAdapter) DatabaseConnectConfig(configId string) (domain.DatabaseConnectConfig, error) {

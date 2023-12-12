@@ -1,11 +1,11 @@
 import React from 'react'
-import { DatabaseConnectionConfig } from '../../../../types'
+import { DatabaseConnectConfig } from "@/api/openapi";
 import styles from '../style/blocks.module.less';
 import { Button, Card,Typography } from '@arco-design/web-react';
 const { Text, Title } = Typography;
 
 interface PostgresProps {
-    config: DatabaseConnectionConfig
+    config: DatabaseConnectConfig
 }
 const Postgres = ({config}:PostgresProps)=>{
     return (

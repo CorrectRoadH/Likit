@@ -8,7 +8,6 @@ import {
 } from '@arco-design/web-react';
 import styles from './style/overview.module.less';
 import BusinessItem from './business-item';
-import { BusinessType } from '@/types';
 import CreateBusinessEditor from './create-business-editor';
 import { useBusiness } from '@/api';
 

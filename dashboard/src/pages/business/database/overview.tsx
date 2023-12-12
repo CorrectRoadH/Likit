@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Card, Divider, Typography,Grid } from "@arco-design/web-react";
-import { DatabaseConnectionConfig } from "../../../types";
-import axios from "axios";
+import React from "react";
+import { Card, Divider, Typography,Grid, Skeleton } from "@arco-design/web-react";
 import Redis from "./blocks/redis";
 import Postgres from "./blocks/postgre";
 import CreateDatabase from "./create-database-editor";
+import { useDatabase } from "@/api";
 
 
 const { Row, Col } = Grid;
@@ -12,18 +11,8 @@ const { Title } = Typography;
 
 const Overview = () => {
 
-    // TODO extract to a hook
-    const [data, setData] = useState<DatabaseConnectionConfig[]>([]);
-    
-    const fetchData = () => {
-        axios.get('/admin/v1/database').then((res) => {
-            setData(res.data.dataSourceConfig);
-        });
-    }
+    const {database,isLoading} = useDatabase(); 
 
-    useEffect(() => {
-        fetchData()
-    }, []);
     return (
         <Card>
             <Typography.Title heading={5}>
@@ -34,9 +23,10 @@ const Overview = () => {
 
             <Title heading={6}>Redis</Title>
 
-            <Row>
+            <Row gutter={20}>
+                <Skeleton loading={isLoading} text={{ rows: 2, width: 60 }} animation>
                 {
-                    data
+                    database
                         .filter((item) => item.databaseType === 'redis')
                         .map((item) => (
                                 <Col key={`database-item-${item.id}`} span={6}>
@@ -44,6 +34,7 @@ const Overview = () => {
                                 </Col> 
                             ))
                 }
+                </Skeleton>
             </Row>
             
             <Divider />
@@ -51,19 +42,21 @@ const Overview = () => {
             <div>
                 <Title heading={6}>Postgres</Title>
 
-                <Row>
-                {
-                    data
-                        .filter((item) => item.databaseType === 'postgres')
-                        .map((item) => (
-                            <>  
-                                <Col key={item.id} span={6}>
-                                    <Postgres config={item} />
-                                </Col>
-                            </>
-                        ))
-                }
-            </Row>
+                <Row gutter={20}>
+                    <Skeleton loading={isLoading} text={{ rows: 2, width: 60 }} animation>
+                    {
+                        database
+                            .filter((item) => item.databaseType === 'postgres')
+                            .map((item) => (
+                                <>  
+                                    <Col key={item.id} span={6}>
+                                        <Postgres config={item} />
+                                    </Col>
+                                </>
+                            ))
+                    }
+                    </Skeleton>
+                </Row>
             </div>
 
                 

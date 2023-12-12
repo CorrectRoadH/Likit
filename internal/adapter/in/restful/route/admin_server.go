@@ -222,7 +222,12 @@ func (a *adminApiService) GetDatabaseConfigureList(ctx echo.Context) error {
 }
 
 func (a *adminApiService) CreateDatabase(ctx echo.Context) error {
-	err := a.databaseUseCase.CreateDatabase(ctx.Request().Context(), domain.DatabaseConnectConfig{})
+	var databaseConnectConfig codegen.DatabaseConnectConfig
+	if err := ctx.Bind(&databaseConnectConfig); err != nil {
+		return ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	err := a.databaseUseCase.CreateDatabase(ctx.Request().Context(), convertDatabaseConnectConfig(databaseConnectConfig))
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
 			Status: utils.Ptr("error"),

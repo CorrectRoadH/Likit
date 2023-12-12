@@ -1,11 +1,11 @@
 import React from 'react'
-import { DatabaseConnectionConfig } from '../../../../types'
 import styles from '../style/blocks.module.less';
 import { Button, Card,Typography } from '@arco-design/web-react';
 const { Text, Title } = Typography;
+import { DatabaseConnectConfig } from "@/api/openapi";
 
 interface RedisProps {
-    config: DatabaseConnectionConfig
+    config: DatabaseConnectConfig
 }
 const Redis = ({config}:RedisProps)=>{
     return (

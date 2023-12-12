@@ -42,13 +42,13 @@ const CreateDatabase = () => {
         form.validate().then((res)=>{
             const config:DatabaseConnectConfig = {
                 title: res.title,
-                "id": uuid(),
-                "databaseType":"redis",
-                "host": res.host,
-                "port": Number(res.port),
-                "username":"",
+                id: uuid(),
+                databaseType:"redis",
+                host: res.host,
+                port: Number(res.port),
+                username:"",
                 password: res?.password || "",
-                "database":""
+                database:""
             }
             console.log(config)
             axios.post("/admin/v1/database/test", config).then((res) => {
@@ -77,11 +77,27 @@ const CreateDatabase = () => {
             onOk={()=>{
                 form.validate().then((res)=>{
                     setConfirmLoading(true);
-                    console.log(res)
-                    createDatabase(res).then((res)=>{
+
+                    const config:DatabaseConnectConfig = {
+                        title: res?.title || "",
+                        id: uuid(),
+                        databaseType: res.type,
+                        host: res.host,
+                        port: Number(res.port),
+                        username: res?.username || "",
+                        password: res?.password || "",
+                        database: res?.database || ""
+                    }
+        
+                    console.log(config)
+                    createDatabase(config).then(()=>{
                         toast.success("create success");
+                        setConfirmLoading(false);
+                        setVisible(false);    
+                    }).catch((err)=>{
+                        toast.error(err.response.data.msg);
+                        setConfirmLoading(false);
                     })
-                    setConfirmLoading(false);
                 })
             }}
 
