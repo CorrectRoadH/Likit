@@ -271,47 +271,13 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Create Postgres Database
-         * @param {DatabaseConnectConfig} [databaseConnectConfig] Create Postgres Database
+         * @summary Create Database
+         * @param {DatabaseConnectConfig} [databaseConnectConfig] Create Database
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPostgresDatabase: async (databaseConnectConfig?: DatabaseConnectConfig, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/database/postgres`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(databaseConnectConfig, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Create Redis Database
-         * @param {DatabaseConnectConfig} [databaseConnectConfig] Create Redis Database
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createRedisDatabase: async (databaseConnectConfig?: DatabaseConnectConfig, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/database/redis`;
+        createDatabase: async (databaseConnectConfig?: DatabaseConnectConfig, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/database`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -376,6 +342,43 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Delete Database
+         * @param {string} id Database ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteDatabase: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteDatabase', 'id', id)
+            const localVarPath = `/database`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get Business List
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -412,66 +415,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         getDatabaseConfigureList: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/database`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get Postgres Database List
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPostgresDatabaseList: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/database/postgres`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get Redis Database List
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getRedisDatabaseList: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/database/redis`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -598,47 +541,13 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Update Postgres Database
-         * @param {DatabaseConnectConfig} [databaseConnectConfig] Update Postgres Database
+         * @summary Update  Database
+         * @param {DatabaseConnectConfig} [databaseConnectConfig] Update Database
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePostgresDatabase: async (databaseConnectConfig?: DatabaseConnectConfig, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/database/postgres`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(databaseConnectConfig, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Update Redis Database
-         * @param {DatabaseConnectConfig} [databaseConnectConfig] Update Redis Database
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateRedisDatabase: async (databaseConnectConfig?: DatabaseConnectConfig, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/database/redis`;
+        updateDatabase: async (databaseConnectConfig?: DatabaseConnectConfig, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/database`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -719,28 +628,15 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Create Postgres Database
-         * @param {DatabaseConnectConfig} [databaseConnectConfig] Create Postgres Database
+         * @summary Create Database
+         * @param {DatabaseConnectConfig} [databaseConnectConfig] Create Database
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createPostgresDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BaseResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createPostgresDatabase(databaseConnectConfig, options);
+        async createDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BaseResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createDatabase(databaseConnectConfig, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DefaultApi.createPostgresDatabase']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Create Redis Database
-         * @param {DatabaseConnectConfig} [databaseConnectConfig] Create Redis Database
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async createRedisDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BaseResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createRedisDatabase(databaseConnectConfig, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DefaultApi.createRedisDatabase']?.[index]?.url;
+            const operationBasePath = operationServerMap['DefaultApi.createDatabase']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
@@ -754,6 +650,19 @@ export const DefaultApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteBusiness(id, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['DefaultApi.deleteBusiness']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Delete Database
+         * @param {string} id Database ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteDatabase(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BaseResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteDatabase(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['DefaultApi.deleteDatabase']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
@@ -778,30 +687,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getDatabaseConfigureList(options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['DefaultApi.getDatabaseConfigureList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Get Postgres Database List
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getPostgresDatabaseList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Businesses>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPostgresDatabaseList(options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DefaultApi.getPostgresDatabaseList']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Get Redis Database List
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getRedisDatabaseList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Businesses>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getRedisDatabaseList(options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DefaultApi.getRedisDatabaseList']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
@@ -845,28 +730,15 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Update Postgres Database
-         * @param {DatabaseConnectConfig} [databaseConnectConfig] Update Postgres Database
+         * @summary Update  Database
+         * @param {DatabaseConnectConfig} [databaseConnectConfig] Update Database
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updatePostgresDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BaseResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updatePostgresDatabase(databaseConnectConfig, options);
+        async updateDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BaseResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateDatabase(databaseConnectConfig, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DefaultApi.updatePostgresDatabase']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Update Redis Database
-         * @param {DatabaseConnectConfig} [databaseConnectConfig] Update Redis Database
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateRedisDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BaseResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRedisDatabase(databaseConnectConfig, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DefaultApi.updateRedisDatabase']?.[index]?.url;
+            const operationBasePath = operationServerMap['DefaultApi.updateDatabase']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
@@ -903,23 +775,13 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Create Postgres Database
-         * @param {DatabaseConnectConfig} [databaseConnectConfig] Create Postgres Database
+         * @summary Create Database
+         * @param {DatabaseConnectConfig} [databaseConnectConfig] Create Database
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPostgresDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: any): AxiosPromise<BaseResponse> {
-            return localVarFp.createPostgresDatabase(databaseConnectConfig, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Create Redis Database
-         * @param {DatabaseConnectConfig} [databaseConnectConfig] Create Redis Database
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createRedisDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: any): AxiosPromise<BaseResponse> {
-            return localVarFp.createRedisDatabase(databaseConnectConfig, options).then((request) => request(axios, basePath));
+        createDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: any): AxiosPromise<BaseResponse> {
+            return localVarFp.createDatabase(databaseConnectConfig, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -930,6 +792,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         deleteBusiness(id: string, options?: any): AxiosPromise<BaseResponse> {
             return localVarFp.deleteBusiness(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete Database
+         * @param {string} id Database ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteDatabase(id: string, options?: any): AxiosPromise<BaseResponse> {
+            return localVarFp.deleteDatabase(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -948,24 +820,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         getDatabaseConfigureList(options?: any): AxiosPromise<Config> {
             return localVarFp.getDatabaseConfigureList(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get Postgres Database List
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getPostgresDatabaseList(options?: any): AxiosPromise<Businesses> {
-            return localVarFp.getPostgresDatabaseList(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get Redis Database List
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getRedisDatabaseList(options?: any): AxiosPromise<Businesses> {
-            return localVarFp.getRedisDatabaseList(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -999,23 +853,13 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Update Postgres Database
-         * @param {DatabaseConnectConfig} [databaseConnectConfig] Update Postgres Database
+         * @summary Update  Database
+         * @param {DatabaseConnectConfig} [databaseConnectConfig] Update Database
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePostgresDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: any): AxiosPromise<BaseResponse> {
-            return localVarFp.updatePostgresDatabase(databaseConnectConfig, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Update Redis Database
-         * @param {DatabaseConnectConfig} [databaseConnectConfig] Update Redis Database
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateRedisDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: any): AxiosPromise<BaseResponse> {
-            return localVarFp.updateRedisDatabase(databaseConnectConfig, options).then((request) => request(axios, basePath));
+        updateDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: any): AxiosPromise<BaseResponse> {
+            return localVarFp.updateDatabase(databaseConnectConfig, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1050,26 +894,14 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
-     * @summary Create Postgres Database
-     * @param {DatabaseConnectConfig} [databaseConnectConfig] Create Postgres Database
+     * @summary Create Database
+     * @param {DatabaseConnectConfig} [databaseConnectConfig] Create Database
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public createPostgresDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).createPostgresDatabase(databaseConnectConfig, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Create Redis Database
-     * @param {DatabaseConnectConfig} [databaseConnectConfig] Create Redis Database
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public createRedisDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).createRedisDatabase(databaseConnectConfig, options).then((request) => request(this.axios, this.basePath));
+    public createDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).createDatabase(databaseConnectConfig, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1082,6 +914,18 @@ export class DefaultApi extends BaseAPI {
      */
     public deleteBusiness(id: string, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).deleteBusiness(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete Database
+     * @param {string} id Database ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public deleteDatabase(id: string, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).deleteDatabase(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1104,28 +948,6 @@ export class DefaultApi extends BaseAPI {
      */
     public getDatabaseConfigureList(options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).getDatabaseConfigureList(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get Postgres Database List
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public getPostgresDatabaseList(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getPostgresDatabaseList(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get Redis Database List
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public getRedisDatabaseList(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getRedisDatabaseList(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1166,26 +988,14 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
-     * @summary Update Postgres Database
-     * @param {DatabaseConnectConfig} [databaseConnectConfig] Update Postgres Database
+     * @summary Update  Database
+     * @param {DatabaseConnectConfig} [databaseConnectConfig] Update Database
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public updatePostgresDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).updatePostgresDatabase(databaseConnectConfig, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Update Redis Database
-     * @param {DatabaseConnectConfig} [databaseConnectConfig] Update Redis Database
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public updateRedisDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).updateRedisDatabase(databaseConnectConfig, options).then((request) => request(this.axios, this.basePath));
+    public updateDatabase(databaseConnectConfig?: DatabaseConnectConfig, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).updateDatabase(databaseConnectConfig, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

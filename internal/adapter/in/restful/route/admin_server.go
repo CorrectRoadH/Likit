@@ -175,30 +175,6 @@ func (a *adminApiService) UpdateBusiness(ctx echo.Context) error {
 	})
 }
 
-func (a *adminApiService) CreatePostgresDatabase(ctx echo.Context) error {
-	panic("TODO: Implement")
-}
-
-func (a *adminApiService) CreateRedisDatabase(ctx echo.Context) error {
-	panic("TODO: Implement")
-}
-
-func (a *adminApiService) GetPostgresDatabaseList(ctx echo.Context) error {
-	panic("TODO: Implement")
-}
-
-func (a *adminApiService) GetRedisDatabaseList(ctx echo.Context) error {
-	panic("TODO: Implement")
-}
-
-func (a *adminApiService) UpdatePostgresDatabase(ctx echo.Context) error {
-	panic("TODO: Implement")
-}
-
-func (a *adminApiService) UpdateRedisDatabase(ctx echo.Context) error {
-	panic("TODO: Implement")
-}
-
 func (a *adminApiService) TestDatabaseConnection(ctx echo.Context) error {
 	var databaseConnectConfig codegen.DatabaseConnectConfig
 	if err := ctx.Bind(&databaseConnectConfig); err != nil {
@@ -243,4 +219,36 @@ func (a *adminApiService) GetDatabaseConfigureList(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, codegen.ResponseDatabaseList{
 		DataSourceConfig: &array,
 	})
+}
+
+func (a *adminApiService) CreateDatabase(ctx echo.Context) error {
+	err := a.databaseUseCase.CreateDatabase(ctx.Request().Context(), domain.DatabaseConnectConfig{})
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
+			Status: utils.Ptr("error"),
+			Msg:    utils.Ptr(err.Error()),
+		})
+	}
+	return ctx.JSON(http.StatusOK, &codegen.ResponseOK{
+		Status: utils.Ptr("ok"),
+	})
+}
+
+func (a *adminApiService) DeleteDatabase(ctx echo.Context, params codegen.DeleteDatabaseParams) error {
+	err := a.databaseUseCase.DeleteDatabase(ctx.Request().Context(), domain.DatabaseConnectConfig{
+		Id: params.Id,
+	})
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
+			Status: utils.Ptr("error"),
+			Msg:    utils.Ptr(err.Error()),
+		})
+	}
+	return ctx.JSON(http.StatusOK, &codegen.ResponseOK{
+		Status: utils.Ptr("ok"),
+	})
+}
+
+func (a *adminApiService) UpdateDatabase(ctx echo.Context) error {
+	panic("TODO: Implement")
 }

@@ -97,23 +97,23 @@ type DeleteBusinessParams struct {
 	Id string `form:"id" json:"id"`
 }
 
+// DeleteDatabaseParams defines parameters for DeleteDatabase.
+type DeleteDatabaseParams struct {
+	// Id Database ID
+	Id string `form:"id" json:"id"`
+}
+
 // CreateBusinessJSONRequestBody defines body for CreateBusiness for application/json ContentType.
 type CreateBusinessJSONRequestBody = Business
 
 // UpdateBusinessJSONRequestBody defines body for UpdateBusiness for application/json ContentType.
 type UpdateBusinessJSONRequestBody = Business
 
-// CreatePostgresDatabaseJSONRequestBody defines body for CreatePostgresDatabase for application/json ContentType.
-type CreatePostgresDatabaseJSONRequestBody = DatabaseConnectConfig
+// CreateDatabaseJSONRequestBody defines body for CreateDatabase for application/json ContentType.
+type CreateDatabaseJSONRequestBody = DatabaseConnectConfig
 
-// UpdatePostgresDatabaseJSONRequestBody defines body for UpdatePostgresDatabase for application/json ContentType.
-type UpdatePostgresDatabaseJSONRequestBody = DatabaseConnectConfig
-
-// CreateRedisDatabaseJSONRequestBody defines body for CreateRedisDatabase for application/json ContentType.
-type CreateRedisDatabaseJSONRequestBody = DatabaseConnectConfig
-
-// UpdateRedisDatabaseJSONRequestBody defines body for UpdateRedisDatabase for application/json ContentType.
-type UpdateRedisDatabaseJSONRequestBody = DatabaseConnectConfig
+// UpdateDatabaseJSONRequestBody defines body for UpdateDatabase for application/json ContentType.
+type UpdateDatabaseJSONRequestBody = DatabaseConnectConfig
 
 // TestDatabaseConnectionJSONRequestBody defines body for TestDatabaseConnection for application/json ContentType.
 type TestDatabaseConnectionJSONRequestBody = DatabaseConnectConfig
@@ -135,27 +135,18 @@ type ServerInterface interface {
 	// Get Business List
 	// (GET /businesses)
 	GetBusinesses(ctx echo.Context) error
+	// Delete Database
+	// (DELETE /database)
+	DeleteDatabase(ctx echo.Context, params DeleteDatabaseParams) error
 	// Get Database Connection Configure List
 	// (GET /database)
 	GetDatabaseConfigureList(ctx echo.Context) error
-	// Get Postgres Database List
-	// (GET /database/postgres)
-	GetPostgresDatabaseList(ctx echo.Context) error
-	// Create Postgres Database
-	// (POST /database/postgres)
-	CreatePostgresDatabase(ctx echo.Context) error
-	// Update Postgres Database
-	// (PUT /database/postgres)
-	UpdatePostgresDatabase(ctx echo.Context) error
-	// Get Redis Database List
-	// (GET /database/redis)
-	GetRedisDatabaseList(ctx echo.Context) error
-	// Create Redis Database
-	// (POST /database/redis)
-	CreateRedisDatabase(ctx echo.Context) error
-	// Update Redis Database
-	// (PUT /database/redis)
-	UpdateRedisDatabase(ctx echo.Context) error
+	// Create Database
+	// (POST /database)
+	CreateDatabase(ctx echo.Context) error
+	// Update  Database
+	// (PUT /database)
+	UpdateDatabase(ctx echo.Context) error
 	// Test Database Connection
 	// (POST /database/test)
 	TestDatabaseConnection(ctx echo.Context) error
@@ -217,6 +208,24 @@ func (w *ServerInterfaceWrapper) GetBusinesses(ctx echo.Context) error {
 	return err
 }
 
+// DeleteDatabase converts echo context to params.
+func (w *ServerInterfaceWrapper) DeleteDatabase(ctx echo.Context) error {
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params DeleteDatabaseParams
+	// ------------- Required query parameter "id" -------------
+
+	err = runtime.BindQueryParameter("form", true, true, "id", ctx.QueryParams(), &params.Id)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+	}
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.DeleteDatabase(ctx, params)
+	return err
+}
+
 // GetDatabaseConfigureList converts echo context to params.
 func (w *ServerInterfaceWrapper) GetDatabaseConfigureList(ctx echo.Context) error {
 	var err error
@@ -226,57 +235,21 @@ func (w *ServerInterfaceWrapper) GetDatabaseConfigureList(ctx echo.Context) erro
 	return err
 }
 
-// GetPostgresDatabaseList converts echo context to params.
-func (w *ServerInterfaceWrapper) GetPostgresDatabaseList(ctx echo.Context) error {
+// CreateDatabase converts echo context to params.
+func (w *ServerInterfaceWrapper) CreateDatabase(ctx echo.Context) error {
 	var err error
 
 	// Invoke the callback with all the unmarshalled arguments
-	err = w.Handler.GetPostgresDatabaseList(ctx)
+	err = w.Handler.CreateDatabase(ctx)
 	return err
 }
 
-// CreatePostgresDatabase converts echo context to params.
-func (w *ServerInterfaceWrapper) CreatePostgresDatabase(ctx echo.Context) error {
+// UpdateDatabase converts echo context to params.
+func (w *ServerInterfaceWrapper) UpdateDatabase(ctx echo.Context) error {
 	var err error
 
 	// Invoke the callback with all the unmarshalled arguments
-	err = w.Handler.CreatePostgresDatabase(ctx)
-	return err
-}
-
-// UpdatePostgresDatabase converts echo context to params.
-func (w *ServerInterfaceWrapper) UpdatePostgresDatabase(ctx echo.Context) error {
-	var err error
-
-	// Invoke the callback with all the unmarshalled arguments
-	err = w.Handler.UpdatePostgresDatabase(ctx)
-	return err
-}
-
-// GetRedisDatabaseList converts echo context to params.
-func (w *ServerInterfaceWrapper) GetRedisDatabaseList(ctx echo.Context) error {
-	var err error
-
-	// Invoke the callback with all the unmarshalled arguments
-	err = w.Handler.GetRedisDatabaseList(ctx)
-	return err
-}
-
-// CreateRedisDatabase converts echo context to params.
-func (w *ServerInterfaceWrapper) CreateRedisDatabase(ctx echo.Context) error {
-	var err error
-
-	// Invoke the callback with all the unmarshalled arguments
-	err = w.Handler.CreateRedisDatabase(ctx)
-	return err
-}
-
-// UpdateRedisDatabase converts echo context to params.
-func (w *ServerInterfaceWrapper) UpdateRedisDatabase(ctx echo.Context) error {
-	var err error
-
-	// Invoke the callback with all the unmarshalled arguments
-	err = w.Handler.UpdateRedisDatabase(ctx)
+	err = w.Handler.UpdateDatabase(ctx)
 	return err
 }
 
@@ -339,13 +312,10 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 	router.POST(baseURL+"/business", wrapper.CreateBusiness)
 	router.PUT(baseURL+"/business", wrapper.UpdateBusiness)
 	router.GET(baseURL+"/businesses", wrapper.GetBusinesses)
+	router.DELETE(baseURL+"/database", wrapper.DeleteDatabase)
 	router.GET(baseURL+"/database", wrapper.GetDatabaseConfigureList)
-	router.GET(baseURL+"/database/postgres", wrapper.GetPostgresDatabaseList)
-	router.POST(baseURL+"/database/postgres", wrapper.CreatePostgresDatabase)
-	router.PUT(baseURL+"/database/postgres", wrapper.UpdatePostgresDatabase)
-	router.GET(baseURL+"/database/redis", wrapper.GetRedisDatabaseList)
-	router.POST(baseURL+"/database/redis", wrapper.CreateRedisDatabase)
-	router.PUT(baseURL+"/database/redis", wrapper.UpdateRedisDatabase)
+	router.POST(baseURL+"/database", wrapper.CreateDatabase)
+	router.PUT(baseURL+"/database", wrapper.UpdateDatabase)
 	router.POST(baseURL+"/database/test", wrapper.TestDatabaseConnection)
 	router.POST(baseURL+"/user/login", wrapper.Login)
 	router.GET(baseURL+"/user/userInfo", wrapper.UserInfo)
@@ -355,28 +325,27 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/+RZTW/bRhP+K8S875Ex5Y+2KG/xRwMhrm3YTi5BEKzIEbWJuEvvLm0rhoD20KK3XooC",
-	"vfXUqy8F+ovSuv+i2KUo7UpLl/4IIqiAAYvU7M7M8wyfGa6uIOF5wRkyJSG+AoGy4EyiuTieXGyXkjKU",
-	"cp9Kpe8nnClk5iMpiiFNiKKcRW8lZ/qeTAaYE/3p/wL7EMP/opmTqPpWRvWmKGE8HoeQokwELfROEIPj",
-	"chxOQ9klivSIxEcNZYezPs3uEkaXKRSMDE9QnKPYE4KLFtHgJcmLIeqPOUpJMoQY6q2Caq+g2mwctoWR",
-	"SKyj8mXQuH296ICrr3jJ0vvGf8BVUG3waDE7W9aGh88fr/T+xf/hc9vxC4miy/r8bgCRJOElU90UYiBp",
-	"ThmEQM6JIgJiGChVyDiKsos1MqQFGfHeW0yUXEt4Hr3nMhK5LLhQZBhtU/K+T9hlTvKDY355+fLyHVkr",
-	"WAYhYE7oEGKAEBjJ0XJUoMiplJQzad0VmFGphAn5lJoFG52NzpPO+pPOetDpxOavPY1TYDwQWt/V2xlJ",
-	"caCPr6AQvEChaCU4ucz0P3erSakFAlUpGKZBbxTIqpglTTGg/UANUGBAZUDYSANT0wA3v//24cc//vzh",
-	"55tvvvtw/f1fv37790+/3FxfQwhqVGgLqQRlmUlaEVVKh0ZA87QsGOukamlYzCKp5KSl6ISQCCQK3xDl",
-	"+vZx4wmbpu6ymu0FQ0VVVZptbM0N2/Sk+/XR/t6bl4ene74FZZHeOwcbTfTg2XO+owpz2ba5zHIBIgQZ",
-	"Vc52pgS5jlKiyAkvRYIzi1bu6q60wxnDRM2oXfTtN/WGos1cOL0FUJueLnAmMKXSt2TA5RxRQ56Qobnd",
-	"psR6SYrqDC/WNze2NrweCiLlBRdta1OLnWv6+eYXX84sKVOYoWgo42OdZ1Aj6y1PqZtg3q78NU37PKPs",
-	"GM9KrJBy2bljdtr7QWvvWqhJesiGI4iVKFFfn5VUYArxq9leFsavxyHYXcoN1upEraKtu5Rt/DgNa8HV",
-	"pIPZnnxmrZmb63ytVix2xXsImGaNTtB3u9fTo27Q5yLYp++oebiq8gVzHTw96kII5yhkZX2+rkPiBTJS",
-	"UIhhc62ztmmoVgOTUNSz2k6KQ1QmYM23ycDMG7vm/lQD9XJBclQoJMSvrhpm3KC7CzoLiOGsRDGajRU0",
-	"BbsIq6KczQjzaLwO3deIjU6nSUCndpE15o1D2OpstV8ynWDHIXx2F1++Kd7MK2WeEzGaIhnY7aSYaKcL",
-	"+Y7p4RbkotKObZ6OHv2VyTdwVQE4ka4KCZ7UitLDwQszg3xCDqoAVpKDhdTG4UyLquwy9HDyDJU12j0E",
-	"j/lX8WVB5hmqKSxBFZzGxh7gmpCxZsE+zUpRnWo8BCTneGTJQKpjCyajL+UsmGbuQS7SSpuJ24vraGLj",
-	"JL6qZVYnO4OyjvK2pjQP0UcSxoZ3oMZOtZDMCrYsb4639K5lo2qi+itNVXOOjhhV79K3KJF5Cf1PyJD7",
-	"ut1KgxxwlkSA5k4NVk99FhO8RXqWiqHJM7m6DDUk6CiOqo+evM/VKUo1h6fG7hMTp6PyDXqrxF1zjpq+",
-	"UqKIhjyjrJk7c7j4kahyDi49DFW+V4gOk1CgeLBL5KDHiUgtIkrrVNTbuKfHpg8BZPZj1xIpjPXj3Pif",
-	"AAAA//+RUb1D5h8AAA==",
+	"H4sIAAAAAAAC/+xYS2/bxhP/KsT8/0fKpPzIg7f40UCIaxu2k0sQBCtyJG0i7tK7S8eKQaA9tOitl6JA",
+	"bz316kuBfqK07rcodilSS2vl0o8ghlDAgMXl7Dx+v+HM7J5DzNOMM2RKQnQOAmXGmUTzcDh92MwlZSjl",
+	"LpVKr8ecKWTmJ8myMY2JopwF7yRnek3GI0yJ/vV/gQOI4H/BzEhQvpVBpRQlFEXhQ4IyFjTTmiCChsnC",
+	"r13ZJor0icR7dWWLswEd3sSNHlMoGBkfoThFsSMEFy28wTOSZmPUP1OUkgwRIqhUeaUur1RW+G1hJBIr",
+	"r1wRLFRfbdrj6iues+S2/u9x5ZUK7s3nhspKcP/F/aXev9jff2EbfilR9NiA3wwgEsc8Z6qXQAQkSSkD",
+	"H8gpUURABCOlMhkFwfDDChnTjEx4/x3GSq7EPA0+chmIVGZcKDIONin5OCDsLCXp3iE/O3t19p6sZGwI",
+	"PmBK6BgiAB8YSdEylKFIqZSUM2mtChxSqYRx+ZiaDavhatgJu52w64VhZP7a01gD44DQelepMyWlAX10",
+	"DpngGQpFy4KTyqH+11Q1TTVPoMoFw8TrTzxZJrOkCXp04KkRCvSo9AibaGAqGuDy998+/fjHnz/8fPnN",
+	"d58uvv/r12///umXy4sL8EFNMi0hlaBsaIJWROWyQSOg+VrmhHVQVWmYjyIuy0nLouNDLJAofEtU07aL",
+	"G4fbNGluq9ieE1RUlanZRtYs2KJHva8Pdnfevto/3nFtyLPk1jHYaKIDz37jHVWYyrbNZRYLECHIpDS2",
+	"VRPUNJQQRY54LmKcSbQyV3WlLc4YxmpG7bxtt6jTFS3WhNOZAJXo8RxnAhMqXVtGXF4hasxjMjbLLVIM",
+	"19cH3XAj7iTd7kZn/XHS7/SfrD7qDFaT5En/aYi41nfpyYiUH7hom7C6AjZFH609fjqTpEzhEMWC3D7U",
+	"wXsV3M6clbozpu2+Cc3dLh9SdognOZbwNSm7YXTa+l5r67p6k2SfjScQKZGjfj7JqcAEotczXRbGbwof",
+	"7NbVdNZqT628rVqXLXw/XWzO1LSt2ZZcYq2Zu9IOW+2Yb5W3qGqaNTpFv9nSnh30vAEX3i59T80XV6Yv",
+	"mGfv2UEPfDhFIUvp0652iWfISEYhgrWVcGXNUK1GJqCgb/WiBMeojMOabxOBGUK2zXpdGPV2QVJUKCRE",
+	"r88XDL5ebxt0FBDBSY5iMps1aAJ2EpZJORscrqLxxm+eLVbDcFFVreUCa/YrfFgP19tvqcfawoeNm9hy",
+	"jfZmiMnTlIhJjaRn95hsWlCbkG+Zxm5BLsrascmTyb2fo1xTWOlAw9NlIcERWpY7OHhpBpMvyEHpwFJy",
+	"MBda4c9qURndEB2cPEdlzXt3wePq+fyhIPMcVQ2LVzqnsbGnuuvrtDW3XFunK7n/6vTCOl1DWfgL09Ga",
+	"ygd0mIvyfukuUDQuqh5YZtZJMz2EUM68OnKv8vi6nmal5+eopwvOUwsbnE3xkjU4O7RrGtxDIWTaEpaR",
+	"kGloVmx2SQ9UdSh0fjbHKNUVEDVgX5gt7ZWrGiwTbYtj1PTpk3Mw1uf6xdyZY/9noqpxpeBgqLS9RHSY",
+	"gDzFvW0iR31ORGIRkVv3Fc5WXV9o3AWQ2d30Ayou1l168U8AAAD//8XDXVmVGwAA",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

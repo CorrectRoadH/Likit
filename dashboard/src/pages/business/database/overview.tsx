@@ -39,12 +39,9 @@ const Overview = () => {
                     data
                         .filter((item) => item.databaseType === 'redis')
                         .map((item) => (
-                                <>  
-                                <Col key={item.id} span={6}>
+                                <Col key={`database-item-${item.id}`} span={6}>
                                     <Redis config={item} />
-                                </Col>
-                                </>
- 
+                                </Col> 
                             ))
                 }
             </Row>

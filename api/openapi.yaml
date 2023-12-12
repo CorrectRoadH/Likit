@@ -111,24 +111,11 @@ paths:
           $ref: "#/components/responses/ResponseNotFound"
         "500":
           $ref: "#/components/responses/ResponseInternalServerError"
-
-
-  /database/postgres:
-    get:
-      summary: Get Postgres Database List
-      operationId: getPostgresDatabaseList
-      responses:
-        "200":
-          $ref: "#/components/responses/ResponseBusinessList"
-        "404":
-          $ref: "#/components/responses/ResponseNotFound"
-        "500":
-          $ref: "#/components/responses/ResponseInternalServerError"
     post:
-      summary: Create Postgres Database
-      operationId: createPostgresDatabase
+      summary: Create Database
+      operationId: createDatabase
       requestBody:
-        description: Create Postgres Database
+        description: Create Database
         content:
           application/json:
             schema:
@@ -141,14 +128,31 @@ paths:
         "500":
           $ref: "#/components/responses/ResponseInternalServerError"
     put:
-      summary: Update Postgres Database
-      operationId: updatePostgresDatabase
+      summary: Update  Database
+      operationId: updateDatabase
       requestBody:
-        description: Update Postgres Database
+        description: Update Database
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/DatabaseConnectConfig"
+      responses:
+        "200":
+          $ref: "#/components/responses/ResponseOK"
+        "404":
+          $ref: "#/components/responses/ResponseNotFound"
+        "500":
+          $ref: "#/components/responses/ResponseInternalServerError"
+    delete:
+      summary: Delete Database
+      operationId: deleteDatabase
+      parameters:
+        - name: id
+          in: query
+          description: Database ID
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           $ref: "#/components/responses/ResponseOK"
@@ -157,50 +161,6 @@ paths:
         "500":
           $ref: "#/components/responses/ResponseInternalServerError"
 
-  /database/redis:
-    get:
-      summary: Get Redis Database List
-      operationId: getRedisDatabaseList
-      responses:
-        "200":
-          $ref: "#/components/responses/ResponseBusinessList"
-        "404":
-          $ref: "#/components/responses/ResponseNotFound"
-        "500":
-          $ref: "#/components/responses/ResponseInternalServerError"
-    post:
-      summary: Create Redis Database
-      operationId: createRedisDatabase
-      requestBody:
-        description: Create Redis Database
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/DatabaseConnectConfig"
-      responses:
-        "200":
-          $ref: "#/components/responses/ResponseOK"
-        "404":
-          $ref: "#/components/responses/ResponseNotFound"
-        "500":
-          $ref: "#/components/responses/ResponseInternalServerError"
-    put:
-      summary: Update Redis Database
-      operationId: updateRedisDatabase
-      requestBody:
-        description: Update Redis Database
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/DatabaseConnectConfig"
-      responses:
-        "200":
-          $ref: "#/components/responses/ResponseOK"
-        "404":
-          $ref: "#/components/responses/ResponseNotFound"
-        "500":
-          $ref: "#/components/responses/ResponseInternalServerError"
-  
   /database/test:
     post:
       summary: Test Database Connection

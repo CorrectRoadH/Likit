@@ -1,6 +1,8 @@
 package server
 
 import (
+	"context"
+
 	"github.com/CorrectRoadH/Likit/internal/application/domain"
 	"github.com/CorrectRoadH/Likit/internal/port/in"
 	"github.com/CorrectRoadH/Likit/internal/port/out"
@@ -26,6 +28,18 @@ func (d *DatabaseServer) TestConnection(config domain.DatabaseConnectConfig) err
 
 func (d *DatabaseServer) DatabaseConfigureList() ([]domain.DatabaseConnectConfig, error) {
 	return d.databaseServer.ListDatabaseConnectConfig()
+}
+
+func (d *DatabaseServer) CreateDatabase(ctx context.Context, config domain.DatabaseConnectConfig) error {
+	return d.databaseServer.CreateDatabaseConnectConfig(config)
+}
+
+func (d *DatabaseServer) DeleteDatabase(ctx context.Context, config domain.DatabaseConnectConfig) error {
+	return d.databaseServer.DeleteDatabaseConnectConfig(config.Id)
+}
+
+func (d *DatabaseServer) UpdateDatabase(ctx context.Context, config domain.DatabaseConnectConfig) error {
+	panic("implement me")
 }
 
 func NewDatabaseServer(

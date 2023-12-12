@@ -1,4 +1,5 @@
 import { useDatabase } from "@/api";
+import { DatabaseConnectConfig } from "@/api/openapi";
 import { uuid } from "@/utils/uuid";
 import { Form, Button, Drawer, Input, Select, Skeleton } from "@arco-design/web-react"
 import axios from "axios";
@@ -15,7 +16,7 @@ const database_require = {
     "redis":{
         "host":[{ required: true }],
         "username":[],
-        "password":[{ required: true }],
+        "password":[],
         "port":[{ required: true }],
         "database":[],
     },
@@ -39,15 +40,18 @@ const CreateDatabase = () => {
 
     const handleTestBtnClick = () => {
         form.validate().then((res)=>{
-            axios.post("/admin/v1/database/test", {
+            const config:DatabaseConnectConfig = {
+                title: res.title,
                 "id": uuid(),
                 "databaseType":"redis",
                 "host": res.host,
                 "port": Number(res.port),
                 "username":"",
-                "password": res.password,
+                password: res?.password || "",
                 "database":""
-            }).then((res) => {
+            }
+            console.log(config)
+            axios.post("/admin/v1/database/test", config).then((res) => {
                 toast.success("connect success");
             }).catch((err) => {
                 toast.error(err.response.data.msg);
@@ -75,7 +79,7 @@ const CreateDatabase = () => {
                     setConfirmLoading(true);
                     console.log(res)
                     createDatabase(res).then((res)=>{
-                        console.log(res)
+                        toast.success("create success");
                     })
                     setConfirmLoading(false);
                 })

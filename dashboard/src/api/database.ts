@@ -1,7 +1,7 @@
 import useSWR from "swr";
-import axios from "axios";
 
 import admin_api from "./api";
+import { DatabaseConnectConfig } from "./openapi";
 
 const databaseFetcher = async (key) =>{
     return (await admin_api.getDatabaseConfigureList()).data.dataSourceConfig
@@ -11,20 +11,20 @@ const databaseFetcher = async (key) =>{
 const useDatabase = ()=> {
     const {data,isLoading,error, mutate} = useSWR("database",databaseFetcher)
 
-    const createDatabase = (database)=>{
+    const createDatabase = (database:DatabaseConnectConfig)=>{
         mutate(
             [...data,database],
             false
         )
-        return axios.post("/admin/v1/database",database)
+        return admin_api.createDatabase(database)
     }
     
     const updateDatabase = (business)=>{
         console.log(business)
     }
 
-    const deleteDatabase = (business)=>{
-        console.log(business)
+    const deleteDatabase = (id:string)=>{
+        return admin_api.deleteDatabase(id)
     }
 
     return {
