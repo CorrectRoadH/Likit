@@ -1,5 +1,7 @@
 <p align="center">
-    <img src="https://github.com/CorrectRoadH/Likit/blob/main/img/logo.png?raw=true" height="128"/></a>
+    <a href="https://github.com/CorrectRoadH/Likit">
+        <img src="https://github.com/CorrectRoadH/Likit/blob/main/img/logo.png?raw=true" height="128"/>
+    </a>
 </p>
 
 # Likit
@@ -57,52 +59,23 @@ Coming soon
 # Documentation
 [Document](./docs/getting-started.md)
 
-## RESTful API
-OpenAPI will be supported in the future
+## Usage
 
-### Vote
-POST `http(s)://<your likit ip>/api/v1/vote`
-
-body
-
-```
-{
-    "businessId": "businessId",
-    "messageId": "messageId",
-    "userId": "userId"
-}
-```
-
-POST `http(s)://<your likit ip>/api/v1/unvote`
-
-body
-
-### Unvote
-```
-{
-    "businessId": "businessId",
-    "messageId": "messageId",
-    "userId": "userId"
-}
-```
-
-### Count the number of votes
-GET `http(s)://<your likit ip>/api/v1/count/:businessId/:messageId`
-
-### List the users who voted
-GET `http(s)://<your likit ip>/api/v1/list/:businessId/:messageId`
-
-### Check if the user has voted
-GET `http(s)://<your likit ip>/api/v1/isVoted/:businessId/:messageId/:userId`
-
-
-## gRPC API
+### gRPC API
 [gRPC SDKs in Buf](https://buf.build/likit/likit/sdks/main)
-
-## SDK
 
 ### Golang
 [Likit Go](https://github.com/CorrectRoadH/likit-go)
 
 ### Java
 [Likit Java](https://github.com/LxiHaaa/Likit-client)
+
+### RESTful API
+OpenAPI will be supported in the future
+[RESTful API](./docs/restful.md)
+
+## Who is using Likit
+
+<a href="https://github.com/Get-Tech-Stack/TechStack">
+    <img src="https://avatars.githubusercontent.com/u/141936114?s=48&v=4" height="128"/>
+</a>
