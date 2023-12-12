@@ -77,5 +77,6 @@ OpenAPI will be supported in the future
 ## Who is using Likit
 
 <a href="https://github.com/Get-Tech-Stack/TechStack">
-    <img src="https://avatars.githubusercontent.com/u/141936114?s=48&v=4" height="128"/>
+    <img src="https://avatars.githubusercontent.com/u/141936114?s=48&v=4" height="64"/>
+    <div>TechStack</div>
 </a>
