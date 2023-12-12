@@ -17,7 +17,7 @@ The goal of Likit is help your implement like function within 10 minutes.
 
 Likit is suitable for small and middle size application. You can select difference vote implement engine to get difference features and performance.
 
-[Getting started](./docs/getting-started.md)
+[Getting Started](./docs/getting-started.md)
 
 | features | Simple Vote System | Middle Vote System(WIP) |
 | -- | -- | -- |
@@ -74,7 +74,7 @@ Coming soon
 OpenAPI will be supported in the future
 [RESTful API](./docs/restful.md)
 
-## Who is using Likit
+# Who is using Likit
 
 <a href="https://github.com/Get-Tech-Stack/TechStack">
     <img src="https://avatars.githubusercontent.com/u/141936114?s=48&v=4" height="64"/>
