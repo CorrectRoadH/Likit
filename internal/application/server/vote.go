@@ -8,7 +8,8 @@ import (
 )
 
 type VoteServer struct {
-	businessIdMapVoteSystem map[string]in.VoteUseCase
+	businessIdMapVoteEngine map[string]in.VoteUseCase
+	businessIdMapRankEngine map[string]in.RankVoteUseCase
 	adminUseCase            in.AdminUseCase
 }
 
@@ -23,21 +24,28 @@ func NewVoteServer(adminUseCase in.AdminUseCase) (in.VoteAdminUseCase, error) {
 
 	// create all vote system for business
 	for _, business := range businesses {
-		simpleVoteSystem, err := NewSimpleVoteSystem(business.Config)
-		if err != nil {
-			return nil, err
+		switch business.Type {
+		case domain.SimpleVote:
+			simpleVoteSystem, err := NewSimpleVoteSystem(business.Config)
+			if err != nil {
+				return nil, err
+			}
+			businessIdMapVoteSystem[business.Id] = simpleVoteSystem
+		case domain.MiddleVote:
+
+		default:
+			return nil, domain.ErrVoteEngineNotSupport
 		}
-		businessIdMapVoteSystem[business.Id] = simpleVoteSystem
 	}
 
 	return &VoteServer{
-		businessIdMapVoteSystem: businessIdMapVoteSystem,
+		businessIdMapVoteEngine: businessIdMapVoteSystem,
 		adminUseCase:            adminUseCase,
 	}, nil
 }
 
 func (v *VoteServer) Vote(ctx context.Context, businessId string, messageId string, userId string) (int64, error) {
-	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
+	voteSystem, ok := v.businessIdMapVoteEngine[businessId]
 	if !ok {
 		return 0, domain.ErrBusinessNotExist
 	}
@@ -45,7 +53,7 @@ func (v *VoteServer) Vote(ctx context.Context, businessId string, messageId stri
 }
 
 func (v *VoteServer) UnVote(ctx context.Context, businessId string, messageId string, userId string) (int64, error) {
-	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
+	voteSystem, ok := v.businessIdMapVoteEngine[businessId]
 	if !ok {
 		return 0, domain.ErrBusinessNotExist
 	}
@@ -53,7 +61,7 @@ func (v *VoteServer) UnVote(ctx context.Context, businessId string, messageId st
 }
 
 func (v *VoteServer) Count(ctx context.Context, businessId string, messageId string) (int64, error) {
-	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
+	voteSystem, ok := v.businessIdMapVoteEngine[businessId]
 	if !ok {
 		return 0, domain.ErrBusinessNotExist
 	}
@@ -61,7 +69,7 @@ func (v *VoteServer) Count(ctx context.Context, businessId string, messageId str
 }
 
 func (v *VoteServer) IsVoted(ctx context.Context, businessId string, messageId string, userId string) (bool, error) {
-	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
+	voteSystem, ok := v.businessIdMapVoteEngine[businessId]
 	if !ok {
 		return false, domain.ErrBusinessNotExist
 	}
@@ -69,7 +77,7 @@ func (v *VoteServer) IsVoted(ctx context.Context, businessId string, messageId s
 }
 
 func (v *VoteServer) VotedUsers(ctx context.Context, businessId string, messageId string) ([]string, error) {
-	voteSystem, ok := v.businessIdMapVoteSystem[businessId]
+	voteSystem, ok := v.businessIdMapVoteEngine[businessId]
 	if !ok {
 		return nil, domain.ErrBusinessNotExist
 	}
@@ -77,10 +85,18 @@ func (v *VoteServer) VotedUsers(ctx context.Context, businessId string, messageI
 }
 
 func (v *VoteServer) CreateBusiness(ctx context.Context, business domain.Business) error {
-	simpleVoteSystem, err := NewSimpleVoteSystem(business.Config)
+	var simpleVoteEngine in.VoteUseCase
+	var err error
+	switch business.Type {
+	case domain.SimpleVote:
+		simpleVoteEngine, err = NewSimpleVoteSystem(business.Config)
+	default:
+		return domain.ErrVoteEngineNotSupport
+	}
+
 	if err != nil {
 		return err
 	}
-	v.businessIdMapVoteSystem[business.Id] = simpleVoteSystem
+	v.businessIdMapVoteEngine[business.Id] = simpleVoteEngine
 	return nil
 }

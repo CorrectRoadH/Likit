@@ -6,45 +6,45 @@ import (
 	"github.com/CorrectRoadH/Likit/internal/application/domain"
 )
 
-// MiddleVoteServer is suit for middle vote server
-type MiddleVoteServer struct {
+// MiddleVoteEngine is suit for middle vote server
+type MiddleVoteEngine struct {
 }
 
-func (m *MiddleVoteServer) Count(ctx context.Context, businessId string, messageId string) (int64, error) {
+func (m *MiddleVoteEngine) Count(ctx context.Context, businessId string, messageId string) (int64, error) {
 	panic("TODO: Implement")
 }
 
-func (m *MiddleVoteServer) IsVoted(ctx context.Context, businessId string, messageId string, userId string) (bool, error) {
+func (m *MiddleVoteEngine) IsVoted(ctx context.Context, businessId string, messageId string, userId string) (bool, error) {
 	panic("TODO: Implement")
 }
 
-func (m *MiddleVoteServer) UnVote(ctx context.Context, businessId string, messageId string, userId string) (int64, error) {
+func (m *MiddleVoteEngine) UnVote(ctx context.Context, businessId string, messageId string, userId string) (int64, error) {
 	panic("TODO: Implement")
 }
 
-func (m *MiddleVoteServer) Vote(ctx context.Context, businessId string, messageId string, userId string) (int64, error) {
+func (m *MiddleVoteEngine) Vote(ctx context.Context, businessId string, messageId string, userId string) (int64, error) {
 	// vote to redis
 	// record vote event to postgres
 	panic("TODO: Implement")
 }
 
-func (m *MiddleVoteServer) VotedUsers(ctx context.Context, businessId string, messageId string) ([]string, error) {
+func (m *MiddleVoteEngine) VotedUsers(ctx context.Context, businessId string, messageId string) ([]string, error) {
 	panic("TODO: Implement")
 }
 
-func (m *MiddleVoteServer) Check(ctx context.Context, config domain.Config) error {
+func (m *MiddleVoteEngine) Check(ctx context.Context, config domain.Config) error {
 	// TODO check the whether have permission to create the table
 	panic("TODO: Implement")
 }
 
-func (m *MiddleVoteServer) Features(ctx context.Context) {
+func (m *MiddleVoteEngine) Features(ctx context.Context) {
 	panic("TODO: Implement")
 }
 
-func (m *MiddleVoteServer) Init(ctx context.Context) {
+func (m *MiddleVoteEngine) Init(ctx context.Context) {
 	panic("TODO: Implement")
 }
 
-func (m *MiddleVoteServer) Requires(ctx context.Context) {
+func (m *MiddleVoteEngine) Requires(ctx context.Context) {
 	panic("TODO: Implement")
 }
