@@ -114,6 +114,20 @@ func (u *adminApiService) GetBusinesses(ctx echo.Context) error {
 				Id:    utils.Ptr(business.Id),
 				Title: utils.Ptr(business.Title),
 				Type:  utils.Ptr(business.Type),
+				Config: &codegen.Config{
+					DataSourceConfig: utils.Ptr(lo.Map(business.Config.DataSourceConfig, func(dataSourceConfig domain.DatabaseConnectConfig, _ int) codegen.DatabaseConnectConfig {
+						return codegen.DatabaseConnectConfig{
+							Id:           utils.Ptr(dataSourceConfig.Id),
+							Title:        utils.Ptr(dataSourceConfig.Title),
+							DatabaseType: utils.Ptr(string(dataSourceConfig.DatabaseType)),
+							Host:         utils.Ptr(dataSourceConfig.Host),
+							Port:         utils.Ptr(dataSourceConfig.Port),
+							Username:     utils.Ptr(dataSourceConfig.Username),
+							Password:     utils.Ptr(dataSourceConfig.Password),
+							Database:     utils.Ptr(dataSourceConfig.Database),
+						}
+					})),
+				},
 			}
 		})),
 	})

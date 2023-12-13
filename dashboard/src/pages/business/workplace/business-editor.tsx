@@ -18,6 +18,8 @@ const { Row, Col } = Grid;
 interface BusinessEditorProps {
     business?: Business;
     edit: boolean; // true: edit, false: create business
+    title: string;
+    setTitle: (title: string) => void;
 }
 
 interface VoteSystem {
@@ -26,7 +28,7 @@ interface VoteSystem {
   qps: number,
 }
 
-const BusinessEditor = ({business}:BusinessEditorProps) => {
+const BusinessEditor = ({business,title ,setTitle}:BusinessEditorProps) => {
   const [data, setData] = useState<VoteSystem[]>([]);
   const [loading, setLoading] = useState(true);
  
@@ -69,7 +71,8 @@ const BusinessEditor = ({business}:BusinessEditorProps) => {
           <Row gutter={20}>
             <Col span={12}>
               <Input type='primary' placeholder="Business Title"
-                value={business.title}
+                value={title}
+                onChange={setTitle}
               />
             </Col>
             

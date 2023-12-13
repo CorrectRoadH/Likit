@@ -17,7 +17,6 @@ service VoteService {
 
     rpc Rank(RankRequest) returns (RankResponse) {}
     rpc RankFromMessage(RankFromMessageRequest) returns (RankResponse) {}
-
 }
 
 message RankRequest {

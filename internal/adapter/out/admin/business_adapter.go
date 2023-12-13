@@ -35,7 +35,8 @@ func (b *BusinessAdapter) DeleteBusiness(ctx context.Context, businessId string)
 }
 
 func (b *BusinessAdapter) UpdateBusiness(ctx context.Context, businessId string, business domain.Business) error {
-	panic("TODO: Implement")
+	result := b.db.Model(&domain.Business{}).Where("id = ?", businessId).Updates(business)
+	return result.Error
 }
 
 func (b *BusinessAdapter) CreateBusiness(ctx context.Context, business domain.Business) error {
