@@ -114,6 +114,16 @@ func (s *SimpleVoteEngine) Requires(ctx context.Context) {
 	panic("TODO: Implement")
 }
 
+func (s *SimpleVoteEngine) Rank(ctx context.Context, businessId string, limit int) []string {
+	// get the top limit items from the sorted set
+	// return the list of message ids
+	panic("TODO: Implement")
+}
+
+func (s *SimpleVoteEngine) RankFromMessages(ctx context.Context, businessId string, messageIds []string) []string {
+	panic("TODO: Implement")
+}
+
 func NewSimpleVoteSystem(config domain.Config) (in.VoteUseCase, error) {
 	redisConfig, err := domain.GetRedisConfig(config)
 	if err != nil {

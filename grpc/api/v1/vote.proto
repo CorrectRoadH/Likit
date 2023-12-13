@@ -14,8 +14,25 @@ service VoteService {
     rpc Count(CountRequest) returns (CountResponse) {}
     rpc IsVoted(IsVotedRequest) returns (IsVotedResponse) {}
     rpc VotedUsers(VotedUsersRequest) returns (VotedUsersResponse) {}
+
+    rpc Rank(RankRequest) returns (RankResponse) {}
+    rpc RankFromMessage(RankFromMessageRequest) returns (RankResponse) {}
+
 }
 
+message RankRequest {
+    string business_id = 1;
+    int32 limit = 2;
+}
+
+message RankFromMessageRequest {
+    string business_id = 1;
+    repeated string message_ids = 2;
+}
+
+message RankResponse {
+    repeated string message_ids = 1;
+}
 
 message VoteRequest {
     string business_id = 1;

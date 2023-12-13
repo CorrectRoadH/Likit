@@ -29,6 +29,7 @@ Likit is suitable for small and middle size application. You can select differen
 | vote events | ❌ | 🚧 |
 | message queue | ❌ | ❌ | 
 | requires | redis |  redis,postgres |
+| Rank | 🚧 | 🚧 |
 
 # Screenshots
 
