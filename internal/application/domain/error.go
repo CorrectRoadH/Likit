@@ -12,4 +12,6 @@ var (
 	ErrUserNotVoted = errors.New("user has not voted")
 
 	ErrVoteEngineNotSupport = errors.New("vote engine not support")
+
+	ErrVoteEngineNotImplementFeature = errors.New("vote engine not implement feature")
 )

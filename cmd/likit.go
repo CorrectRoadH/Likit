@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/CorrectRoadH/Likit/config"
 	"github.com/CorrectRoadH/Likit/internal/adapter/in/grpc"
 	"github.com/CorrectRoadH/Likit/internal/adapter/in/restful"
@@ -8,10 +10,27 @@ import (
 	"github.com/CorrectRoadH/Likit/internal/adapter/out/admin"
 	"github.com/CorrectRoadH/Likit/internal/adapter/out/database"
 	"github.com/CorrectRoadH/Likit/internal/application/server"
+	"github.com/CorrectRoadH/Likit/profile"
 	"go.uber.org/fx"
 )
 
+func Banner() {
+	fmt.Println(`                                ___                             
+	___          /__/|        ___           ___   
+   /  /\        |  |:|       /  /\         /  /\  
+___     ___   /  /:/        |  |:|      /  /:/        /  /:/  
+/__/\   /  /\ /__/::\      __|  |:|     /__/::\       /  /:/   
+\  \:\ /  /:/ \__\/\:\__  /__/\_|:|____ \__\/\:\__   /  /::\   
+\  \:\  /:/     \  \:\/\ \  \:\/:::::/    \  \:\/\ /__/:/\:\  
+\  \:\/:/       \__\::/  \  \::/~~~~      \__\::/ \__\/  \:\ 
+\  \::/        /__/:/    \  \:\          /__/:/       \  \:\
+\__\/         \__\/      \  \:\         \__\/         \__\/
+				 \__\/                            `)
+	fmt.Println("Version: ", profile.CurrentProfile.Version)
+}
 func Main() {
+	Banner()
+
 	fx.New(
 		fx.Provide(
 			restful.NewRESTfulServer,
