@@ -1,9 +1,6 @@
 package restful
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/CorrectRoadH/Likit/codegen"
 	"github.com/labstack/echo/v4"
 )
@@ -39,10 +36,7 @@ func NewRESTfulServer(
 }
 
 func (v *RESTfulServer) Start() error {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "7789"
-	}
-	v.e.Start(fmt.Sprintf(":%s", port))
+
+	v.e.Start(":7789")
 	return nil
 }
