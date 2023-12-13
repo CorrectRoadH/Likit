@@ -22,7 +22,11 @@ const BusinessItem = ({business}:BusinessItemProps) => {
                   loading={false} text={{ rows: 2, width: 60 }} animation
                 >
                   <Title heading={5} className={styles.title}>{business.title}</Title>
-                  <Text>{business.id}</Text>
+                  <div>
+                    <Text>Business ID</Text>
+                    <Title heading={6}>{business.id}</Title>
+                  </div>
+                  
                   <div>{business.type}</div>
                 </Skeleton>
 
