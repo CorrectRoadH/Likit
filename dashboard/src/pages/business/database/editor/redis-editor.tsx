@@ -1,42 +1,67 @@
-import axios from "axios";
-import React, { useState } from "react";
+import { useDatabase } from '@/api';
+import { DatabaseConnectConfig } from '@/api/openapi';
+import {
+    Grid,
+    Divider,
+    Input,
+    Button,
+    Modal,
+} from '@arco-design/web-react';
+import React from "react";
 import { toast } from 'sonner'
 
-const RedisEditor = () => {
+const { Row, Col } = Grid;
 
-    const [host, setHost] = useState("localhost");
-    const [port, setPort] = useState("6379");
-    const [password, setPassword] = useState("");
+interface RedisEditorProps {
+    database?: DatabaseConnectConfig;
+}
 
-    const handleTestBtnClick = () => {
-        axios.post("/admin/v1/database/test", {
-            "databaseType":"redis",
-            "host": host,
-            "port": Number(port),
-            "username":"",
-            "password": password,
-            "database":""
-        }).then((res) => {
-            toast.success("connect success");
-        }).catch((err) => {
-            toast.error(err.response.data.msg);
+
+const RedisEditor = ({database}:RedisEditorProps) => {
+
+
+  const {deleteDatabase} = useDatabase();
+  const handleDeleteBtnClick = ()=>{
+    Modal.confirm({
+      title: 'Are you sure to delete this database?',
+      content: 'This action cannot be undone.',
+      onOk: () => {
+        deleteDatabase(database.id).then((res)=>{
+          toast.success('Delete business successfully!')
         })
-    }
+      },
+    });
+  }
+
 
     return (
         <div>
-            <div>host:</div>
-            <input value={host} onChange={(e)=>setHost(e.target.value)} />
+          <h1>Database Editor</h1>
 
-            <div>port:</div>
-            <input value={port} onChange={(e)=>setPort(e.target.value)} />
+          <Row gutter={20}>
+            <Col span={12}>
+              <Input type='primary' placeholder="Business Title"
+                value={database.title}
+              />
+            </Col>
+            
+            <Col span={12}>
+              <Input placeholder="Business ID" 
+                disabled
+                value={database.id}
+              />
+            </Col>
+          </Row>
 
-            <div>password:</div>
-            <input value={password} onChange={(e)=>setPassword(e.target.value)} />
-        
-            <button
-                onClick={handleTestBtnClick}
-            >test connect</button>
+          <Divider />
+
+          <Row>
+            <Col span={12}>
+              <Button
+                onClick={handleDeleteBtnClick}
+              >Delete</Button>
+            </Col>
+          </Row>
         </div>
     )
 }

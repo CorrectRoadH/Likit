@@ -24,6 +24,10 @@ const useDatabase = ()=> {
     }
 
     const deleteDatabase = (id:string)=>{
+        mutate(
+            data.filter((item)=>item.id!==id),
+            false
+        )
         return admin_api.deleteDatabase(id)
     }
 

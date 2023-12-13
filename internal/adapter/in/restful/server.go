@@ -36,7 +36,6 @@ func NewRESTfulServer(
 }
 
 func (v *RESTfulServer) Start() error {
-
 	v.e.Start(":7789")
 	return nil
 }

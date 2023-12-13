@@ -3,23 +3,20 @@ import {
     Grid,
     Divider,
     Input,
-    Select,
-    Skeleton,
     Button,
     Modal,
 } from '@arco-design/web-react';
 
-import styles from './style/overview.module.less';
-import { BusinessType } from '../../../types/type';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { Business } from '@/api/openapi';
+import { useBusiness } from '@/api';
 
 const { Row, Col } = Grid;
 
-const Option = Select.Option;
 
 interface BusinessEditorProps {
-    business?: BusinessType;
+    business?: Business;
     edit: boolean; // true: edit, false: create business
 }
 
@@ -33,6 +30,8 @@ const BusinessEditor = ({business}:BusinessEditorProps) => {
   const [data, setData] = useState<VoteSystem[]>([]);
   const [loading, setLoading] = useState(true);
  
+  const {deleteBusiness} = useBusiness();
+
   const fetchData = () => {
     setLoading(true);
     axios
@@ -55,10 +54,8 @@ const BusinessEditor = ({business}:BusinessEditorProps) => {
       title: 'Are you sure to delete this business?',
       content: 'This action cannot be undone.',
       onOk: () => {
-        axios.delete(`/admin/v1/business?id=${business.id}`).then((res)=>{
+        deleteBusiness(business.id).then((res)=>{
           toast.success('Delete business successfully!')
-          // refresh the page
-          window.location.reload();
         })
       },
     });
@@ -85,17 +82,6 @@ const BusinessEditor = ({business}:BusinessEditorProps) => {
           </Row>
 
           <Divider />
-
-          {/* <Row gutter={20}>
-            <Col flex={1}>
-              <Skeleton
-                loading={loading}
-                text={{rows:2, width:60}}
-                animation
-              >
-              </Skeleton>
-            </Col>
-          </Row> */}
 
           <Row>
             <Col span={12}>
