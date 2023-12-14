@@ -14,18 +14,28 @@ Likit 是一个 Backend as a Service ，提供点赞（投票、点赞、计数�
 Likit的目标是帮助您在10分钟内实现类似的功能。
 
 Likit 适用于中小型应用程序。 您可以选择差异投票工具引擎来获得不同的功能和性能。
+
 [Getting started](./docs/getting-started.md)
 
-| features | Simple Vote System | Middle Vote System(WIP) |
+| features | Simple Vote Engine | Middle Vote Engine(WIP) |
 | -- | -- | -- |
 | Vote | ✅ |  🚧 |
 | Unvote | ✅ |  🚧 |
 | Count | ✅ | 🚧 |
 | List the voted users | ✅ | 🚧 | 
-| is Voted | ✅ | 🚧 | 
-| vote events | ❌ | 🚧 |
-| message queue | ❌ | ❌ | 
-| requires | redis |  redis,postgres |
+| Is user Voted | ✅ | 🚧 | 
+| Vote events | ❌ | 🚧 |
+| Message Queue | ❌ | ❌ | 
+| Rank | 🚧 | 🚧 |
+| Requires | redis |  redis,postgres |
+
+# Roadmap
+- [ ] add Rank with limit and Rank from Message Id to Simple Vote Engine
+- [ ] Vote to Queue. Async vote
+- [ ] add Vote events record to Middle Vote Engine
+- [ ] add output message queue to Middle Vote Engine
+- [ ] add tag to message
+- [ ] Rank by tag
 
 # Screenshots
 
@@ -54,51 +64,25 @@ Coming soon
 # Documentation
 [Document](./docs/getting-started.md)
 
-## RESTful API
+## Usage
 
-### Vote
-POST `http(s)://<your likit ip>/api/v1/vote`
-
-body
-
-```
-{
-    "businessId": "businessId",
-    "messageId": "messageId",
-    "userId": "userId"
-}
-```
-
-POST `http(s)://<your likit ip>/api/v1/unvote`
-
-body
-
-### Unvote
-```
-{
-    "businessId": "businessId",
-    "messageId": "messageId",
-    "userId": "userId"
-}
-```
-
-### Count the number of votes
-GET `http(s)://<your likit ip>/api/v1/count/:businessId/:messageId`
-
-### List the users who voted
-GET `http(s)://<your likit ip>/api/v1/list/:businessId/:messageId`
-
-### Check if the user has voted
-GET `http(s)://<your likit ip>/api/v1/isVoted/:businessId/:messageId/:userId`
-
-
-## gRPC API
-gRPC SDK [buf.build](https://buf.build/likit/likit/sdks/main)
-
-## SDK
+### gRPC API
+[gRPC SDKs in Buf](https://buf.build/likit/likit/sdks/main)
 
 ### Golang
 [Likit Go](https://github.com/CorrectRoadH/likit-go)
 
 ### Java
 [Likit Java](https://github.com/LxiHaaa/Likit-client)
+
+### RESTful API
+OpenAPI will be supported in the future
+
+[RESTful API](./docs/restful.md)
+
+# Who is using Likit
+
+<a href="https://github.com/Get-Tech-Stack/TechStack">
+    <img src="https://avatars.githubusercontent.com/u/141936114?s=48&v=4" height="64"/>
+    <div>TechStack</div>
+</a>
