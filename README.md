@@ -31,6 +31,14 @@ Likit is suitable for small and middle size application. You can select differen
 | Rank | 🚧 | 🚧 |
 | Requires | redis |  redis,postgres |
 
+# Roadmap
+- [ ] add Rank with limit and Rank from Message Id to Simple Vote Engine
+- [ ] Vote to Queue. Async vote
+- [ ] add Vote events record to Middle Vote Engine
+- [ ] add output message queue to Middle Vote Engine
+- [ ] add tag to message
+- [ ] Rank by tag
+
 # Screenshots
 
 ![](./img/screenshot-1.png)
