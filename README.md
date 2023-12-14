@@ -19,17 +19,17 @@ Likit is suitable for small and middle size application. You can select differen
 
 [Getting Started](./docs/getting-started.md)
 
-| features | Simple Vote System | Middle Vote System(WIP) |
+| features | Simple Vote Engine | Middle Vote Engine(WIP) |
 | -- | -- | -- |
 | Vote | ✅ |  🚧 |
 | Unvote | ✅ |  🚧 |
 | Count | ✅ | 🚧 |
 | List the voted users | ✅ | 🚧 | 
-| is Voted | ✅ | 🚧 | 
-| vote events | ❌ | 🚧 |
-| message queue | ❌ | ❌ | 
-| requires | redis |  redis,postgres |
+| Is user Voted | ✅ | 🚧 | 
+| Vote events | ❌ | 🚧 |
+| Message Queue | ❌ | ❌ | 
 | Rank | 🚧 | 🚧 |
+| Requires | redis |  redis,postgres |
 
 # Screenshots
 
@@ -73,6 +73,7 @@ Coming soon
 
 ### RESTful API
 OpenAPI will be supported in the future
+
 [RESTful API](./docs/restful.md)
 
 # Who is using Likit
